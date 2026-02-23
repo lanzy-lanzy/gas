@@ -162,7 +162,7 @@ def customer_profile(request):
                     'message': 'Profile picture updated!',
                     'image_url': customer_profile.get_profile_picture_url()
                 })
-            return JsonResponse({'success': False, 'message': 'Invalid file'})
+            return JsonResponse({'success': False, 'message': 'Invalid file', 'errors': dict(profile_form.errors)})
         
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = CustomerProfileForm(request.POST, request.FILES, instance=customer_profile)

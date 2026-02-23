@@ -758,3 +758,16 @@ WARNING 2026-02-23 15:36:33,055 middleware 7880 11616 Slow request: POST /login/
 WARNING 2026-02-23 15:36:33,203 middleware 7880 11616 High query count: GET /customer/dashboard/ executed 106 queries in 0.13s
 WARNING 2026-02-23 15:48:19,287 middleware 15076 6216 High query count: GET /customer/dashboard/ executed 106 queries in 0.12s
 WARNING 2026-02-23 16:14:55,645 middleware 13636 14604 High query count: GET /customer/dashboard/ executed 107 queries in 0.13s
+WARNING 2026-02-23 17:48:20,083 middleware 9332 21980 Slow request: POST /login/ took 2.16s with 7 queries
+WARNING 2026-02-23 17:48:20,226 middleware 9332 21980 High query count: GET /customer/dashboard/ executed 107 queries in 0.13s
+WARNING 2026-02-23 17:48:21,355 middleware 9332 21980 Slow request: POST /profile/ took 1.08s with 2 queries
+WARNING 2026-02-23 17:48:56,665 middleware 9332 23484 Slow request: POST /login/ took 2.15s with 7 queries
+WARNING 2026-02-23 17:48:56,749 middleware 9332 23484 High query count: GET /customer/dashboard/ executed 107 queries in 0.08s
+WARNING 2026-02-23 17:49:42,526 middleware 10652 8960 Slow request: POST /login/ took 2.18s with 7 queries
+WARNING 2026-02-23 17:49:42,652 middleware 10652 8960 High query count: GET /customer/dashboard/ executed 107 queries in 0.12s
+WARNING 2026-02-23 17:52:05,718 middleware 10652 20832 Slow request: POST /login/ took 2.16s with 7 queries
+WARNING 2026-02-23 17:52:05,828 middleware 10652 20832 High query count: GET /customer/dashboard/ executed 107 queries in 0.10s
+WARNING 2026-02-23 17:52:45,677 middleware 10652 19948 High query count: GET /customer/dashboard/ executed 107 queries in 0.09s
+WARNING 2026-02-23 17:53:15,975 middleware 2492 5076 High query count: GET /refresh-dashboard/ executed 56 queries in 0.09s
+WARNING 2026-02-23 17:53:45,938 middleware 2492 5076 High query count: GET /refresh-dashboard/ executed 55 queries in 0.05s
+WARNING 2026-02-23 17:53:52,433 middleware 2492 5076 High query count: GET /customer/dashboard/ executed 107 queries in 0.14s

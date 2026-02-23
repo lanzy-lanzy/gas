@@ -122,7 +122,7 @@ class CacheOptimizationMiddleware(MiddlewareMixin):
                 response['Cache-Control'] = f'public, max-age={cache_duration}'
                 
                 # Add ETag for better caching
-                if not response.get('ETag'):
+                if not response.get('ETag') and not getattr(response, 'streaming', False) and hasattr(response, 'content'):
                     import hashlib
                     content_hash = hashlib.md5(response.content).hexdigest()[:8]
                     response['ETag'] = f'"{content_hash}"'

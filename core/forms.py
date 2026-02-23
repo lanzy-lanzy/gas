@@ -393,6 +393,8 @@ class CustomerProfileForm(forms.ModelForm):
     
     def set_ajax_mode(self):
         self._ajax_mode = True
+        self.fields['phone_number'].required = False
+        self.fields['address'].required = False
     
     def clean(self):
         cleaned_data = super().clean()
