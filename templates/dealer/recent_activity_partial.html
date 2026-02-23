@@ -1,0 +1,125 @@
+<!-- Recent Activity Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Recent Orders -->
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Recent Orders</h3>
+        </div>
+        <div class="divide-y divide-gray-200">
+            {% for order in recent_orders %}
+            <div class="p-4 hover:bg-gray-50 transition-colors duration-150">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">
+                            Order #{{ order.id }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            {{ order.customer.username }} - {{ order.product.name }}
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            {{ order.order_date|timesince }} ago
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800
+                            {% elif order.status == 'out_for_delivery' %}bg-blue-100 text-blue-800
+                            {% elif order.status == 'delivered' %}bg-green-100 text-green-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <p class="text-sm font-medium text-gray-900">₱{{ order.total_amount|floatformat:2|intcomma }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="p-4 text-center text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <p class="mt-2 text-sm">No recent orders</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Deliveries -->
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Recent Deliveries</h3>
+        </div>
+        <div class="divide-y divide-gray-200">
+            {% for delivery in recent_deliveries %}
+            <div class="p-4 hover:bg-gray-50 transition-colors duration-150">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">
+                            {{ delivery.product.name }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            +{{ delivery.quantity_received }} units from {{ delivery.supplier }}
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            {{ delivery.created_at|timesince }} ago
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <p class="text-sm font-medium text-green-600">
+                            ₱{{ delivery.total_cost|floatformat:2|intcomma }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="p-4 text-center text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+                <p class="mt-2 text-sm">No recent deliveries</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Low Stock Alerts -->
+    <div class="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Low Stock Alerts</h3>
+        </div>
+        <div class="divide-y divide-gray-200">
+            {% for product in low_stock_alerts %}
+            <div class="p-4 hover:bg-gray-50 transition-colors duration-150">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">
+                            {{ product.name }} - {{ product.size }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            Current: {{ product.current_stock }} units
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            Minimum: {{ product.minimum_stock }} units
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            {% if product.current_stock == 0 %}bg-red-100 text-red-800
+                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                            {% if product.current_stock == 0 %}Out of Stock{% else %}Low Stock{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="p-4 text-center text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p class="mt-2 text-sm">All products are well stocked</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

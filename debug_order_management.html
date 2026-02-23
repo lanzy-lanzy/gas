@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management Debug</title>
+    
+    <!-- TailwindCSS CDN with custom configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'prycegas-black': '#1a1a1a',
+                        'prycegas-orange': '#ff6b35',
+                        'prycegas-orange-light': '#ff8c5a',
+                        'prycegas-orange-dark': '#e55a2b',
+                        'prycegas-gray': '#2d2d2d',
+                        'prycegas-gray-light': '#404040',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Unpoly (potential conflict) -->
+    <script src="https://unpkg.com/unpoly@3/unpoly.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/unpoly@3/unpoly.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Order Management Debug</h1>
+        
+        <!-- Debug Information Panel -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4">Debug Information</h2>
+            <div id="debug-info" class="space-y-2 text-sm font-mono">
+                <div>Loading debug information...</div>
+            </div>
+            <button onclick="runDebug()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Refresh Debug Info
+            </button>
+        </div>
+        
+        <!-- Simulated Order Management Component -->
+        <div class="order-management bg-white rounded-lg shadow p-6" x-data="orderManagement()">
+            <h2 class="text-xl font-semibold mb-4">Test Order Management Component</h2>
+            
+            <!-- Test Bulk Operations Panel -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6" x-show="selectedOrders.length > 0" x-transition>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold">
+                        Bulk Operations (<span x-text="selectedOrders.length" class="text-blue-600"></span> selected)
+                    </h3>
+                    <button @click="clearSelection()" class="text-sm text-gray-500 hover:text-gray-700">
+                        Clear Selection
+                    </button>
+                </div>
+                <div class="flex gap-2">
+                    <button @click="bulkOperation('test_operation')" 
+                            :disabled="isProcessingBulk"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
+                        <span x-text="isProcessingBulk ? 'Processing...' : 'Test Bulk Operation'"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Test Table -->
+            <div class="border rounded-lg overflow-hidden">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left">
+                                <input type="checkbox" @change="$event.target.checked ? selectAllOrders() : clearSelection()">
+                            </th>
+                            <th class="px-4 py-2 text-left">Order ID</th>
+                            <th class="px-4 py-2 text-left">Customer</th>
+                            <th class="px-4 py-2 text-left">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="order in testOrders" :key="order.id">
+                            <tr class="border-t hover:bg-gray-50">
+                                <td class="px-4 py-2">
+                                    <input type="checkbox" name="order_checkbox" :value="order.id"
+                                           @change="toggleOrderSelection(order.id)"
+                                           :checked="selectedOrders.includes(order.id)">
+                                </td>
+                                <td class="px-4 py-2" x-text="'#' + order.id"></td>
+                                <td class="px-4 py-2" x-text="order.customer"></td>
+                                <td class="px-4 py-2" x-text="order.status"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Debug Component State -->
+            <div class="mt-6 p-4 bg-gray-100 rounded">
+                <h4 class="font-semibold mb-2">Component State:</h4>
+                <div class="text-sm space-y-1">
+                    <div>Selected Orders: <span x-text="JSON.stringify(selectedOrders)"></span></div>
+                    <div>Is Loading: <span x-text="isLoading"></span></div>
+                    <div>Is Processing Bulk: <span x-text="isProcessingBulk"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSRF Token -->
+    <input type="hidden" name="csrfmiddlewaretoken" value="test-csrf-token">
+    <meta name="csrf-token" content="test-csrf-token">
+
+    <script>
+        // Debug function
+        function runDebug() {
+            const debugInfo = document.getElementById('debug-info');
+            const info = [];
+            
+            info.push(`Alpine.js loaded: ${typeof Alpine !== 'undefined'}`);
+            info.push(`HTMX loaded: ${typeof htmx !== 'undefined'}`);
+            info.push(`Unpoly loaded: ${typeof up !== 'undefined'}`);
+            
+            const orderMgmtElement = document.querySelector('.order-management[x-data]');
+            info.push(`Order management element found: ${!!orderMgmtElement}`);
+            
+            if (orderMgmtElement) {
+                info.push(`Alpine data stack exists: ${!!orderMgmtElement._x_dataStack}`);
+                if (orderMgmtElement._x_dataStack && orderMgmtElement._x_dataStack[0]) {
+                    const data = orderMgmtElement._x_dataStack[0];
+                    info.push(`Selected orders: ${JSON.stringify(data.selectedOrders)}`);
+                    const methods = Object.keys(data).filter(key => typeof data[key] === 'function');
+                    info.push(`Available methods: ${methods.join(', ')}`);
+                }
+            }
+            
+            const checkboxes = document.querySelectorAll('input[name="order_checkbox"]');
+            info.push(`Order checkboxes found: ${checkboxes.length}`);
+            
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+            info.push(`CSRF token: ${csrfToken ? 'Present' : 'Missing'}`);
+            
+            // Check for JavaScript errors
+            info.push(`Console errors: Check browser console for any errors`);
+            
+            debugInfo.innerHTML = info.map(item => `<div>${item}</div>`).join('');
+        }
+
+        // Order Management Component (same as the fixed version)
+        function orderManagement() {
+            return {
+                selectedOrders: [],
+                isLoading: false,
+                isProcessingBulk: false,
+                testOrders: [
+                    { id: 1, customer: 'John Doe', status: 'pending' },
+                    { id: 2, customer: 'Jane Smith', status: 'out_for_delivery' },
+                    { id: 3, customer: 'Bob Johnson', status: 'pending' }
+                ],
+
+                init() {
+                    console.log('Order management component initialized');
+                    this.$nextTick(() => {
+                        console.log('Order management setup complete');
+                        runDebug(); // Auto-run debug after initialization
+                    });
+                },
+
+                toggleOrderSelection(orderId) {
+                    console.log('Toggle order selection:', orderId);
+                    const index = this.selectedOrders.indexOf(orderId);
+                    if (index > -1) {
+                        this.selectedOrders.splice(index, 1);
+                    } else {
+                        this.selectedOrders.push(orderId);
+                    }
+                },
+
+                selectAllOrders() {
+                    console.log('Select all orders');
+                    this.selectedOrders = this.testOrders.map(order => order.id);
+                },
+
+                clearSelection() {
+                    console.log('Clear selection');
+                    this.selectedOrders = [];
+                },
+
+                bulkOperation(operation) {
+                    console.log('Bulk operation:', operation, 'on orders:', this.selectedOrders);
+                    
+                    if (this.selectedOrders.length === 0) {
+                        alert('No orders selected');
+                        return;
+                    }
+
+                    if (this.isProcessingBulk) {
+                        alert('Another operation is in progress');
+                        return;
+                    }
+
+                    this.isProcessingBulk = true;
+                    
+                    // Simulate operation
+                    setTimeout(() => {
+                        alert(`Successfully processed ${this.selectedOrders.length} orders with operation: ${operation}`);
+                        this.clearSelection();
+                        this.isProcessingBulk = false;
+                    }, 2000);
+                }
+            }
+        }
+
+        // Run debug on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runDebug, 1000);
+        });
+
+        // Listen for Alpine.js initialization
+        document.addEventListener('alpine:init', () => {
+            console.log('Alpine.js initialized');
+        });
+
+        // Check for conflicts
+        window.addEventListener('load', () => {
+            console.log('Page loaded, checking for conflicts...');
+            
+            // Check if Unpoly is interfering
+            if (typeof up !== 'undefined') {
+                console.warn('Unpoly is loaded - this might interfere with Alpine.js and HTMX');
+            }
+            
+            // Check for multiple jQuery versions
+            if (typeof $ !== 'undefined' && typeof jQuery !== 'undefined') {
+                console.log('jQuery versions:', $.fn.jquery, jQuery.fn.jquery);
+            }
+        });
+    </script>
+</body>
+</html>

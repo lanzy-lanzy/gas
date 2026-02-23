@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management Test</title>
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-8">Order Management Test</h1>
+        
+        <!-- Test Alpine.js functionality -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8" x-data="{ message: 'Alpine.js is working!' }">
+            <h2 class="text-xl font-semibold mb-4">Alpine.js Test</h2>
+            <p x-text="message" class="text-green-600"></p>
+            <button @click="message = 'Button clicked!'" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                Test Click
+            </button>
+        </div>
+        
+        <!-- Test HTMX functionality -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4">HTMX Test</h2>
+            <button hx-get="https://httpbin.org/json" 
+                    hx-target="#htmx-result" 
+                    hx-swap="innerHTML"
+                    class="px-4 py-2 bg-green-500 text-white rounded">
+                Test HTMX Request
+            </button>
+            <div id="htmx-result" class="mt-4 p-4 bg-gray-100 rounded">
+                Click the button to test HTMX
+            </div>
+        </div>
+        
+        <!-- Test Order Management Component -->
+        <div class="bg-white rounded-lg shadow p-6" x-data="orderManagementTest()">
+            <h2 class="text-xl font-semibold mb-4">Order Management Component Test</h2>
+            
+            <!-- Test View Order Detail -->
+            <div class="mb-4">
+                <button @click="showOrderDetail(123)" 
+                        class="px-4 py-2 bg-orange-500 text-white rounded">
+                    Test View Order Detail (ID: 123)
+                </button>
+            </div>
+            
+            <!-- Test Bulk Operations -->
+            <div class="mb-4">
+                <button @click="selectedOrders = [1, 2, 3]; bulkOperation('mark_delivered')" 
+                        class="px-4 py-2 bg-purple-500 text-white rounded">
+                    Test Bulk Operation
+                </button>
+                <p class="mt-2 text-sm text-gray-600">Selected orders: <span x-text="selectedOrders.join(', ')"></span></p>
+            </div>
+            
+            <!-- Test Toast -->
+            <div class="mb-4">
+                <button @click="showToast('Test success message', 'success')" 
+                        class="px-4 py-2 bg-green-500 text-white rounded mr-2">
+                    Test Success Toast
+                </button>
+                <button @click="showToast('Test error message', 'error')" 
+                        class="px-4 py-2 bg-red-500 text-white rounded">
+                    Test Error Toast
+                </button>
+            </div>
+            
+            <!-- Modal placeholder -->
+            <div id="order-detail-modal"></div>
+        </div>
+    </div>
+
+    <script>
+        function orderManagementTest() {
+            return {
+                selectedOrders: [],
+                
+                init() {
+                    console.log('Order management test initialized');
+                },
+                
+                showOrderDetail(orderId) {
+                    console.log('Showing order detail for ID:', orderId);
+                    // Simulate modal content
+                    document.getElementById('order-detail-modal').innerHTML = `
+                        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
+                                <h3 class="text-lg font-semibold mb-4">Order #${orderId}</h3>
+                                <p class="mb-4">This is a test modal for order ${orderId}</p>
+                                <button onclick="document.getElementById('order-detail-modal').innerHTML = ''" 
+                                        class="px-4 py-2 bg-gray-500 text-white rounded">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                },
+                
+                bulkOperation(operation) {
+                    console.log('Bulk operation:', operation, 'on orders:', this.selectedOrders);
+                    this.showToast(`Bulk operation ${operation} executed on ${this.selectedOrders.length} orders`, 'success');
+                },
+                
+                showToast(message, type = 'success') {
+                    console.log('Toast:', type, message);
+                    const toast = document.createElement('div');
+                    toast.className = `fixed top-4 right-4 px-6 py-3 rounded-md text-white z-50 ${
+                        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                    }`;
+                    toast.textContent = message;
+                    document.body.appendChild(toast);
+
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                }
+            }
+        }
+        
+        // Test HTMX configuration
+        document.addEventListener('htmx:configRequest', function(evt) {
+            console.log('HTMX request configured:', evt.detail);
+        });
+        
+        document.addEventListener('htmx:afterRequest', function(evt) {
+            console.log('HTMX request completed:', evt.detail);
+        });
+        
+        document.addEventListener('htmx:responseError', function(evt) {
+            console.error('HTMX error:', evt.detail);
+        });
+    </script>
+</body>
+</html>

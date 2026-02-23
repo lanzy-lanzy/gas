@@ -1,0 +1,555 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% load humanize %}
+
+{% block title %}Order #{{ order.id }} - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Enhanced Header with Gradient -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light rounded-2xl shadow-xl">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="relative px-6 py-8 sm:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="mb-6 lg:mb-0">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4 backdrop-blur-sm">
+                            <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl lg:text-4xl font-bold text-white">Order #{{ order.id }}</h1>
+                            {% if order.is_batch_order %}
+                            <p class="mt-1 text-lg text-white text-opacity-90">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white">
+                                    {{ order.batch_item_count }} items in this order
+                                </span>
+                            </p>
+                            {% endif %}
+                            <p class="mt-2 text-lg text-white text-opacity-90">Placed on {{ order.order_date|date:"F d, Y \a\t g:i A" }}</p>
+                        </div>
+                    </div>
+                    <p class="text-white text-opacity-80 max-w-2xl">Track your order status and view detailed information about your LPG delivery.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <a href="{% url 'core:order_history' %}"
+                       class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-base font-semibold rounded-xl text-white bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm transition-all duration-300 hover:scale-105 shadow-lg">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Orders
+                    </a>
+                    <a href="{% url 'core:customer_dashboard' %}"
+                       class="inline-flex items-center justify-center px-6 py-3 border-2 border-white border-opacity-50 text-base font-semibold rounded-xl text-white hover:bg-white hover:bg-opacity-10 transition-all duration-300">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h2a2 2 0 012 2v2H8V5z"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white bg-opacity-10 rounded-full"></div>
+        <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-white bg-opacity-5 rounded-full"></div>
+    </div>
+
+    <!-- Enhanced Order Status Tracking -->
+    <div id="order-status-section" class="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                    <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900">Order Status & Tracking</h2>
+            </div>
+        </div>
+        <div class="p-6 sm:p-8">
+            
+            <!-- Status Progress Bar -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                    <span>Order Progress</span>
+                    <span>{{ progress_percentage }}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-prycegas-orange h-2 rounded-full transition-all duration-300" 
+                         style="width: {{ progress_percentage }}%"></div>
+                </div>
+            </div>
+
+            <!-- Status Timeline -->
+            <div class="flow-root">
+                <ul class="-mb-8">
+                    <!-- Pending Status -->
+                    <li>
+                        <div class="relative pb-8">
+                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                            <div class="relative flex space-x-3">
+                                <div>
+                                    {% if order.status == 'pending' or order.status == 'out_for_delivery' or order.status == 'delivered' %}
+                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% else %}
+                                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Order placed and confirmed</p>
+                                    </div>
+                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                        {{ order.order_date|date:"M d, g:i A" }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Out for Delivery Status -->
+                    <li>
+                        <div class="relative pb-8">
+                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                            <div class="relative flex space-x-3">
+                                <div>
+                                    {% if order.status == 'out_for_delivery' or order.status == 'delivered' %}
+                                        <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </span>
+                                    {% elif order.status == 'pending' %}
+                                        <span class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% else %}
+                                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                    <div>
+                                        <p class="text-sm text-gray-500">
+                                            {% if order.delivery_type == 'pickup' %}
+                                                Ready for pickup
+                                            {% else %}
+                                                Out for delivery
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                        {% if order.status == 'out_for_delivery' or order.status == 'delivered' %}
+                                            {% if order.delivery_date %}
+                                                {{ order.delivery_date|date:"M d, g:i A" }}
+                                            {% else %}
+                                                In progress
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Delivered Status -->
+                    <li>
+                        <div class="relative">
+                            <div class="relative flex space-x-3">
+                                <div>
+                                    {% if order.status == 'delivered' %}
+                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% elif order.status == 'cancelled' %}
+                                        <span class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% else %}
+                                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                    <div>
+                                        <p class="text-sm text-gray-500">
+                                            {% if order.status == 'delivered' %}
+                                                Order completed
+                                            {% elif order.status == 'cancelled' %}
+                                                Order cancelled
+                                            {% else %}
+                                                Awaiting completion
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                        {% if order.delivery_date %}
+                                            {{ order.delivery_date|date:"M d, g:i A" }}
+                                        {% elif order.status == 'cancelled' %}
+                                            Cancelled
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Current Status Badge -->
+            <div class="mt-6 flex items-center justify-center gap-4 flex-wrap">
+                {% if order.status == 'pending' %}
+                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <svg class="-ml-1 mr-2 h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3"/>
+                        </svg>
+                        Order Pending
+                    </span>
+                    <!-- Cancel Button for Pending Orders -->
+                    <button 
+                        onclick="document.getElementById('cancel-order-modal').showModal()"
+                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg">
+                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Cancel Order
+                    </button>
+                {% elif order.status == 'out_for_delivery' %}
+                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        <svg class="-ml-1 mr-2 h-4 w-4 text-blue-400" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3"/>
+                        </svg>
+                        {% if order.delivery_type == 'pickup' %}Ready for Pickup{% else %}Out for Delivery{% endif %}
+                    </span>
+                    <!-- Mark as Received Button for Out for Delivery -->
+                    <button 
+                        hx-post="{% url 'core:mark_order_received' order.id %}"
+                        hx-target="#order-status-section"
+                        hx-swap="outerHTML"
+                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors duration-200 shadow-md hover:shadow-lg">
+                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Mark as Received
+                    </button>
+                {% elif order.status == 'delivered' %}
+                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <svg class="-ml-1 mr-2 h-4 w-4 text-green-400" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3"/>
+                        </svg>
+                        Order Completed
+                    </span>
+                {% elif order.status == 'cancelled' %}
+                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        <svg class="-ml-1 mr-2 h-4 w-4 text-red-400" fill="currentColor" viewBox="0 0 8 8">
+                            <circle cx="4" cy="4" r="3"/>
+                        </svg>
+                        Order Cancelled
+                    </span>
+                    {% if order.cancellation_reason %}
+                    <div class="w-full max-w-2xl bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+                        <p class="text-sm font-medium text-red-900">Cancellation Reason:</p>
+                        <p class="text-sm text-red-800 mt-1">{{ order.cancellation_reason }}</p>
+                        {% if order.cancelled_at %}
+                        <p class="text-xs text-red-600 mt-2">Cancelled on {{ order.cancelled_at|date:"M d, Y g:i A" }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Product Information -->
+        <div class="bg-white shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">
+                    Product Details
+                    {% if order.is_batch_order %}
+                    <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                        {{ order.batch_item_count }} items
+                    </span>
+                    {% endif %}
+                </h3>
+                
+                {% if order.is_batch_order %}
+                <!-- Batch Order - Show All Products -->
+                <div class="overflow-hidden border border-gray-200 rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Qty</th>
+                                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for item in batch_items %}
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-900">{{ item.product.name }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{{ item.product.size }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">₱{{ item.product.price|floatformat:2 }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ item.quantity }}</td>
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">₱{{ item.total_amount|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="bg-gray-50">
+                            <tr>
+                                <td colspan="4" class="px-4 py-3 text-sm font-bold text-gray-900 text-right">Batch Total:</td>
+                                <td class="px-4 py-3 text-sm font-bold text-prycegas-orange text-right">₱{{ batch_total|floatformat:2 }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                {% else %}
+                <!-- Single Product Order -->
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">Product:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">{{ order.product.name }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">Size:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">{{ order.product.size }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">Quantity:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">{{ order.quantity }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">Unit Price:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">₱{{ order.product.price|floatformat:2|currency_format|intcomma }}</span>
+                    </div>
+                    <div class="border-t pt-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between">
+                            <span class="text-base font-medium text-gray-900">Total Amount:</span>
+                            <span class="text-base font-bold text-prycegas-orange mt-1 sm:mt-0">₱{{ order.total_amount|floatformat:2|currency_format|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Delivery Information -->
+        <div class="bg-white shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Delivery Information</h3>
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                        <span class="text-sm font-medium text-gray-500">Delivery Type:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">
+                            {% if order.delivery_type == 'pickup' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    Pickup
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Delivery
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% if order.delivery_type == 'delivery' %}
+                    <div>
+                        <span class="text-sm font-medium text-gray-500 block mb-1">Delivery Address:</span>
+                        <p class="text-sm text-gray-900 break-words">{{ order.delivery_address }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">Order Date:</span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">{{ order.order_date|date:"M d, Y g:i A" }}</span>
+                    </div>
+                    {% if order.delivery_date %}
+                    <div class="flex flex-col sm:flex-row sm:justify-between">
+                        <span class="text-sm font-medium text-gray-500">
+                            {% if order.delivery_type == 'pickup' %}Pickup Date:{% else %}Delivery Date:{% endif %}
+                        </span>
+                        <span class="text-sm text-gray-900 mt-1 sm:mt-0">{{ order.delivery_date|date:"M d, Y g:i A" }}</span>
+                    </div>
+                    {% endif %}
+                    {% if order.notes %}
+                    <div>
+                        <span class="text-sm font-medium text-gray-500 block mb-1">Notes:</span>
+                        <p class="text-sm text-gray-900 break-words">{{ order.notes }}</p>
+                    </div>
+                    {% endif %}
+                    {% if order.get_delivery_person %}
+                    <div class="border-t pt-4">
+                        <span class="text-sm font-medium text-gray-500 block mb-1">Processed/Delivered By:</span>
+                        <p class="text-sm text-gray-900 font-semibold">{{ order.get_delivery_person }}</p>
+                    </div>
+                    {% endif %}
+                    {% if order.processed_by_name %}
+                    <div>
+                        <span class="text-sm font-medium text-gray-500 block mb-1">Cashier:</span>
+                        <p class="text-sm text-gray-900">{{ order.processed_by_name }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-refresh for real-time updates -->
+    <div hx-get="{% url 'core:order_detail' order.id %}" 
+         hx-trigger="every 30s" 
+         hx-select="#order-status-section"
+         hx-target="#order-status-section"
+         hx-swap="outerHTML">
+    </div>
+</div>
+
+    <!-- Cancel Order Modal -->
+    <dialog id="cancel-order-modal" class="backdrop:bg-black/50 rounded-2xl shadow-2xl max-w-md w-full p-0">
+        <form action="{% url 'core:cancel_order' order.id %}" method="POST" class="w-full">
+            {% csrf_token %}
+            <div class="p-6 sm:p-8">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-900">Cancel Order</h2>
+                    <button 
+                        type="button"
+                        onclick="document.getElementById('cancel-order-modal').close()"
+                        class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Warning Message -->
+                <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="h-5 w-5 text-red-500 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-medium text-red-900">
+                                Are you sure you want to cancel this order?
+                            </p>
+                            <p class="text-xs text-red-800 mt-1">
+                                This action cannot be undone and your reserved stock will be released.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Details Summary -->
+                <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Order #:</span>
+                            <span class="font-medium text-gray-900">{{ order.id }}</span>
+                        </div>
+                        {% if order.is_batch_order %}
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Products:</span>
+                            <span class="font-medium text-gray-900">{{ order.batch_item_count }} items</span>
+                        </div>
+                        {% else %}
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Product:</span>
+                            <span class="font-medium text-gray-900">{{ order.product.name }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Quantity:</span>
+                            <span class="font-medium text-gray-900">{{ order.quantity }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between text-sm">
+                            <span class="text-gray-600 font-medium">Amount:</span>
+                            <span class="font-bold text-prycegas-orange">₱{{ batch_total|floatformat:2|currency_format|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cancellation Reason -->
+                <div class="mb-6">
+                    <label for="cancellation_reason" class="block text-sm font-medium text-gray-700 mb-2">
+                        Cancellation Reason <span class="text-gray-400">(Optional)</span>
+                    </label>
+                    <textarea 
+                        id="cancellation_reason" 
+                        name="cancellation_reason" 
+                        rows="3"
+                        placeholder="Tell us why you're cancelling this order (helps us improve)"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-transparent transition-colors">
+                    </textarea>
+                    <p class="text-xs text-gray-500 mt-1">Maximum 500 characters</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        type="button"
+                        onclick="document.getElementById('cancel-order-modal').close()"
+                        class="flex-1 px-4 py-2 bg-gray-200 text-gray-900 font-medium rounded-lg hover:bg-gray-300 transition-colors">
+                        Keep Order
+                    </button>
+                    <button 
+                        type="submit"
+                        class="flex-1 px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Yes, Cancel Order
+                    </button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+</div>
+
+<script>
+// Auto-refresh order status every 30 seconds for real-time updates
+document.addEventListener('DOMContentLoaded', function() {
+    // Only refresh if order is not in final state
+    {% if order.status != 'delivered' and order.status != 'cancelled' %}
+    setInterval(function() {
+        // Trigger HTMX refresh for order status
+        htmx.trigger(document.body, 'refreshOrderStatus');
+    }, 30000); // 30 seconds
+    {% endif %}
+});
+
+// Limit textarea to 500 characters
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.getElementById('cancellation_reason');
+    if (textarea) {
+        textarea.addEventListener('input', function() {
+            if (this.value.length > 500) {
+                this.value = this.value.substring(0, 500);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

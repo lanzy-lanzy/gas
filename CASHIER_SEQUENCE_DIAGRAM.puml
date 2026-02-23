@@ -1,0 +1,74 @@
+@startuml Cashier Flow
+title Cashier Process Flow
+
+actor Cashier
+participant System
+
+== Login ==
+Cashier -> System: Enter Credentials
+activate System
+System -> System: Authenticate
+System --> Cashier: Grant Access
+deactivate System
+
+== View Orders ==
+Cashier -> System: Access Order List
+activate System
+System -> System: Fetch All Orders
+System --> Cashier: Display Orders (with filters)
+deactivate System
+
+== Process Customer Order ==
+Cashier -> System: Create New Order
+activate System
+System -> System: Validate Stock
+alt Stock Available
+    System -> System: Create Order
+    System -> System: Reserve Stock
+    System -> System: Log Transaction
+    System --> Cashier: Order Created Successfully
+else Stock Unavailable
+    System --> Cashier: Show Error - Insufficient Stock
+end
+deactivate System
+
+== Record Payment ==
+Cashier -> System: Record Customer Payment
+activate System
+System -> System: Validate Payment
+System -> System: Create Transaction Record
+System -> System: Update Transaction Log
+System --> Cashier: Payment Recorded
+deactivate System
+
+== View Personal Dashboard ==
+Cashier -> System: Access Personal Dashboard
+activate System
+System -> System: Calculate Today's Total
+System -> System: Aggregate Transactions
+System -> System: Breakdown by Type
+System --> Cashier: Display Dashboard (Today's Stats)
+deactivate System
+
+== View Daily Report ==
+Cashier -> System: Request Daily Report
+activate System
+System -> System: Select Report Date
+System -> System: Fetch Delivered Orders
+System -> System: Calculate Income
+System -> System: Breakdown by Product
+System --> Cashier: Display Daily Report
+deactivate System
+
+== View Monthly Report ==
+Cashier -> System: Request Monthly Report
+activate System
+System -> System: Select Month/Year
+System -> System: Fetch Month Orders
+System -> System: Calculate Monthly Income
+System -> System: Daily Breakdown
+System -> System: Product Breakdown
+System --> Cashier: Display Monthly Report
+deactivate System
+
+@enduml

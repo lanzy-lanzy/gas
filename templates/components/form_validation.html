@@ -1,0 +1,266 @@
+<!-- Form Validation Component -->
+<!-- This component provides reusable validation styling and messages -->
+
+<!-- Field Error Display -->
+{% comment %}
+Usage: {% include 'components/form_validation.html' with field=form.field_name %}
+{% endcomment %}
+
+{% if field.errors %}
+    <div class="field-error mt-1 text-sm text-red-600">
+        {% for error in field.errors %}
+            <p class="flex items-center">
+                <svg class="h-4 w-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Field Help Text -->
+{% if field.help_text %}
+    <div class="mt-1 text-xs text-gray-500">
+        {{ field.help_text }}
+    </div>
+{% endif %}
+
+<!-- Validation Styling Classes -->
+<style>
+/* Enhanced form validation styles */
+.field-error input,
+.field-error textarea,
+.field-error select {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+.field-success input,
+.field-success textarea,
+.field-success select {
+    @apply border-green-500 focus:border-green-500 focus:ring-green-500;
+}
+
+.field-validating input,
+.field-validating textarea,
+.field-validating select {
+    @apply border-yellow-500 focus:border-yellow-500 focus:ring-yellow-500;
+}
+
+/* Loading spinner for validation */
+.validation-spinner {
+    @apply animate-spin h-4 w-4 text-gray-400;
+}
+
+/* Form validation summary */
+.form-errors {
+    @apply bg-red-50 border border-red-200 rounded-md p-4 mb-4;
+}
+
+.form-errors h3 {
+    @apply text-sm font-medium text-red-800 mb-2;
+}
+
+.form-errors ul {
+    @apply list-disc list-inside text-sm text-red-700 space-y-1;
+}
+
+/* Success message styling */
+.form-success {
+    @apply bg-green-50 border border-green-200 rounded-md p-4 mb-4;
+}
+
+.form-success h3 {
+    @apply text-sm font-medium text-green-800 mb-2;
+}
+
+.form-success p {
+    @apply text-sm text-green-700;
+}
+
+/* Required field indicator */
+.required-field::after {
+    content: " *";
+    @apply text-red-500;
+}
+
+/* Validation icons */
+.validation-icon-error {
+    @apply text-red-500;
+}
+
+.validation-icon-success {
+    @apply text-green-500;
+}
+
+.validation-icon-warning {
+    @apply text-yellow-500;
+}
+
+/* Form field containers */
+.form-field {
+    @apply space-y-1;
+}
+
+.form-field label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    @apply mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-prycegas-orange focus:border-prycegas-orange;
+}
+
+/* Disabled form elements */
+.form-field input:disabled,
+.form-field textarea:disabled,
+.form-field select:disabled {
+    @apply bg-gray-50 text-gray-500 cursor-not-allowed;
+}
+
+/* Form buttons */
+.form-button-primary {
+    @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-prycegas-orange hover:bg-prycegas-orange-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.form-button-secondary {
+    @apply inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange;
+}
+
+/* Loading states */
+.form-loading {
+    @apply opacity-50 pointer-events-none;
+}
+
+.form-loading .form-button-primary {
+    @apply cursor-not-allowed;
+}
+
+/* Responsive form layouts */
+@media (min-width: 640px) {
+    .form-grid {
+        @apply grid grid-cols-2 gap-4;
+    }
+    
+    .form-grid .form-field-full {
+        @apply col-span-2;
+    }
+}
+
+/* Animation for validation messages */
+.validation-message-enter {
+    @apply opacity-0 transform translate-y-1;
+}
+
+.validation-message-enter-active {
+    @apply opacity-100 transform translate-y-0 transition-all duration-200;
+}
+
+.validation-message-exit {
+    @apply opacity-100 transform translate-y-0;
+}
+
+.validation-message-exit-active {
+    @apply opacity-0 transform translate-y-1 transition-all duration-200;
+}
+</style>
+
+<!-- JavaScript for enhanced validation -->
+<script>
+// Enhanced form validation utilities
+window.FormValidationUtils = {
+    // Show field validation state
+    showFieldState: function(field, state, message) {
+        const container = field.closest('.form-field') || field.parentNode;
+        
+        // Remove existing state classes
+        container.classList.remove('field-error', 'field-success', 'field-validating');
+        
+        // Remove existing messages
+        const existingMessages = container.querySelectorAll('.field-error, .field-success, .field-validating-message');
+        existingMessages.forEach(msg => msg.remove());
+        
+        // Add new state
+        if (state && message) {
+            container.classList.add(`field-${state}`);
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `field-${state} mt-1 text-sm`;
+            
+            if (state === 'error') {
+                messageDiv.className += ' text-red-600';
+                messageDiv.innerHTML = `
+                    <p class="flex items-center">
+                        <svg class="h-4 w-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        ${message}
+                    </p>
+                `;
+            } else if (state === 'success') {
+                messageDiv.className += ' text-green-600';
+                messageDiv.innerHTML = `
+                    <p class="flex items-center">
+                        <svg class="h-4 w-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        ${message}
+                    </p>
+                `;
+            } else if (state === 'validating') {
+                messageDiv.className += ' text-yellow-600';
+                messageDiv.innerHTML = `
+                    <p class="flex items-center">
+                        <svg class="validation-spinner h-4 w-4 mr-1 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        ${message}
+                    </p>
+                `;
+            }
+            
+            container.appendChild(messageDiv);
+        }
+    },
+    
+    // Clear field validation state
+    clearFieldState: function(field) {
+        this.showFieldState(field, null, null);
+    },
+    
+    // Show form-level validation summary
+    showFormSummary: function(form, errors, type = 'error') {
+        const existingSummary = form.querySelector('.form-errors, .form-success');
+        if (existingSummary) {
+            existingSummary.remove();
+        }
+        
+        if (errors && errors.length > 0) {
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = type === 'error' ? 'form-errors' : 'form-success';
+            
+            const title = document.createElement('h3');
+            title.textContent = type === 'error' ? 'Please fix the following errors:' : 'Success:';
+            summaryDiv.appendChild(title);
+            
+            if (Array.isArray(errors)) {
+                const list = document.createElement('ul');
+                errors.forEach(error => {
+                    const item = document.createElement('li');
+                    item.textContent = error;
+                    list.appendChild(item);
+                });
+                summaryDiv.appendChild(list);
+            } else {
+                const p = document.createElement('p');
+                p.textContent = errors;
+                summaryDiv.appendChild(p);
+            }
+            
+            form.insertBefore(summaryDiv, form.firstChild);
+        }
+    }
+};
+</script>

@@ -1,0 +1,88 @@
+{% if show_info %}
+<div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+    <div class="flex items-start space-x-3">
+        <div class="flex-shrink-0">
+            {% if stock_level == 'out_of_stock' %}
+                <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            {% elif stock_level == 'low_stock' %}
+                <svg class="h-5 w-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+            {% else %}
+                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            {% endif %}
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+                <h4 class="text-sm font-medium text-gray-900">{{ product.name }} - {{ product.size }}</h4>
+                <span class="text-sm font-semibold text-prycegas-orange">₱{{ product.price|floatformat:2|intcomma }} each</span>
+            </div>
+            
+            <div class="mt-2 space-y-1">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-500">Available Stock:</span>
+                    <span class="font-medium {% if product.current_stock > product.minimum_stock %}text-green-600{% elif product.current_stock > 0 %}text-yellow-600{% else %}text-red-600{% endif %}">
+                        {{ product.current_stock }} units
+                    </span>
+                </div>
+                
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-500">Requested Quantity:</span>
+                    <span class="font-medium">{{ quantity }} units</span>
+                </div>
+                
+                <div class="flex items-center justify-between text-sm border-t pt-1">
+                    <span class="text-gray-500">Total Price:</span>
+                    <span class="font-semibold text-lg text-prycegas-orange">₱{{ total_price|floatformat:2|intcomma }}</span>
+                </div>
+            </div>
+            
+            <!-- Stock Status Messages -->
+            <div class="mt-3">
+                {% if stock_level == 'out_of_stock' %}
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            Out of Stock
+                        </span>
+                        <span class="text-sm text-red-600">This product is currently unavailable.</span>
+                    </div>
+                {% elif not stock_available %}
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            Insufficient Stock
+                        </span>
+                        <span class="text-sm text-red-600">Only {{ product.current_stock }} units available.</span>
+                    </div>
+                {% elif stock_level == 'low_stock' %}
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            Low Stock
+                        </span>
+                        <span class="text-sm text-yellow-600">Limited stock available. Order soon!</span>
+                    </div>
+                {% else %}
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Available
+                        </span>
+                        <span class="text-sm text-green-600">Ready for order!</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% elif error %}
+<div class="bg-red-50 border border-red-200 rounded-lg p-4">
+    <div class="flex items-center space-x-2">
+        <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span class="text-sm text-red-600">{{ error }}</span>
+    </div>
+</div>
+{% endif %}

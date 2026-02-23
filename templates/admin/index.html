@@ -1,0 +1,118 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content-main">
+    <!-- Header with stats -->
+    <div style="background-color: #f0f0f0; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h2 style="margin-top: 0; color: #ff6b35;">
+            <i class="fas fa-users" style="margin-right: 10px;"></i>User Management
+        </h2>
+        
+        <!-- User Stats Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <!-- Pending Registrations Card -->
+            <div style="background: white; border-left: 4px solid #ff6b35; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-clock" style="margin-right: 5px;"></i>Pending Approvals
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #ff6b35;">
+                    {{ pending_registrations_count }}
+                </div>
+                <a href="{% url 'admin:core_pendingregistration_changelist' %}" style="color: #ff6b35; text-decoration: none; font-size: 12px;">
+                    View Pending &rarr;
+                </a>
+            </div>
+            
+            <!-- Approved Registrations Card -->
+            <div style="background: white; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-check-circle" style="margin-right: 5px;"></i>Approved
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #10b981;">
+                    {{ approved_registrations_count }}
+                </div>
+                <a href="{% url 'admin:core_pendingregistration_changelist' %}?status=approved" style="color: #10b981; text-decoration: none; font-size: 12px;">
+                    View Approved &rarr;
+                </a>
+            </div>
+            
+            <!-- Rejected Registrations Card -->
+            <div style="background: white; border-left: 4px solid #ef4444; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-times-circle" style="margin-right: 5px;"></i>Rejected
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #ef4444;">
+                    {{ rejected_registrations_count }}
+                </div>
+                <a href="{% url 'admin:core_pendingregistration_changelist' %}?status=rejected" style="color: #ef4444; text-decoration: none; font-size: 12px;">
+                    View Rejected &rarr;
+                </a>
+            </div>
+
+            <!-- Total Registrations Card -->
+            <div style="background: white; border-left: 4px solid #3b82f6; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-file-alt" style="margin-right: 5px;"></i>Total Registrations
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #3b82f6;">
+                    {{ total_registrations_count }}
+                </div>
+                <a href="{% url 'admin:core_pendingregistration_changelist' %}" style="color: #3b82f6; text-decoration: none; font-size: 12px;">
+                    View All &rarr;
+                </a>
+            </div>
+        </div>
+
+        <!-- User Stats Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <!-- Customers Card -->
+            <div style="background: white; border-left: 4px solid #8b5cf6; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-shopping-cart" style="margin-right: 5px;"></i>Total Customers
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #8b5cf6;">
+                    {{ total_customers }}
+                </div>
+                <a href="{% url 'admin:core_customerprofile_changelist' %}" style="color: #8b5cf6; text-decoration: none; font-size: 12px;">
+                    View Customers &rarr;
+                </a>
+            </div>
+
+            <!-- Cashiers Card -->
+            <div style="background: white; border-left: 4px solid #ec4899; padding: 15px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 12px; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
+                    <i class="fas fa-cash-register" style="margin-right: 5px;"></i>Total Cashiers
+                </div>
+                <div style="font-size: 32px; font-weight: bold; color: #ec4899;">
+                    {{ total_cashiers }}
+                </div>
+                <a href="{% url 'admin:core_cashier_changelist' %}" style="color: #ec4899; text-decoration: none; font-size: 12px;">
+                    View Cashiers &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div style="background-color: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #333;">
+            <i class="fas fa-bolt" style="margin-right: 10px; color: #ff6b35;"></i>Quick Actions
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+            <a href="{% url 'admin:core_pendingregistration_changelist' %}" style="background-color: #ff6b35; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; text-align: center; font-weight: bold; display: inline-block;">
+                <i class="fas fa-user-check"></i> View Pending Registrations
+            </a>
+            <a href="{% url 'admin:core_customerprofile_changelist' %}" style="background-color: #8b5cf6; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; text-align: center; font-weight: bold; display: inline-block;">
+                <i class="fas fa-users"></i> Manage Customers
+            </a>
+            <a href="{% url 'admin:core_cashier_changelist' %}" style="background-color: #ec4899; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; text-align: center; font-weight: bold; display: inline-block;">
+                <i class="fas fa-cash-register"></i> Manage Cashiers
+            </a>
+        </div>
+    </div>
+
+    <!-- Original Admin Content -->
+    {{ block.super }}
+</div>
+{% endblock %}

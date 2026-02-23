@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}ADMIN DASHBOARD - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="dealer-dashboard bg-gray-50 min-h-screen" x-data="{
+    autoRefresh: true,
+    refreshInterval: null,
+    startAutoRefresh() {
+        if (this.autoRefresh) {
+            this.refreshInterval = setInterval(() => {
+                // Refresh dashboard stats using Unpoly
+                up.reload('#dashboard-stats', { cache: false });
+                up.reload('#recent-activity', { cache: false });
+            }, 30000); // Refresh every 30 seconds
+        }
+    },
+    stopAutoRefresh() {
+        if (this.refreshInterval) {
+            clearInterval(this.refreshInterval);
+            this.refreshInterval = null;
+        }
+    },
+    toggleAutoRefresh() {
+        this.autoRefresh = !this.autoRefresh;
+        if (this.autoRefresh) {
+            this.startAutoRefresh();
+        } else {
+            this.stopAutoRefresh();
+        }
+    }
+}" x-init="startAutoRefresh()" x-on:beforeunload.window="stopAutoRefresh()">
+
+    <!-- Page Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="px-6 lg:px-8 py-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-pie text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900">ADMIN DASHBOARD</h1>
+                    </div>
+                    <p class="text-gray-600 ml-13">Overview of orders, inventory, and recent activity</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Auto-refresh toggle -->
+                    <div class="flex items-center bg-white rounded-xl px-4 py-2 shadow-sm border border-gray-200">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" x-model="autoRefresh" @change="toggleAutoRefresh()"
+                                   class="sr-only">
+                            <div class="relative">
+                                <div class="block bg-gray-300 w-12 h-6 rounded-full"></div>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition shadow-sm"
+                                     :class="{ 'transform translate-x-6 bg-prycegas-orange': autoRefresh }"></div>
+                            </div>
+                            <span class="ml-3 text-sm font-medium text-gray-700">Auto-refresh</span>
+                        </label>
+                    </div>
+                    <!-- Manual refresh button -->
+                    <button @click="up.reload('#dashboard-stats, #recent-activity', { cache: false })"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light hover:from-prycegas-orange-dark hover:to-prycegas-orange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="px-6 lg:px-8 py-8">
+        <!-- Dashboard Statistics -->
+        <div id="dashboard-stats" up-source="{% url 'core:refresh_dashboard_stats' %}" class="mb-8">
+            {% include 'dealer/dashboard_stats_partial.html' %}
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div id="recent-activity" up-source="{% url 'core:refresh_recent_activity' %}">
+            {% include 'dealer/recent_activity_partial.html' %}
+        </div>
+    </div>
+
+</div>
+
+<style>
+/* Custom toggle switch styling */
+.dot {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Toast notification for successful refreshes
+document.addEventListener('up:fragment:loaded', function(event) {
+    if (event.target.id === 'dashboard-stats' || event.target.id === 'recent-activity') {
+        // Show subtle success indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'fixed top-4 right-4 bg-green-500 text-white px-3 py-1 rounded text-sm z-50';
+        indicator.textContent = 'Dashboard updated';
+        document.body.appendChild(indicator);
+        
+        setTimeout(() => {
+            indicator.remove();
+        }, 2000);
+    }
+});
+</script>
+{% endblock %}

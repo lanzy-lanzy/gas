@@ -1,0 +1,4 @@
+2025-12-17 21:58:14,711 - __main__ - INFO - Starting delivery logging verification test
+2025-12-17 21:58:14,727 - __main__ - INFO - Creating delivery log: 25x LPG PRYCEGAS
+2025-12-17 21:58:14,830 - __main__ - INFO - Delivery log created with ID: 17
+2025-12-17 21:58:14,875 - __main__ - INFO - Delivery logging verification completed successfully

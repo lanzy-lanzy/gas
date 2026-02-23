@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reports Dashboard - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="px-6 lg:px-8 py-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-bar text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900">Reports Dashboard</h1>
+                    </div>
+                    <p class="text-gray-600 ml-13">Generate and view comprehensive business reports</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-print mr-2"></i>
+                        Print Reports
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="px-6 lg:px-8 py-8">
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Current Month Orders -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-shopping-cart text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">This Month Orders</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ quick_stats.current_month_orders }}</p>
+                        <p class="text-xs text-prycegas-orange font-medium mt-1">
+                            <i class="fas fa-arrow-up mr-1"></i>Active tracking
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Month Revenue -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-dollar-sign text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">This Month Revenue</p>
+                        <p class="text-3xl font-bold text-gray-900">₱{{ quick_stats.current_month_revenue|floatformat:2|intcomma }}</p>
+                        <p class="text-xs text-green-600 font-medium mt-1">
+                            <i class="fas fa-chart-line mr-1"></i>Revenue tracking
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Stock Value -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-boxes text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Total Stock Value</p>
+                        <p class="text-3xl font-bold text-gray-900">₱{{ quick_stats.total_stock_value|floatformat:2|intcomma }}</p>
+                        <p class="text-xs text-blue-600 font-medium mt-1">
+                            <i class="fas fa-warehouse mr-1"></i>Inventory value
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Low Stock Alerts -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-exclamation-triangle text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Low Stock Items</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ quick_stats.low_stock_count }}</p>
+                        <p class="text-xs text-red-600 font-medium mt-1">
+                            <i class="fas fa-bell mr-1"></i>Needs attention
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Options -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Sales Report Card -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300">
+                <div class="px-6 py-6 bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Sales Reports</h3>
+                            <p class="text-orange-100 text-sm mt-1">Analyze sales performance and revenue trends</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <form method="get" action="{% url 'core:sales_report' %}" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="sales_date_from" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-calendar-alt mr-2 text-prycegas-orange"></i>From Date
+                                </label>
+                                <input type="date" id="sales_date_from" name="date_from"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-transparent transition-all duration-200">
+                            </div>
+                            <div>
+                                <label for="sales_date_to" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-calendar-alt mr-2 text-prycegas-orange"></i>To Date
+                                </label>
+                                <input type="date" id="sales_date_to" name="date_to"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-transparent transition-all duration-200">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="sales_product" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="inline-block w-4 h-4 mr-2 object-contain">Product
+                                </label>
+                                <select id="sales_product" name="product"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-transparent transition-all duration-200">
+                                    <option value="">All Products</option>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}">{{ product.name }} - {{ product.size }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="sales_customer" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-user mr-2 text-prycegas-orange"></i>Customer
+                                </label>
+                                <select id="sales_customer" name="customer"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-transparent transition-all duration-200">
+                                    <option value="">All Customers</option>
+                                    {% for customer in customers %}
+                                        <option value="{{ customer.id }}">{{ customer.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light hover:from-prycegas-orange-dark hover:to-prycegas-orange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-all duration-200 hover:scale-105">
+                                <i class="fas fa-chart-line mr-2"></i>
+                                Generate Sales Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                </div>
+
+            <!-- Stock Report Card -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300">
+                <div class="px-6 py-6 bg-gradient-to-r from-blue-500 to-blue-600">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-boxes text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Stock Reports</h3>
+                            <p class="text-blue-100 text-sm mt-1">Monitor inventory levels and stock movements</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <form method="get" action="{% url 'core:stock_report' %}" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="stock_date_from" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-calendar-alt mr-2 text-blue-500"></i>From Date
+                                </label>
+                                <input type="date" id="stock_date_from" name="date_from"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <div>
+                                <label for="stock_date_to" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-calendar-alt mr-2 text-blue-500"></i>To Date
+                                </label>
+                                <input type="date" id="stock_date_to" name="date_to"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="stock_product" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="inline-block w-4 h-4 mr-2 object-contain">Product
+                                </label>
+                                <select id="stock_product" name="product"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <option value="">All Products</option>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}">{{ product.name }} - {{ product.size }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="stock_report_type" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-chart-bar mr-2 text-blue-500"></i>Report Type
+                                </label>
+                                <select id="stock_report_type" name="report_type"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <option value="current">Current Stock Levels</option>
+                                    <option value="movements">Stock Movements</option>
+                                    <option value="low_stock">Low Stock Alert</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:scale-105">
+                                <i class="fas fa-boxes mr-2"></i>
+                                Generate Stock Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+
+        <!-- Recent Activity Summary -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100">
+            <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-chart-pie text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Quick Summary</h3>
+                </div>
+            </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-orange-600">{{ quick_stats.current_month_orders }}</div>
+                            <div class="text-sm text-gray-600">Orders This Month</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                {% if quick_stats.last_month_orders > 0 %}
+                                    {% widthratio quick_stats.current_month_orders quick_stats.last_month_orders 100 %}% vs last month
+                                {% else %}
+                                    First month data
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">₱{{ quick_stats.current_month_revenue|floatformat:0|intcomma }}</div>
+                            <div class="text-sm text-gray-600">Revenue This Month</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                {% if quick_stats.last_month_revenue > 0 %}
+                                    {% widthratio quick_stats.current_month_revenue quick_stats.last_month_revenue 100 %}% vs last month
+                                {% else %}
+                                    First month data
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">₱{{ quick_stats.recent_deliveries_value|floatformat:0|intcomma }}</div>
+                            <div class="text-sm text-gray-600">Deliveries (30 days)</div>
+                            <div class="text-xs text-gray-500 mt-1">Stock replenishment value</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set default dates to last 30 days
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+    
+    const formatDate = (date) => {
+        return date.toISOString().split('T')[0];
+    };
+    
+    // Set default dates for sales report
+    const salesFromDate = document.getElementById('sales_date_from');
+    const salesToDate = document.getElementById('sales_date_to');
+    if (salesFromDate && !salesFromDate.value) salesFromDate.value = formatDate(thirtyDaysAgo);
+    if (salesToDate && !salesToDate.value) salesToDate.value = formatDate(today);
+    
+    // Set default dates for stock report
+    const stockFromDate = document.getElementById('stock_date_from');
+    const stockToDate = document.getElementById('stock_date_to');
+    if (stockFromDate && !stockFromDate.value) stockFromDate.value = formatDate(thirtyDaysAgo);
+    if (stockToDate && !stockToDate.value) stockToDate.value = formatDate(today);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+2025-12-17 22:01:13,570 - __main__ - INFO - === STARTING DELIVERY LOGGING DIAGNOSTIC ===
+2025-12-17 22:01:13,571 - __main__ - INFO - Test 1: Direct StockMovement Creation
+2025-12-17 22:01:13,585 - __main__ - INFO - Found admin user: admin
+2025-12-17 22:01:13,587 - __main__ - INFO - Found product: LPG PRYCEGAS - 11kg
+2025-12-17 22:01:13,611 - __main__ - INFO - Direct StockMovement creation successful: ID c6e599d1-368a-4b61-831e-47c29a05d606
+2025-12-17 22:01:13,632 - __main__ - INFO - Cleaned up diagnostic StockMovement
+2025-12-17 22:01:13,632 - __main__ - INFO - Test 2: DeliveryLog Creation with StockMovement
+2025-12-17 22:01:13,633 - __main__ - INFO - Initial stock: 820
+2025-12-17 22:01:13,633 - __main__ - INFO - Creating delivery log...
+2025-12-17 22:01:13,818 - __main__ - INFO - Delivery log created successfully: ID 18
+2025-12-17 22:01:13,852 - __main__ - INFO - Checking for associated StockMovement...
+2025-12-17 22:01:13,855 - __main__ - INFO - StockMovement created successfully: ID 50cfb164-a4a0-476b-bd39-b7254db4f5cb
+2025-12-17 22:01:13,855 - __main__ - INFO - StockMovement details - Type: delivery, Quantity: 15, Previous: 820, New: 835
+2025-12-17 22:01:13,856 - __main__ - INFO - Cleaning up test data...
+2025-12-17 22:01:13,877 - __main__ - INFO - Delivery log deleted
+2025-12-17 22:01:13,899 - __main__ - INFO - Stock restored to: 820
+2025-12-17 22:01:13,900 - __main__ - WARNING - Orphaned StockMovement found - cleaning up
+2025-12-17 22:01:13,921 - __main__ - INFO - Test 3: Simulating View-Level Delivery Creation
+2025-12-17 22:01:13,921 - __main__ - INFO - Creating delivery log via form simulation...
+2025-12-17 22:01:13,922 - __main__ - INFO - Auto-calculated total cost: 2800.00
+2025-12-17 22:01:13,986 - __main__ - INFO - Delivery log created via simulation: ID 19
+2025-12-17 22:01:14,051 - __main__ - INFO - Simulation test completed
+2025-12-17 22:01:14,051 - __main__ - INFO - === DELIVERY LOGGING DIAGNOSTIC COMPLETED ===

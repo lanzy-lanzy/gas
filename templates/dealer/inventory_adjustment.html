@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory Adjustment - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="px-6 lg:px-8">
+            <div class="flex justify-between items-center py-8">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-adjust text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900">Inventory Adjustment</h1>
+                    </div>
+                    <p class="text-gray-600 ml-13">Adjust stock levels for damage, loss, or corrections</p>
+                </div>
+                <a href="{% url 'core:inventory_management' %}" 
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Inventory
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="px-6 lg:px-8 py-8">
+        <div class="max-w-2xl mx-auto">
+            <form method="POST" class="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
+                {% csrf_token %}
+                
+                <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+                    <h2 class="text-xl font-bold text-gray-900">Adjustment Details</h2>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <!-- Product Selection -->
+                    <div>
+                        <label for="{{ form.product.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Product *
+                        </label>
+                        {{ form.product }}
+                        {% if form.product.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.product.errors.0 }}</p>
+                        {% endif %}
+                        <!-- Current stock display -->
+                        <div id="current-stock-info" class="mt-3 text-sm text-gray-700 hidden">
+                            <div class="flex items-center space-x-6">
+                                <p>Current Stock: <span id="current-stock-value" class="font-semibold">—</span> units</p>
+                                <p>Projected: <span id="projected-stock-value" class="font-semibold">—</span> units</p>
+                            </div>
+                            <p id="stock-warning" class="mt-2 text-sm text-red-600 hidden">This adjustment would result in negative stock and cannot be applied.</p>
+                            <p id="minimum-stock-note" class="text-xs text-gray-500 hidden">Minimum stock: <span id="minimum-stock-value"></span> units</p>
+                        </div>
+                    </div>
+
+                    <!-- Adjustment Type Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Adjustment Type *
+                        </label>
+                        <div class="space-y-3">
+                            {% for choice_value, choice_label in form.adjustment_type.field.choices %}
+                                <label class="flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-prycegas-orange hover:bg-orange-50 transition-colors" id="label-{{ choice_value }}">
+                                    <input type="radio" name="adjustment_type" value="{{ choice_value }}" {% if choice_value == 'increase' %}checked{% endif %} class="h-4 w-4 text-prycegas-orange cursor-pointer">
+                                    <span class="ml-3 font-medium text-gray-700">{{ choice_label }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {% if form.adjustment_type.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.adjustment_type.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Quantity -->
+                    <div>
+                        <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Quantity *
+                        </label>
+                        <div class="flex items-center space-x-2">
+                            {{ form.quantity }}
+                            <span class="text-sm text-gray-600 font-medium">units</span>
+                        </div>
+                        {% if form.quantity.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.quantity.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-xs text-gray-500">
+                            Enter the number of units to adjust
+                        </p>
+                    </div>
+
+                    <!-- Reason -->
+                    <div>
+                        <label for="{{ form.reason.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Reason *
+                        </label>
+                        {{ form.reason }}
+                        {% if form.reason.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.reason.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <label for="{{ form.notes.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            Notes
+                        </label>
+                        {{ form.notes }}
+                        {% if form.notes.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.notes.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-xs text-gray-500">
+                            Additional details about the adjustment
+                        </p>
+                    </div>
+
+                    <!-- Warning Box -->
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-yellow-800">Important</h3>
+                                <div class="mt-2 text-sm text-yellow-700">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>This adjustment will immediately update the product's stock level</li>
+                                        <li>A stock movement record will be created for tracking</li>
+                                        <li>Negative adjustments cannot result in negative stock</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-circle text-red-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-red-800">Please correct the following errors:</h3>
+                                    <div class="mt-2 text-sm text-red-700">
+                                        {{ form.non_field_errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Form Actions -->
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end space-x-3">
+                    <a href="{% url 'core:inventory_management' %}" 
+                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200">
+                        Cancel
+                    </a>
+                    <button type="submit" id="apply-adjustment-btn"
+                            class="bg-prycegas-orange hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200">
+                        <i class="fas fa-save mr-2"></i>
+                        Apply Adjustment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+// Fetch and display current stock when product selection changes
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const productSelect = document.querySelector('select[name="product"]');
+        const stockInfo = document.getElementById('current-stock-info');
+        const stockValue = document.getElementById('current-stock-value');
+        const minNote = document.getElementById('minimum-stock-note');
+        const minValue = document.getElementById('minimum-stock-value');
+        const projectedEl = document.getElementById('projected-stock-value');
+        const warningEl = document.getElementById('stock-warning');
+        const applyBtn = document.getElementById('apply-adjustment-btn');
+
+        async function fetchProductInfo(productId) {
+            if (!productId) {
+                stockInfo.classList.add('hidden');
+                return;
+            }
+            try {
+                const resp = await fetch(`/dealer/inventory/product-info/${productId}/`);
+                if (!resp.ok) throw new Error('Product not found');
+                const data = await resp.json();
+                if (data.success && data.product) {
+                    stockValue.textContent = data.product.current_stock;
+                    if (data.product.minimum_stock !== null && data.product.minimum_stock !== undefined) {
+                        minValue.textContent = data.product.minimum_stock;
+                        minNote.classList.remove('hidden');
+                    } else {
+                        minNote.classList.add('hidden');
+                    }
+                    stockInfo.classList.remove('hidden');
+                } else {
+                    stockInfo.classList.add('hidden');
+                }
+            } catch (e) {
+                console.error('Failed to fetch product info:', e);
+                stockInfo.classList.add('hidden');
+            }
+        }
+
+        if (productSelect) {
+            // fetch initially if a product is already selected
+            if (productSelect.value) fetchProductInfo(productSelect.value);
+
+            productSelect.addEventListener('change', function(e) {
+                fetchProductInfo(e.target.value);
+            });
+        }
+
+        // Wire adjustment type and quantity input to compute projected stock
+        const qtyInput = document.querySelector('input[name="quantity"]');
+        const adjTypeRadios = document.querySelectorAll('input[name="adjustment_type"]');
+        const reasonSelect = document.querySelector('select[name="reason"]');
+
+        function getAdjustmentType() {
+            for (let radio of adjTypeRadios) {
+                if (radio.checked) {
+                    return radio.value;
+                }
+            }
+            return 'increase';
+        }
+
+        function computeProjected() {
+            try {
+                const current = parseFloat(stockValue.textContent) || 0;
+                const q = qtyInput ? parseFloat(qtyInput.value) : NaN;
+                const adjType = getAdjustmentType();
+                
+                // Calculate projected stock based on adjustment type
+                let projected;
+                if (isNaN(q)) {
+                    projected = current;
+                } else {
+                    if (adjType === 'increase') {
+                        projected = current + q;
+                    } else {
+                        projected = current - q;
+                    }
+                }
+                
+                if (projectedEl) projectedEl.textContent = Math.floor(projected);
+
+                // Validate required inputs
+                const qRaw = qtyInput ? qtyInput.value : '';
+                const reasonVal = reasonSelect ? reasonSelect.value : '';
+
+                let disable = false;
+                // If quantity not provided or zero/empty, disable
+                if (!qRaw || isNaN(q) || q === 0 || q < 0) disable = true;
+                // If projected would be negative, disable
+                if (!isNaN(projected) && projected < 0) disable = true;
+                // If reason not selected, disable
+                if (!reasonVal) disable = true;
+
+                if (projected < 0) {
+                    if (warningEl) warningEl.classList.remove('hidden');
+                } else {
+                    if (warningEl) warningEl.classList.add('hidden');
+                }
+
+                if (applyBtn) {
+                    applyBtn.disabled = disable;
+                    if (disable) {
+                        applyBtn.classList.add('opacity-50','cursor-not-allowed');
+                    } else {
+                        applyBtn.classList.remove('opacity-50','cursor-not-allowed');
+                    }
+                }
+            } catch (e) {
+                console.error('Error computing projected stock:', e);
+            }
+        }
+
+        if (qtyInput) qtyInput.addEventListener('input', computeProjected);
+        adjTypeRadios.forEach(radio => radio.addEventListener('change', computeProjected));
+        if (reasonSelect) reasonSelect.addEventListener('change', computeProjected);
+
+        // Recompute after fetching product data
+        const originalFetch = fetchProductInfo;
+        fetchProductInfo = async function(productId) {
+            await originalFetch(productId);
+            computeProjected();
+        };
+    } catch (e) {
+        console.error('Inventory adjustment stock script error:', e);
+    }
+});
+</script>

@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Enhanced Header with Gradient -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light rounded-2xl shadow-xl">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="relative px-6 py-8 sm:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="mb-6 lg:mb-0">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4 backdrop-blur-sm">
+                            <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl lg:text-4xl font-bold text-white">Order History</h1>
+                            <p class="mt-2 text-lg text-white text-opacity-90">Track all your orders</p>
+                        </div>
+                    </div>
+                    <p class="text-white text-opacity-80 max-w-2xl">View and track all your LPG orders, delivery status, and order details in one place.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <a href="{% url 'core:place_order' %}"
+                       class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-base font-semibold rounded-xl text-white bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm transition-all duration-300 hover:scale-105 shadow-lg">
+                        <svg class="-ml-1 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        New Order
+                    </a>
+                    <button onclick="exportOrderHistoryPDF()"
+                       class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-base font-semibold rounded-xl text-white bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm transition-all duration-300 hover:scale-105 shadow-lg">
+                        <svg class="-ml-1 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <a href="{% url 'core:customer_dashboard' %}"
+                       class="inline-flex items-center justify-center px-6 py-3 border-2 border-white border-opacity-50 text-base font-semibold rounded-xl text-white hover:bg-white hover:bg-opacity-10 transition-all duration-300">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white bg-opacity-10 rounded-full"></div>
+        <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-white bg-opacity-5 rounded-full"></div>
+    </div>
+
+    <!-- Enhanced Filter and Sort Options -->
+    <div class="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                    <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900">Filter & Sort Orders</h2>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end">
+                <!-- Status Filter -->
+                <div class="space-y-2">
+                    <label for="status-filter" class="block text-sm font-semibold text-gray-700">Filter by Status</label>
+                    <div class="relative">
+                        <select id="status-filter"
+                                hx-get="{% url 'core:refresh_order_status' %}"
+                                hx-target="#orders-container"
+                                hx-include="[name='sort']"
+                                name="status"
+                                class="block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-prycegas-orange text-sm font-medium">
+                            <option value="">All Orders</option>
+                            {% for status_value, status_label in status_choices %}
+                                <option value="{{ status_value }}" {% if current_status == status_value %}selected{% endif %}>
+                                    {{ status_label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sort Options -->
+                <div class="space-y-2">
+                    <label for="sort-select" class="block text-sm font-semibold text-gray-700">Sort Orders</label>
+                    <div class="relative">
+                        <select id="sort-select"
+                                hx-get="{% url 'core:refresh_order_status' %}"
+                                hx-target="#orders-container"
+                                hx-include="[name='status']"
+                                name="sort"
+                                class="block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-prycegas-orange focus:border-prycegas-orange text-sm font-medium">
+                            <option value="-order_date" {% if current_sort == '-order_date' %}selected{% endif %}>Newest First</option>
+                            <option value="order_date" {% if current_sort == 'order_date' %}selected{% endif %}>Oldest First</option>
+                            <option value="-total_amount" {% if current_sort == '-total_amount' %}selected{% endif %}>Highest Amount</option>
+                            <option value="total_amount" {% if current_sort == 'total_amount' %}selected{% endif %}>Lowest Amount</option>
+                            <option value="status" {% if current_sort == 'status' %}selected{% endif %}>Status</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Refresh Button -->
+                <div>
+                    <button onclick="refreshOrders()"
+                            class="w-full inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-prycegas-orange transition-all duration-200">
+                        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Refresh Orders
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Orders List -->
+    <div class="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                    <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900">Your Orders</h2>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <div id="orders-container"
+                 hx-get="{% url 'core:refresh_order_status' %}"
+                 hx-trigger="every 30s"
+                 hx-include="[name='status'], [name='sort']">
+                {% include 'customer/order_list_partial.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function refreshOrders() {
+    htmx.trigger('#orders-container', 'htmx:refresh');
+}
+
+function sortOrders(sortBy) {
+    const sortSelect = document.getElementById('sort-select');
+    const currentSort = sortSelect.value;
+    
+    // Toggle sort direction if clicking the same column
+    if (currentSort === sortBy) {
+        sortSelect.value = '-' + sortBy;
+    } else if (currentSort === '-' + sortBy) {
+        sortSelect.value = sortBy;
+    } else {
+        sortSelect.value = '-' + sortBy;
+    }
+    
+    // Trigger HTMX update
+    htmx.trigger(sortSelect, 'change');
+}
+
+function exportOrderHistoryPDF() {
+    // Get current filter and sort values
+    const statusFilter = document.getElementById('status-filter').value;
+    const sortBy = document.getElementById('sort-select').value;
+    
+    // Build URL with query parameters
+    let exportUrl = '{% url "core:export_order_history_pdf" %}';
+    const params = new URLSearchParams();
+    
+    if (statusFilter) {
+        params.append('status', statusFilter);
+    }
+    if (sortBy) {
+        params.append('sort', sortBy);
+    }
+    
+    if (params.toString()) {
+        exportUrl += '?' + params.toString();
+    }
+    
+    // Trigger PDF download
+    window.location.href = exportUrl;
+}
+
+// Auto-refresh orders every 30 seconds for real-time updates
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading indicator for HTMX requests
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        if (evt.target.id === 'orders-container') {
+            evt.target.style.opacity = '0.7';
+        }
+    });
+    
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.target.id === 'orders-container') {
+            evt.target.style.opacity = '1';
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Prycegas Station</title>
+    
+    <!-- TailwindCSS CDN with custom configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'prycegas-black': '#1a1a1a',
+                        'prycegas-orange': '#ff6b35',
+                        'prycegas-orange-light': '#ff8c5a',
+                        'prycegas-orange-dark': '#e55a2b',
+                        'prycegas-gray': '#2d2d2d',
+                        'prycegas-gray-light': '#404040',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(50px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom styles -->
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #ff6b35 100%);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-focus:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-shapes::before,
+        .floating-shapes::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 107, 53, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-shapes::before {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            right: -150px;
+            animation-delay: 0s;
+        }
+        
+        .floating-shapes::after {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -3s;
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background-color: #ff6b35;
+            color: white;
+        }
+        
+        .step-indicator.completed {
+            background-color: #10b981;
+            color: white;
+        }
+    </style>
+</head>
+<body class="h-full gradient-bg" x-data="registerPage()">
+    <div class="floating-shapes"></div>
+    
+    <div class="min-h-screen flex">
+        <!-- Left side - Branding -->
+        <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center p-12">
+            <div class="max-w-md text-center text-white animate-fade-in">
+                <div class="w-20 h-20 bg-prycegas-orange rounded-2xl flex items-center justify-center mx-auto mb-8 animate-float">
+                    <i class="fas fa-user-plus text-3xl text-white"></i>
+                </div>
+                <h1 class="text-4xl font-bold mb-4">Join Prycegas Station</h1>
+                <p class="text-xl text-gray-300 mb-8">
+                    Create your account to access our comprehensive gas station management platform and start optimizing your operations today.
+                </p>
+                
+                <!-- Benefits list -->
+                <div class="space-y-4 text-left">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line text-prycegas-orange mr-3"></i>
+                        <span>Advanced analytics dashboard</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-mobile-alt text-prycegas-orange mr-3"></i>
+                        <span>Mobile-responsive interface</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-prycegas-orange mr-3"></i>
+                        <span>Secure data protection</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-headset text-prycegas-orange mr-3"></i>
+                        <span>24/7 customer support</span>
+                    </div>
+                </div>
+                
+                <!-- Trust indicators -->
+                <div class="mt-8 pt-8 border-t border-white border-opacity-20">
+                    <div class="flex justify-center items-center space-x-8 text-sm text-gray-400">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-white">500+</div>
+                            <div>Active Stations</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-white">99.9%</div>
+                            <div>Uptime</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-white">24/7</div>
+                            <div>Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right side - Registration form -->
+        <div class="flex-1 flex items-center justify-center p-8 lg:p-12 relative z-10">
+            <div class="w-full max-w-md">
+                <!-- Back to home link -->
+                <div class="mb-8">
+                    <a href="/" class="inline-flex items-center text-white hover:text-prycegas-orange-light transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Home
+                    </a>
+                </div>
+                
+                <!-- Registration form card -->
+                <div class="glass rounded-3xl p-8 animate-slide-up">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-plus text-2xl text-white"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Create Account</h2>
+                        <p class="text-gray-300">Join the Prycegas Station community</p>
+                    </div>
+
+                    <!-- Progress indicator -->
+                    <div class="flex justify-center mb-8">
+                        <div class="flex items-center space-x-1">
+                            <div class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">
+                                1
+                            </div>
+                            <div class="w-6 h-1 bg-white bg-opacity-20 rounded"></div>
+                            <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-white bg-opacity-20 text-gray-400">
+                                2
+                            </div>
+                            <div class="w-6 h-1 bg-white bg-opacity-20 rounded"></div>
+                            <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-white bg-opacity-20 text-gray-400">
+                                3
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Display messages -->
+                    {% if messages %}
+                        <div class="space-y-2 mb-6">
+                            {% for message in messages %}
+                                <div class="rounded-xl p-4 {% if message.tags == 'error' %}bg-red-500 bg-opacity-20 border border-red-500 border-opacity-30{% elif message.tags == 'success' %}bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30{% else %}bg-blue-500 bg-opacity-20 border border-blue-500 border-opacity-30{% endif %}">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            {% if message.tags == 'error' %}
+                                                <i class="fas fa-exclamation-circle text-red-400"></i>
+                                            {% elif message.tags == 'success' %}
+                                                <i class="fas fa-check-circle text-green-400"></i>
+                                            {% else %}
+                                                <i class="fas fa-info-circle text-blue-400"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-white">{{ message }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" @submit="handleSubmit" enctype="multipart/form-data" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Step 1: Basic Information -->
+                        <div x-show="currentStep === 1" x-transition>
+                            <!-- Username field -->
+                            <div>
+                                <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-user mr-2"></i>Username *
+                                </label>
+                                <input type="text" 
+                                       name="{{ form.username.name }}" 
+                                       id="{{ form.username.id_for_label }}"
+                                       class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                       placeholder="Choose a username"
+                                       required>
+                                <div class="mt-1 text-xs text-gray-400">3-30 characters, letters, numbers, and underscores only</div>
+                                {% if form.username.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.username.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Email field -->
+                            <div>
+                                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-envelope mr-2"></i>Email Address *
+                                </label>
+                                <input type="email" 
+                                       name="{{ form.email.name }}" 
+                                       id="{{ form.email.id_for_label }}"
+                                       class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                       placeholder="Enter your email"
+                                       required>
+                                {% if form.email.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.email.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Phone field -->
+                            <div>
+                                <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-phone mr-2"></i>Phone Number *
+                                </label>
+                                <input type="tel" 
+                                       name="{{ form.phone_number.name }}" 
+                                       id="{{ form.phone_number.id_for_label }}"
+                                       class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                       placeholder="09123456789"
+                                       required>
+                                <div class="mt-1 text-xs text-gray-400">Format: 09123456789 or +639123456789</div>
+                                {% if form.phone_number.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.phone_number.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Next button -->
+                            <button type="button" 
+                                    @click="nextStep()"
+                                    class="w-full bg-prycegas-orange hover:bg-prycegas-orange-dark text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                                <span>Continue</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+
+                        <!-- Step 2: Address and Password -->
+                        <div x-show="currentStep === 2" x-transition>
+                            <!-- Address field -->
+                            <div>
+                                <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>Delivery Address *
+                                </label>
+                                <textarea name="{{ form.address.name }}" 
+                                          id="{{ form.address.id_for_label }}"
+                                          rows="3"
+                                          class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300 resize-none"
+                                          placeholder="Enter your complete address"
+                                          required></textarea>
+                                <div class="mt-1 text-xs text-gray-400">Include landmarks and complete address details</div>
+                                {% if form.address.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.address.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Delivery instructions -->
+                            <div>
+                                <label for="{{ form.delivery_instructions.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-clipboard-list mr-2"></i>Delivery Instructions
+                                </label>
+                                <textarea name="{{ form.delivery_instructions.name }}" 
+                                          id="{{ form.delivery_instructions.id_for_label }}"
+                                          rows="2"
+                                          class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300 resize-none"
+                                          placeholder="Any special delivery instructions (optional)"></textarea>
+                            </div>
+
+                            <!-- Password fields -->
+                            <div>
+                                <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-lock mr-2"></i>Password *
+                                </label>
+                                <div class="relative">
+                                    <input :type="showPassword ? 'text' : 'password'" 
+                                           name="{{ form.password1.name }}" 
+                                           id="{{ form.password1.id_for_label }}"
+                                           class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300 pr-12"
+                                           placeholder="Create a password"
+                                           required>
+                                    <button type="button" 
+                                            @click="showPassword = !showPassword"
+                                            class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-300 hover:text-white transition-colors">
+                                        <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-1 text-xs text-gray-400">Minimum 8 characters with uppercase, lowercase, and number</div>
+                                {% if form.password1.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.password1.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-lock mr-2"></i>Confirm Password *
+                                </label>
+                                <input :type="showPassword ? 'text' : 'password'" 
+                                       name="{{ form.password2.name }}" 
+                                       id="{{ form.password2.id_for_label }}"
+                                       class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                       placeholder="Confirm your password"
+                                       required>
+                                {% if form.password2.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.password2.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Navigation buttons -->
+                            <div class="flex space-x-4">
+                                <button type="button" 
+                                        @click="prevStep()"
+                                        class="flex-1 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300">
+                                    <i class="fas fa-arrow-left mr-2"></i>
+                                    Back
+                                </button>
+                                <button type="button" 
+                                        @click="nextStep()"
+                                        class="flex-1 bg-prycegas-orange hover:bg-prycegas-orange-dark text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                                    <span>Continue</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: ID Verification -->
+                        <div x-show="currentStep === 3" x-transition>
+                            <div class="mb-6">
+                                <p class="text-sm text-gray-300 mb-4">
+                                    <i class="fas fa-shield-alt text-prycegas-orange mr-2"></i>
+                                    Please provide a valid ID document for verification. This helps us ensure secure transactions.
+                                </p>
+                            </div>
+
+                            <!-- ID Type field -->
+                            <div>
+                                <label for="{{ form.id_type.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-passport mr-2"></i>ID Type *
+                                </label>
+                                <select name="{{ form.id_type.name }}" 
+                                        id="{{ form.id_type.id_for_label }}"
+                                        class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                        required>
+                                    <option value="">-- Select ID Type --</option>
+                                    <option value="national_id">National ID</option>
+                                    <option value="drivers_license">Driver's License</option>
+                                    <option value="passport">Passport</option>
+                                    <option value="barangay_id">Barangay ID</option>
+                                    <option value="sss_id">SSS ID</option>
+                                    <option value="tin_id">TIN ID</option>
+                                    <option value="company_id">Company ID</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                {% if form.id_type.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.id_type.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- ID Number field -->
+                            <div class="mt-4">
+                                <label for="{{ form.id_number.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-barcode mr-2"></i>ID Number *
+                                </label>
+                                <input type="text" 
+                                       name="{{ form.id_number.name }}" 
+                                       id="{{ form.id_number.id_for_label }}"
+                                       class="w-full px-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl text-white placeholder-gray-300 input-focus transition-all duration-300"
+                                       placeholder="Enter your ID number"
+                                       required>
+                                {% if form.id_number.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.id_number.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- ID Document Upload -->
+                            <div class="mt-6">
+                                <label for="{{ form.id_document.id_for_label }}" class="block text-sm font-medium text-white mb-2">
+                                    <i class="fas fa-image mr-2"></i>ID Document *
+                                </label>
+                                <div class="relative border-2 border-dashed border-white border-opacity-30 rounded-xl p-6 text-center hover:border-opacity-50 transition-all duration-300 cursor-pointer" 
+                                     @drop="handleFileDrop"
+                                     @dragover.prevent="isDragOver = true"
+                                     @dragleave.prevent="isDragOver = false"
+                                     :class="isDragOver && 'border-prycegas-orange bg-prycegas-orange bg-opacity-5'">
+                                    <input type="file" 
+                                           name="{{ form.id_document.name }}" 
+                                           id="{{ form.id_document.id_for_label }}"
+                                           accept="image/*,.pdf"
+                                           class="hidden"
+                                           @change="handleFileSelect"
+                                           required>
+                                    <div @click="document.getElementById('{{ form.id_document.id_for_label }}').click()" class="cursor-pointer">
+                                        <i class="fas fa-cloud-upload-alt text-4xl text-prycegas-orange mb-3"></i>
+                                        <p class="text-white font-semibold mb-1">Click to upload or drag and drop</p>
+                                        <p class="text-gray-400 text-sm">JPG, PNG, GIF or PDF (Max 5MB)</p>
+                                        <p x-show="selectedFileName" class="text-green-400 text-sm mt-2">
+                                            <i class="fas fa-check-circle mr-1"></i><span x-text="selectedFileName"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-1 text-xs text-gray-400">
+                                    Make sure the ID is clear, readable, and visible on both sides if applicable
+                                </div>
+                                {% if form.id_document.errors %}
+                                    <div class="mt-2 text-sm text-red-400">
+                                        {% for error in form.id_document.errors %}
+                                            <p><i class="fas fa-exclamation-triangle mr-1"></i>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Navigation buttons -->
+                            <div class="flex space-x-4 mt-8">
+                                <button type="button" 
+                                        @click="prevStep()"
+                                        class="flex-1 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300">
+                                    <i class="fas fa-arrow-left mr-2"></i>
+                                    Back
+                                </button>
+                                <button type="submit" 
+                                        :disabled="isSubmitting"
+                                        :class="isSubmitting ? 'bg-gray-500 cursor-not-allowed' : 'bg-prycegas-orange hover:bg-prycegas-orange-dark'"
+                                        class="flex-1 flex justify-center items-center py-3 px-4 border border-transparent rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                                    <i x-show="!isSubmitting" class="fas fa-check-circle mr-2"></i>
+                                    <svg x-show="isSubmitting" class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span x-text="isSubmitting ? 'Submitting for Review...' : 'Submit Registration'"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Login link -->
+                        <div x-show="currentStep === 1" class="text-center mt-8">
+                            <p class="text-gray-300">
+                                Already have an account?
+                                <a href="/login/" class="font-medium text-prycegas-orange hover:text-prycegas-orange-light transition-colors">
+                                    Sign in here
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function registerPage() {
+            return {
+                currentStep: 1,
+                showPassword: false,
+                isSubmitting: false,
+                isDragOver: false,
+                selectedFileName: '',
+                
+                nextStep() {
+                    if (this.currentStep === 1) {
+                        // Validate step 1: Basic Information
+                        const username = document.getElementById('{{ form.username.id_for_label }}').value.trim();
+                        const email = document.getElementById('{{ form.email.id_for_label }}').value.trim();
+                        const phone = document.getElementById('{{ form.phone_number.id_for_label }}').value.trim();
+                        
+                        if (!username || !email || !phone) {
+                            alert('Please fill in all required fields before continuing.');
+                            return;
+                        }
+                        
+                        this.currentStep = 2;
+                    } else if (this.currentStep === 2) {
+                        // Validate step 2: Address and Password
+                        const address = document.getElementById('{{ form.address.id_for_label }}').value.trim();
+                        const password1 = document.getElementById('{{ form.password1.id_for_label }}').value;
+                        const password2 = document.getElementById('{{ form.password2.id_for_label }}').value;
+                        
+                        if (!address || !password1 || !password2) {
+                            alert('Please fill in all required fields.');
+                            return;
+                        }
+                        
+                        if (password1 !== password2) {
+                            alert('Passwords do not match.');
+                            return;
+                        }
+                        
+                        this.currentStep = 3;
+                    }
+                    this.updateStepIndicator();
+                },
+                
+                prevStep() {
+                    if (this.currentStep > 1) {
+                        this.currentStep -= 1;
+                    }
+                    this.updateStepIndicator();
+                },
+                
+                updateStepIndicator() {
+                    const indicators = document.querySelectorAll('.step-indicator');
+                    indicators.forEach((indicator, index) => {
+                        indicator.classList.remove('active', 'completed');
+                        if (index + 1 < this.currentStep) {
+                            indicator.classList.add('completed');
+                        } else if (index + 1 === this.currentStep) {
+                            indicator.classList.add('active');
+                        }
+                    });
+                },
+                
+                handleFileSelect(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.selectedFileName = file.name;
+                    }
+                },
+                
+                handleFileDrop(event) {
+                    event.preventDefault();
+                    this.isDragOver = false;
+                    const files = event.dataTransfer.files;
+                    if (files.length > 0) {
+                        const fileInput = document.getElementById('{{ form.id_document.id_for_label }}');
+                        // Use DataTransfer to properly assign files
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(files[0]);
+                        fileInput.files = dataTransfer.files;
+                        this.selectedFileName = files[0].name;
+                    }
+                },
+                
+                handleSubmit(event) {
+                    // Handle different steps
+                    if (this.currentStep < 3) {
+                        event.preventDefault();
+                        this.nextStep();
+                        return;
+                    }
+                    
+                    // Validate step 3: ID Verification
+                    const idType = document.getElementById('{{ form.id_type.id_for_label }}').value;
+                    const idNumber = document.getElementById('{{ form.id_number.id_for_label }}').value.trim();
+                    const idDocument = document.getElementById('{{ form.id_document.id_for_label }}').files;
+                    
+                    if (!idType) {
+                        event.preventDefault();
+                        alert('Please select an ID type.');
+                        return;
+                    }
+                    
+                    if (!idNumber) {
+                        event.preventDefault();
+                        alert('Please enter your ID number.');
+                        return;
+                    }
+                    
+                    if (!idDocument || idDocument.length === 0) {
+                        event.preventDefault();
+                        alert('Please upload your ID document.');
+                        return;
+                    }
+                    
+                    // All validation passed, allow form submission
+                    this.isSubmitting = true;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

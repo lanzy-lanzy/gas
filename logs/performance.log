@@ -1,0 +1,760 @@
+WARNING 2025-08-02 13:51:06,231 middleware 7896 16440 Slow request: POST /login/ took 1.51s with 0 queries
+WARNING 2025-08-02 14:31:17,329 middleware 16328 11880 Slow request: POST /login/ took 2.17s with 7 queries
+WARNING 2025-08-02 14:38:06,788 middleware 16328 19292 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:38:34,620 middleware 16328 19292 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:39:30,078 middleware 16328 19292 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:39:59,987 middleware 16328 19292 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:40:30,453 middleware 16328 19292 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.02s
+WARNING 2025-08-02 14:42:31,424 middleware 16328 10764 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.04s
+WARNING 2025-08-02 14:42:56,149 middleware 16328 12652 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:46:42,873 middleware 16328 12652 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:47:57,192 middleware 16328 12652 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.02s
+WARNING 2025-08-02 14:54:17,229 middleware 16328 10036 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:54:37,339 middleware 16328 10036 High query count: GET /dealer/refresh-stats/ executed 11 queries in 0.01s
+WARNING 2025-08-02 14:54:55,192 middleware 8264 8300 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 14:55:07,370 middleware 4860 3396 High query count: GET /dealer/refresh-stats/ executed 12 queries in 0.03s
+WARNING 2025-08-02 15:05:26,123 middleware 18396 17744 Slow request: POST /login/ took 2.36s with 7 queries
+WARNING 2025-08-02 15:36:35,226 middleware 18396 2284 Slow request: POST /login/ took 2.20s with 7 queries
+WARNING 2025-08-02 16:13:01,332 middleware 18396 17616 High query count: GET /dealer/refresh-stats/ executed 11 queries in 0.01s
+WARNING 2025-08-02 16:13:03,901 middleware 18396 17616 High query count: GET /dealer/refresh-stats/ executed 11 queries in 0.01s
+WARNING 2025-08-02 16:13:11,575 middleware 18396 17584 High query count: GET /dealer/refresh-stats/ executed 11 queries in 0.01s
+WARNING 2025-08-02 16:14:41,577 middleware 7500 16744 Slow request: POST /login/ took 2.30s with 7 queries
+WARNING 2025-08-02 16:24:21,958 middleware 7500 12604 Slow request: POST /login/ took 1.10s with 1 queries
+WARNING 2025-08-02 16:24:30,927 middleware 7500 12604 Slow request: POST /login/ took 1.09s with 1 queries
+WARNING 2025-08-02 16:24:37,767 middleware 7500 12604 Slow request: POST /login/ took 1.09s with 1 queries
+WARNING 2025-08-02 16:24:44,124 middleware 7500 12604 Slow request: POST /login/ took 2.24s with 7 queries
+WARNING 2025-08-02 16:24:53,675 middleware 7500 12604 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.02s
+WARNING 2025-08-02 16:29:48,407 middleware 7500 12604 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:29:52,723 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:31:21,342 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:31:36,702 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.05s
+WARNING 2025-08-02 16:32:33,143 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.04s
+WARNING 2025-08-02 16:32:43,362 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:32:58,667 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:33:07,888 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:33:16,782 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.04s
+WARNING 2025-08-02 16:33:23,637 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.04s
+WARNING 2025-08-02 16:33:33,603 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:33:46,935 middleware 7500 16792 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.02s
+WARNING 2025-08-02 16:36:30,698 middleware 7500 18232 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-08-02 16:37:21,640 middleware 7500 18232 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.04s
+WARNING 2025-08-02 16:39:50,559 middleware 7500 18232 Slow request: POST /register/ took 2.28s with 11 queries
+WARNING 2025-08-02 16:39:50,559 middleware 7500 18232 High query count: POST /register/ executed 11 queries in 2.28s
+WARNING 2025-08-02 16:40:30,225 middleware 7500 18232 Slow request: POST /login/ took 2.21s with 7 queries
+WARNING 2025-08-02 16:51:04,691 middleware 17504 14980 Slow request: POST /login/ took 2.19s with 7 queries
+WARNING 2025-08-04 10:56:19,142 middleware 37228 23896 Slow request: POST /login/ took 1.61s with 1 queries
+WARNING 2025-08-04 10:56:29,176 middleware 37228 23896 Slow request: POST /login/ took 4.10s with 7 queries
+WARNING 2025-08-04 10:58:47,654 middleware 37228 34164 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.07s
+WARNING 2025-08-04 10:59:38,740 middleware 37228 34164 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.11s
+WARNING 2025-09-09 15:34:06,622 middleware 18344 23972 Slow request: POST /login/ took 1.53s with 8 queries
+WARNING 2025-09-09 20:20:17,321 middleware 7716 14332 Slow request: POST /login/ took 2.83s with 8 queries
+WARNING 2025-09-09 20:23:55,611 middleware 7716 13436 Slow request: POST /login/ took 2.18s with 7 queries
+WARNING 2025-09-09 21:07:25,817 middleware 17736 17900 High query count: GET /dealer/delivery-log/ executed 14 queries in 0.08s
+WARNING 2025-09-09 21:07:39,376 middleware 17736 17900 High query count: GET /dealer/delivery-log/ executed 14 queries in 0.04s
+WARNING 2025-09-09 21:24:26,641 middleware 7260 15128 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-09-09 21:24:26,690 middleware 7260 15128 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-09-09 21:26:43,216 middleware 9944 3496 High query count: GET /dealer/reports/stock/ executed 30 queries in 0.03s
+WARNING 2025-10-17 09:14:36,934 middleware 11276 4152 Slow request: POST /login/ took 1.09s with 1 queries
+WARNING 2025-10-17 09:14:45,057 middleware 11276 4152 Slow request: POST /login/ took 2.15s with 7 queries
+WARNING 2025-11-05 13:21:33,594 middleware 17600 7548 Slow request: POST /login/ took 1.06s with 1 queries
+WARNING 2025-11-05 13:21:40,115 middleware 17600 14796 Slow request: POST /login/ took 1.21s with 1 queries
+WARNING 2025-11-05 13:21:48,702 middleware 17600 22872 Slow request: POST /login/ took 1.22s with 1 queries
+WARNING 2025-11-05 13:28:19,228 middleware 19032 2592 Slow request: POST /login/ took 1.47s with 7 queries
+WARNING 2025-11-05 13:28:31,256 middleware 19032 17544 High query count: GET /dealer/reports/stock/ executed 26 queries in 0.25s
+WARNING 2025-11-05 13:30:57,523 middleware 19032 14568 High query count: GET /dealer/reports/stock/ executed 26 queries in 0.17s
+WARNING 2025-11-05 13:39:53,705 middleware 11516 8048 Slow request: GET /dealer/staff/create/ took 1.15s with 2 queries
+WARNING 2025-11-27 20:48:04,006 middleware 11400 4144 Slow request: POST /login/ took 1.08s with 1 queries
+WARNING 2025-11-27 20:48:14,070 middleware 11400 4144 Slow request: POST /login/ took 2.91s with 8 queries
+WARNING 2025-11-27 20:50:00,592 middleware 11400 8932 Slow request: POST /login/ took 2.89s with 8 queries
+WARNING 2025-11-27 21:38:47,881 middleware 17988 16872 Slow request: POST /dealer/cashiers/create/ took 1.14s with 7 queries
+WARNING 2025-11-27 21:39:23,689 middleware 17988 16872 Slow request: POST /login/ took 2.14s with 7 queries
+WARNING 2025-11-27 21:43:00,803 middleware 8696 18404 High query count: GET /dealer/dashboard/ executed 55 queries in 0.33s
+WARNING 2025-11-27 23:30:13,034 middleware 16544 15604 Slow request: POST /login/ took 2.20s with 7 queries
+WARNING 2025-11-27 23:32:07,247 middleware 16544 6664 Slow request: POST /login/ took 2.23s with 7 queries
+WARNING 2025-11-28 00:02:24,443 middleware 6224 19052 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-11-28 00:09:58,128 middleware 6224 5868 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.01s
+WARNING 2025-11-28 00:10:18,934 middleware 6224 5868 High query count: GET /dealer/reports/ executed 11 queries in 0.05s
+WARNING 2025-11-28 00:10:34,807 middleware 6224 5868 High query count: GET /dealer/cashiers/reports/ executed 18 queries in 0.19s
+WARNING 2025-11-28 00:11:06,949 middleware 6224 5868 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.02s
+WARNING 2025-11-28 00:11:15,589 middleware 6224 5868 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.02s
+WARNING 2025-11-28 00:11:16,921 middleware 6224 5868 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.02s
+WARNING 2025-11-28 00:11:17,891 middleware 6224 5868 High query count: GET /dealer/cashiers/reports/ executed 52 queries in 0.04s
+WARNING 2025-11-28 00:14:06,481 middleware 6224 16304 High query count: GET /cashier/orders/ executed 35 queries in 0.22s
+WARNING 2025-11-28 00:29:19,936 middleware 2220 18620 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.02s
+WARNING 2025-11-28 00:29:35,232 middleware 2220 18620 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.02s
+WARNING 2025-11-28 00:29:38,575 middleware 2220 18620 High query count: GET /cashier/reports/monthly/ executed 47 queries in 0.04s
+WARNING 2025-11-28 00:29:45,042 middleware 2220 18620 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.02s
+WARNING 2025-11-28 00:29:59,131 middleware 2220 18620 High query count: GET /cashier/reports/monthly/ executed 47 queries in 0.04s
+WARNING 2025-11-28 00:47:17,492 middleware 2220 1556 High query count: GET /dealer/reports/ executed 11 queries in 0.04s
+WARNING 2025-11-28 11:50:04,545 middleware 15452 24136 Slow request: POST /login/ took 1.98s with 1 queries
+WARNING 2025-11-28 11:50:16,355 middleware 15452 24136 Slow request: POST /login/ took 3.24s with 7 queries
+WARNING 2025-11-28 11:50:17,465 middleware 15452 24136 Slow request: GET /customer/dashboard/ took 1.04s with 4 queries
+WARNING 2025-11-28 11:50:24,909 middleware 15452 23348 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.26s
+WARNING 2025-11-28 11:50:26,548 middleware 15452 23348 High query count: GET /cashier/reports/monthly/ executed 47 queries in 0.16s
+WARNING 2025-11-28 11:50:59,852 middleware 15452 9364 Slow request: POST /login/ took 2.67s with 7 queries
+WARNING 2025-11-28 12:02:35,896 middleware 19632 5664 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.07s
+WARNING 2025-11-28 12:02:45,766 middleware 19632 5664 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.16s
+WARNING 2025-11-28 12:07:55,605 middleware 26024 23920 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.21s
+WARNING 2025-11-28 12:22:33,022 middleware 17984 16696 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.08s
+WARNING 2025-11-28 12:34:44,700 middleware 16516 27064 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.07s
+WARNING 2025-11-28 12:39:09,462 middleware 11548 15300 Slow request: POST /login/ took 2.74s with 7 queries
+WARNING 2025-11-28 14:16:38,783 middleware 26256 20892 Slow request: POST /register/ took 4.63s with 11 queries
+WARNING 2025-11-28 14:16:38,789 middleware 26256 20892 High query count: POST /register/ executed 11 queries in 4.63s
+WARNING 2025-11-28 14:19:27,824 middleware 26256 22560 Slow request: POST /dealer/cashiers/create/ took 1.20s with 7 queries
+WARNING 2025-11-28 14:20:58,592 middleware 26256 10256 Slow request: POST /login/ took 3.22s with 7 queries
+WARNING 2025-11-28 15:14:02,979 middleware 8508 11208 Slow request: POST /login/ took 1.47s with 1 queries
+WARNING 2025-11-28 15:14:46,971 middleware 8508 11208 Slow request: POST /login/ took 1.54s with 1 queries
+WARNING 2025-11-28 15:15:18,037 middleware 8508 11208 Slow request: POST /login/ took 1.63s with 1 queries
+WARNING 2025-11-28 15:16:00,726 middleware 8508 11208 Slow request: POST /login/ took 3.11s with 7 queries
+WARNING 2025-11-28 15:16:45,895 middleware 8508 2584 Slow request: POST /login/ took 1.53s with 1 queries
+WARNING 2025-11-28 15:17:17,927 middleware 8508 2584 Slow request: POST /login/ took 1.49s with 1 queries
+WARNING 2025-11-28 15:17:34,425 middleware 8508 2584 Slow request: POST /login/ took 3.88s with 7 queries
+WARNING 2025-11-28 15:19:08,214 middleware 8508 2584 Slow request: POST /login/ took 2.93s with 7 queries
+WARNING 2025-11-28 15:22:08,418 middleware 8508 12820 High query count: GET /cashier/reports/daily/ executed 14 queries in 0.08s
+WARNING 2025-11-28 15:29:37,985 middleware 8508 14012 High query count: GET /refresh-orders/ executed 22 queries in 0.19s
+WARNING 2025-11-28 15:30:38,816 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.18s
+WARNING 2025-11-28 15:31:39,762 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.13s
+WARNING 2025-11-28 15:32:40,872 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.19s
+WARNING 2025-11-28 15:33:41,840 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.22s
+WARNING 2025-11-28 15:34:42,743 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.12s
+WARNING 2025-11-28 15:35:43,738 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.12s
+WARNING 2025-11-28 15:36:44,765 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.14s
+WARNING 2025-11-28 15:37:45,756 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.13s
+WARNING 2025-11-28 15:38:46,765 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.09s
+WARNING 2025-11-28 15:39:47,771 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.14s
+WARNING 2025-11-28 15:40:48,733 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.11s
+WARNING 2025-11-28 15:41:49,714 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.09s
+WARNING 2025-11-28 15:42:50,787 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.16s
+WARNING 2025-11-28 15:43:51,745 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.12s
+WARNING 2025-11-28 15:44:52,747 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.12s
+WARNING 2025-11-28 15:45:53,977 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.35s
+WARNING 2025-11-28 15:46:54,711 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.09s
+WARNING 2025-11-28 15:47:56,024 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.40s
+WARNING 2025-11-28 15:48:57,046 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.36s
+WARNING 2025-11-28 15:49:57,961 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.33s
+WARNING 2025-11-28 15:50:58,772 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.15s
+WARNING 2025-11-28 15:51:58,956 middleware 8508 4580 High query count: GET /refresh-orders/ executed 22 queries in 0.33s
+WARNING 2025-11-28 15:55:41,797 middleware 14536 14496 Slow request: POST /login/ took 1.77s with 1 queries
+WARNING 2025-11-28 15:55:56,173 middleware 14536 14496 Slow request: POST /login/ took 2.54s with 1 queries
+WARNING 2025-11-28 15:56:25,325 middleware 14536 14496 Slow request: POST /login/ took 1.51s with 1 queries
+WARNING 2025-11-28 15:56:49,833 middleware 14536 14496 Slow request: POST /login/ took 1.65s with 1 queries
+WARNING 2025-11-28 15:57:43,406 middleware 14536 9528 Slow request: POST /login/ took 1.33s with 1 queries
+WARNING 2025-11-28 15:58:07,856 middleware 14536 9528 Slow request: POST /login/ took 3.32s with 1 queries
+WARNING 2025-11-28 15:58:16,526 middleware 14536 9528 Slow request: POST /login/ took 2.90s with 7 queries
+WARNING 2025-11-28 15:58:57,084 middleware 14536 14496 Slow request: POST /login/ took 1.67s with 1 queries
+WARNING 2025-11-28 15:59:11,503 middleware 14536 14496 Slow request: POST /login/ took 1.66s with 1 queries
+WARNING 2025-11-28 16:00:09,665 middleware 14536 14496 Slow request: POST /login/ took 1.92s with 1 queries
+WARNING 2025-11-28 16:00:26,941 middleware 14536 14496 Slow request: POST /login/ took 3.19s with 7 queries
+WARNING 2025-11-28 16:13:49,503 middleware 14536 13284 Slow request: POST /login/ took 3.88s with 7 queries
+WARNING 2025-11-28 16:58:05,040 middleware 7756 16272 Slow request: POST /login/ took 4.05s with 7 queries
+WARNING 2025-11-28 16:58:44,205 middleware 7756 16272 High query count: GET /dealer/cashiers/reports/ executed 15 queries in 0.09s
+WARNING 2025-11-28 16:59:46,809 middleware 7756 16272 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.15s
+WARNING 2025-11-28 17:01:53,538 middleware 7756 16272 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-11-29 10:04:33,276 middleware 9360 3088 Slow request: POST /login/ took 2.97s with 7 queries
+WARNING 2025-11-29 10:05:56,622 middleware 9360 3088 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.05s
+WARNING 2025-11-29 10:38:28,047 middleware 6184 7736 Slow request: POST /login/ took 1.81s with 1 queries
+WARNING 2025-11-29 10:39:22,005 middleware 6184 11048 Slow request: POST /login/ took 1.53s with 1 queries
+WARNING 2025-11-29 10:39:44,037 middleware 6184 11048 Slow request: POST /login/ took 1.51s with 1 queries
+WARNING 2025-11-29 10:40:35,278 middleware 6184 11048 Slow request: POST /login/ took 1.46s with 1 queries
+WARNING 2025-11-29 10:41:02,090 middleware 6184 11048 Slow request: POST /login/ took 2.80s with 7 queries
+WARNING 2025-11-29 11:01:10,956 middleware 6184 1532 Slow request: POST /login/ took 2.82s with 7 queries
+WARNING 2025-11-29 11:02:13,171 middleware 6184 12772 Slow request: POST /login/ took 2.94s with 7 queries
+WARNING 2025-11-29 14:58:32,842 middleware 16260 14796 Slow request: POST /login/ took 2.80s with 7 queries
+WARNING 2025-11-29 15:00:46,381 middleware 16260 14796 Slow request: POST /login/ took 2.81s with 7 queries
+WARNING 2025-11-29 15:01:21,682 middleware 16260 14796 Slow request: POST /login/ took 2.91s with 7 queries
+WARNING 2025-11-29 15:02:24,486 middleware 16260 14796 Slow request: POST /login/ took 2.93s with 7 queries
+WARNING 2025-11-29 15:03:03,357 middleware 16260 14796 Slow request: POST /login/ took 3.04s with 7 queries
+WARNING 2025-11-29 15:07:41,086 middleware 16260 14796 Slow request: POST /login/ took 2.72s with 7 queries
+WARNING 2025-11-29 22:34:34,397 middleware 16260 5912 Slow request: POST /login/ took 2.03s with 1 queries
+WARNING 2025-11-29 22:34:42,715 middleware 16260 5912 Slow request: POST /login/ took 3.45s with 7 queries
+WARNING 2025-11-30 18:48:31,119 middleware 7496 15960 Slow request: POST /login/ took 4.02s with 7 queries
+WARNING 2025-11-30 18:54:15,304 middleware 7496 15960 Slow request: POST /login/ took 4.39s with 7 queries
+WARNING 2025-11-30 18:54:19,166 middleware 7496 15960 High query count: GET /cashier/reports/monthly/ executed 48 queries in 0.18s
+WARNING 2025-11-30 18:55:16,600 middleware 7496 15960 High query count: GET /cashier/reports/monthly/ executed 48 queries in 0.24s
+WARNING 2025-11-30 18:55:20,613 middleware 7496 15960 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.11s
+WARNING 2025-11-30 18:55:22,936 middleware 7496 15960 High query count: GET /cashier/reports/monthly/ executed 48 queries in 0.14s
+WARNING 2025-11-30 18:55:50,380 middleware 7496 15960 Slow request: POST /login/ took 4.53s with 7 queries
+WARNING 2025-11-30 18:55:54,987 middleware 7496 15960 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.15s
+WARNING 2025-11-30 18:56:08,150 middleware 7496 15960 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.10s
+WARNING 2025-11-30 18:57:31,669 middleware 7496 15960 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.16s
+WARNING 2025-11-30 18:57:35,079 middleware 7496 15960 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-11-30 18:57:51,357 middleware 7496 15960 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.06s
+WARNING 2025-11-30 18:58:13,757 middleware 7496 15960 Slow request: POST /login/ took 4.89s with 7 queries
+WARNING 2025-12-01 20:53:11,329 middleware 9788 9912 Slow request: POST /login/ took 2.07s with 7 queries
+WARNING 2025-12-01 20:53:37,122 middleware 9788 9912 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-01 20:53:53,175 middleware 9788 9912 Slow request: POST /login/ took 2.09s with 7 queries
+WARNING 2025-12-01 20:54:01,631 middleware 9788 9912 High query count: GET /dealer/reports/ executed 11 queries in 0.04s
+WARNING 2025-12-01 20:56:05,460 middleware 9788 22568 Slow request: POST /login/ took 2.10s with 7 queries
+WARNING 2025-12-01 21:01:10,637 middleware 9788 16192 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-01 21:14:47,417 middleware 9788 20436 Slow request: POST /login/ took 2.11s with 7 queries
+WARNING 2025-12-01 21:23:52,269 middleware 9788 4520 Slow request: POST /login/ took 1.98s with 7 queries
+WARNING 2025-12-01 21:23:59,121 middleware 9788 18984 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.08s
+WARNING 2025-12-01 21:24:00,973 middleware 9788 18984 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.04s
+WARNING 2025-12-01 21:28:08,029 middleware 9788 20948 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-01 21:37:43,137 middleware 9788 23576 Slow request: POST /login/ took 1.86s with 7 queries
+WARNING 2025-12-01 21:40:42,146 middleware 9788 3468 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-01 21:40:46,357 middleware 9788 3468 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.02s
+WARNING 2025-12-01 21:40:49,735 middleware 9788 3468 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.02s
+WARNING 2025-12-01 21:40:52,542 middleware 9788 3468 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-01 21:41:53,545 middleware 9788 3468 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-03 12:39:32,176 middleware 8428 18348 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.03s
+WARNING 2025-12-03 12:41:26,067 middleware 8428 18348 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.01s
+WARNING 2025-12-03 12:41:39,453 middleware 8428 18348 High query count: GET /dealer/reports/ executed 11 queries in 0.05s
+WARNING 2025-12-03 12:41:47,969 middleware 8428 18348 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-03 12:46:09,921 middleware 8428 18348 High query count: GET /dealer/reports/ executed 11 queries in 0.01s
+WARNING 2025-12-03 12:46:44,277 middleware 8428 18348 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.02s
+WARNING 2025-12-03 12:47:28,339 middleware 8428 18348 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.04s
+WARNING 2025-12-03 12:48:00,257 middleware 8428 18348 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.02s
+WARNING 2025-12-03 12:48:02,839 middleware 8428 18348 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.01s
+WARNING 2025-12-03 12:48:44,097 middleware 8428 18348 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.02s
+WARNING 2025-12-03 12:49:03,488 middleware 8428 18348 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-03 12:50:14,521 middleware 8428 18348 High query count: GET /dealer/reports/ executed 11 queries in 0.01s
+WARNING 2025-12-03 12:54:46,706 middleware 8428 18348 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-03 12:54:48,676 middleware 8428 18348 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.05s
+WARNING 2025-12-04 10:55:57,477 middleware 14052 16452 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.08s
+WARNING 2025-12-04 10:55:59,498 middleware 14052 16452 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.07s
+WARNING 2025-12-04 10:56:17,550 middleware 14052 16452 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-04 10:57:06,189 middleware 14052 11128 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2025-12-04 11:01:32,257 middleware 20208 18172 High query count: GET /dealer/inventory/ executed 43 queries in 0.61s
+WARNING 2025-12-04 11:02:25,801 middleware 20208 18172 High query count: GET /dealer/inventory/ executed 43 queries in 0.19s
+WARNING 2025-12-04 11:03:44,387 middleware 20208 18172 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.03s
+WARNING 2025-12-04 16:57:52,963 middleware 8220 10788 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.03s
+WARNING 2025-12-12 09:29:30,928 middleware 19172 22276 Slow request: POST /login/ took 2.26s with 7 queries
+WARNING 2025-12-12 09:30:25,924 middleware 19172 22276 Slow request: POST /login/ took 3.02s with 7 queries
+WARNING 2025-12-12 09:35:15,761 middleware 19172 14640 Slow request: POST /login/ took 1.86s with 7 queries
+WARNING 2025-12-12 09:39:06,039 middleware 19172 14640 High query count: GET /dealer/reports/ executed 11 queries in 0.15s
+WARNING 2025-12-12 09:39:14,253 middleware 19172 14640 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.09s
+WARNING 2025-12-12 09:41:24,487 middleware 19172 14640 Slow request: POST /login/ took 1.86s with 7 queries
+WARNING 2025-12-12 09:43:05,634 middleware 19172 17456 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-12 09:43:22,462 middleware 19172 14640 Slow request: POST /login/ took 1.80s with 7 queries
+WARNING 2025-12-12 09:44:31,189 middleware 19172 14640 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-12 09:44:47,034 middleware 19172 14640 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.08s
+WARNING 2025-12-12 09:44:58,547 middleware 19172 14640 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-12 09:45:58,977 middleware 19172 420 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-12 09:46:03,468 middleware 19172 420 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.02s
+WARNING 2025-12-12 09:46:19,902 middleware 19172 420 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.11s
+WARNING 2025-12-12 09:48:07,952 middleware 19172 21716 Slow request: POST /login/ took 2.21s with 7 queries
+WARNING 2025-12-12 09:48:49,626 middleware 19172 21716 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-12 09:49:05,817 middleware 19172 21716 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.02s
+WARNING 2025-12-12 09:49:13,055 middleware 19172 21716 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-12 09:49:17,817 middleware 19172 21716 High query count: GET /dealer/reports/ executed 11 queries in 0.04s
+WARNING 2025-12-12 09:52:06,293 middleware 19172 21716 High query count: GET /dealer/cashiers/reports/ executed 12 queries in 0.09s
+WARNING 2025-12-12 10:02:23,183 middleware 19172 11700 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2025-12-12 10:03:24,798 middleware 19172 21716 Slow request: POST /login/ took 1.80s with 7 queries
+WARNING 2025-12-12 10:48:19,596 middleware 10844 1772 Slow request: POST /login/ took 1.92s with 7 queries
+WARNING 2025-12-12 11:20:06,858 middleware 10844 10536 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.09s
+WARNING 2025-12-12 11:22:27,510 middleware 10844 10536 High query count: GET /dealer/cashiers/reports/ executed 14 queries in 0.03s
+WARNING 2025-12-12 12:14:38,467 middleware 10844 8412 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.06s
+WARNING 2025-12-12 12:16:24,017 middleware 10844 8412 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.04s
+WARNING 2025-12-12 12:16:40,216 middleware 10844 8412 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.05s
+WARNING 2025-12-12 12:16:45,824 middleware 10844 8412 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-12 12:38:09,485 middleware 10844 22264 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-12 12:49:22,550 middleware 10844 21056 High query count: GET /dealer/inventory/ executed 16 queries in 0.28s
+WARNING 2025-12-12 12:52:04,762 middleware 10844 20504 High query count: GET /dealer/inventory/ executed 16 queries in 0.14s
+WARNING 2025-12-12 12:56:06,371 middleware 10844 3708 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2025-12-12 12:56:24,169 middleware 10844 3708 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.03s
+WARNING 2025-12-12 13:06:09,602 middleware 10844 13596 High query count: GET /cashier/orders/ executed 11 queries in 0.16s
+WARNING 2025-12-12 13:06:11,843 middleware 10844 13596 High query count: GET /cashier/orders/ executed 11 queries in 0.13s
+WARNING 2025-12-12 13:09:44,029 middleware 2440 7208 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-12 13:23:06,803 middleware 2440 17092 Slow request: POST /login/ took 1.83s with 7 queries
+WARNING 2025-12-12 13:28:29,281 middleware 2440 17092 Slow request: POST /login/ took 1.82s with 7 queries
+WARNING 2025-12-12 13:33:56,273 middleware 2440 7264 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.01s
+WARNING 2025-12-12 13:40:35,184 middleware 2440 21704 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.04s
+WARNING 2025-12-12 13:41:07,364 middleware 2440 21704 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.02s
+WARNING 2025-12-12 13:41:19,381 middleware 2440 21704 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.03s
+WARNING 2025-12-12 13:41:44,095 middleware 2440 13836 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.02s
+WARNING 2025-12-12 13:59:05,421 middleware 7380 16144 High query count: GET /dealer/cashiers/reports/ executed 14 queries in 0.06s
+WARNING 2025-12-12 14:00:14,157 middleware 7380 17416 High query count: GET /dealer/cashiers/reports/ executed 14 queries in 0.03s
+WARNING 2025-12-12 14:10:25,068 middleware 2452 20168 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:10:53,832 middleware 2452 20168 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.07s
+WARNING 2025-12-12 14:13:02,160 middleware 2452 20168 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.05s
+WARNING 2025-12-12 14:13:20,599 middleware 2452 20168 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-12 14:16:51,779 middleware 18872 20032 High query count: GET /dealer/reports/stock/ executed 28 queries in 0.11s
+WARNING 2025-12-12 14:17:00,763 middleware 18872 20032 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-12 14:17:41,750 middleware 18872 20032 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:17:47,963 middleware 18872 20032 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.05s
+WARNING 2025-12-12 14:22:37,246 middleware 18872 1968 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-12 14:22:44,054 middleware 18872 1968 High query count: GET /dealer/cashiers/reports/ executed 14 queries in 0.04s
+WARNING 2025-12-12 14:22:48,895 middleware 18872 1968 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-12 14:22:52,858 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:23:19,528 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:23:35,511 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-12 14:24:02,479 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:24:05,799 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:24:10,429 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:24:43,050 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:24:47,905 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:29:38,318 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:29:54,403 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-12 14:32:22,259 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:32:25,705 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:32:38,165 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.01s
+WARNING 2025-12-12 14:32:40,740 middleware 18872 1968 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.02s
+WARNING 2025-12-12 14:32:51,269 middleware 18872 1968 High query count: GET /dealer/reports/ executed 11 queries in 0.01s
+WARNING 2025-12-12 14:46:00,767 middleware 4380 21368 High query count: GET /dealer/reports/ executed 12 queries in 0.03s
+WARNING 2025-12-12 14:50:18,131 middleware 4380 20616 High query count: GET /dealer/reports/ executed 11 queries in 0.01s
+WARNING 2025-12-12 14:50:24,191 middleware 4380 20616 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-15 13:07:56,233 middleware 3188 17448 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-15 13:14:03,948 middleware 3188 18996 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-15 13:14:17,735 middleware 3188 18996 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.07s
+WARNING 2025-12-15 13:14:22,447 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.13s
+WARNING 2025-12-15 13:14:33,396 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.08s
+WARNING 2025-12-15 13:14:37,239 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.10s
+WARNING 2025-12-15 13:14:44,493 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 42 queries in 0.06s
+WARNING 2025-12-15 13:14:56,587 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 42 queries in 0.06s
+WARNING 2025-12-15 13:15:13,445 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.07s
+WARNING 2025-12-15 13:15:20,237 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.07s
+WARNING 2025-12-15 13:15:28,178 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.09s
+WARNING 2025-12-15 13:15:35,990 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 48 queries in 0.07s
+WARNING 2025-12-15 13:15:48,655 middleware 3188 18996 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-15 13:15:53,400 middleware 3188 18996 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-15 13:15:55,131 middleware 3188 18996 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.08s
+WARNING 2025-12-15 13:16:01,195 middleware 3188 18996 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-15 13:16:06,723 middleware 3188 18996 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-15 20:46:58,224 middleware 18924 424 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.12s
+WARNING 2025-12-15 20:47:11,118 middleware 18924 424 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-15 20:56:31,159 middleware 18924 11572 Slow request: POST /login/ took 1.89s with 7 queries
+WARNING 2025-12-15 20:58:06,762 middleware 18924 10340 Slow request: POST /login/ took 1.78s with 7 queries
+WARNING 2025-12-15 21:00:32,223 middleware 18924 4564 Slow request: POST /login/ took 1.82s with 7 queries
+WARNING 2025-12-15 21:11:40,206 middleware 18924 13856 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2025-12-15 21:16:38,398 middleware 18924 8784 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-15 21:16:56,245 middleware 18924 8784 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-15 21:17:06,580 middleware 18924 8784 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-15 21:17:08,562 middleware 18924 8784 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-15 21:18:35,960 middleware 18924 20248 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-15 21:19:04,609 middleware 18924 20248 High query count: GET /dealer/reports/ executed 11 queries in 0.04s
+WARNING 2025-12-15 21:19:08,255 middleware 18924 20248 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-15 21:20:17,474 middleware 18924 20248 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-15 21:20:21,274 middleware 18924 20248 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-15 21:20:46,812 middleware 18924 20248 High query count: GET /dealer/reports/stock/export-pdf/ executed 16 queries in 0.06s
+WARNING 2025-12-15 21:24:19,971 middleware 18924 9868 High query count: GET /dealer/reports/stock/ executed 27 queries in 0.06s
+WARNING 2025-12-15 21:25:51,810 middleware 18924 9868 Slow request: POST /login/ took 1.86s with 7 queries
+WARNING 2025-12-15 21:46:43,998 middleware 19544 14732 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2025-12-15 21:50:20,039 middleware 19544 17216 Slow request: POST /login/ took 1.83s with 7 queries
+WARNING 2025-12-15 21:52:54,238 middleware 19544 17216 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.09s
+WARNING 2025-12-15 21:53:28,091 middleware 19544 17216 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-15 21:53:50,674 middleware 19544 17216 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.07s
+WARNING 2025-12-15 21:58:31,698 middleware 19544 17216 Slow request: POST /login/ took 1.89s with 7 queries
+WARNING 2025-12-15 22:13:09,184 middleware 19544 12440 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2025-12-15 22:14:51,217 middleware 19544 4756 Slow request: POST /login/ took 2.04s with 7 queries
+WARNING 2025-12-15 22:16:22,465 middleware 19544 12000 Slow request: POST /login/ took 1.90s with 7 queries
+WARNING 2025-12-16 15:09:15,765 middleware 19060 20444 Slow request: POST /login/ took 1.68s with 7 queries
+WARNING 2025-12-16 15:10:59,618 middleware 14912 10212 Slow request: POST /login/ took 1.75s with 7 queries
+WARNING 2025-12-16 15:12:07,869 middleware 14912 9868 Slow request: POST /login/ took 1.98s with 7 queries
+WARNING 2025-12-16 15:13:28,507 middleware 14912 14448 Slow request: POST /login/ took 1.85s with 7 queries
+WARNING 2025-12-16 15:14:19,279 middleware 14912 14448 Slow request: POST /login/ took 1.82s with 7 queries
+WARNING 2025-12-16 15:14:23,288 middleware 14912 14448 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.11s
+WARNING 2025-12-16 15:14:26,404 middleware 14912 14448 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.06s
+WARNING 2025-12-16 15:14:28,065 middleware 14912 14448 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.06s
+WARNING 2025-12-16 15:14:34,348 middleware 14912 14448 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.06s
+WARNING 2025-12-16 15:14:38,773 middleware 14912 14448 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.06s
+WARNING 2025-12-16 15:15:09,564 middleware 14912 14448 Slow request: POST /login/ took 1.89s with 7 queries
+WARNING 2025-12-16 15:18:52,463 middleware 14912 5652 Slow request: POST /login/ took 2.16s with 7 queries
+WARNING 2025-12-16 15:19:23,890 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:19:27,213 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:19:29,932 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.06s
+WARNING 2025-12-16 15:19:34,771 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.07s
+WARNING 2025-12-16 15:19:36,960 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 43 queries in 0.06s
+WARNING 2025-12-16 15:20:10,000 middleware 19060 18540 Slow request: POST /login/ took 1.80s with 7 queries
+WARNING 2025-12-16 15:20:45,813 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:21:55,370 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.09s
+WARNING 2025-12-16 15:22:01,432 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.08s
+WARNING 2025-12-16 15:22:31,787 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.03s
+WARNING 2025-12-16 15:23:03,075 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.07s
+WARNING 2025-12-16 15:23:10,865 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.08s
+WARNING 2025-12-16 15:23:12,658 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.07s
+WARNING 2025-12-16 15:24:08,279 middleware 14912 18924 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.04s
+WARNING 2025-12-16 15:24:21,309 middleware 14912 18924 High query count: GET /dealer/cashiers/reports/ executed 18 queries in 0.04s
+WARNING 2025-12-16 15:24:30,590 middleware 14912 18924 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.04s
+WARNING 2025-12-16 15:24:33,159 middleware 14912 18924 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.03s
+WARNING 2025-12-16 15:25:08,875 middleware 14912 18924 High query count: GET /dealer/cashiers/reports/ executed 18 queries in 0.04s
+WARNING 2025-12-16 15:25:12,805 middleware 14912 18924 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.06s
+WARNING 2025-12-16 15:26:05,723 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.07s
+WARNING 2025-12-16 15:26:18,945 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 42 queries in 0.06s
+WARNING 2025-12-16 15:26:29,581 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.06s
+WARNING 2025-12-16 15:26:57,200 middleware 19060 14104 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-16 15:28:09,711 middleware 14912 5652 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-16 15:28:12,990 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:28:17,957 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:28:22,691 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:28:32,229 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 12 queries in 0.03s
+WARNING 2025-12-16 15:28:40,495 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.10s
+WARNING 2025-12-16 15:29:18,810 middleware 14912 5652 Slow request: POST /login/ took 1.89s with 7 queries
+WARNING 2025-12-16 15:29:23,778 middleware 14912 5652 High query count: GET /cashier/reports/daily/ executed 13 queries in 0.02s
+WARNING 2025-12-16 15:29:25,765 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.06s
+WARNING 2025-12-16 15:30:46,585 middleware 14912 5652 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.08s
+WARNING 2025-12-16 15:45:35,500 middleware 14912 23484 Slow request: POST /login/ took 2.08s with 7 queries
+WARNING 2025-12-16 15:45:53,584 middleware 14912 12060 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2025-12-16 15:46:27,825 middleware 14912 23016 Slow request: POST /login/ took 2.03s with 7 queries
+WARNING 2025-12-16 17:48:15,741 middleware 14912 15576 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.10s
+WARNING 2025-12-16 17:48:37,286 middleware 14912 15576 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.07s
+WARNING 2025-12-16 17:55:35,602 middleware 17152 1748 Slow request: POST /login/ took 1.82s with 7 queries
+WARNING 2025-12-16 18:02:56,195 middleware 17152 8640 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.08s
+WARNING 2025-12-16 18:04:26,026 middleware 17152 11964 Slow request: POST /login/ took 2.14s with 7 queries
+WARNING 2025-12-16 18:07:42,483 middleware 17152 4072 Slow request: POST /login/ took 2.03s with 7 queries
+WARNING 2025-12-16 18:19:18,394 middleware 17152 7840 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.14s
+WARNING 2025-12-16 18:19:28,573 middleware 17152 7840 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.07s
+WARNING 2025-12-16 18:19:34,807 middleware 17152 7840 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.08s
+WARNING 2025-12-16 18:19:42,720 middleware 17152 7840 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.04s
+WARNING 2025-12-16 18:20:04,694 middleware 17152 7840 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.03s
+WARNING 2025-12-16 18:21:25,762 middleware 17152 7840 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.04s
+WARNING 2025-12-16 18:21:44,425 middleware 17152 7840 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.03s
+WARNING 2025-12-16 18:21:47,746 middleware 17152 7840 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.09s
+WARNING 2025-12-16 18:22:37,274 middleware 17152 7840 Slow request: POST /login/ took 1.90s with 7 queries
+WARNING 2025-12-16 18:22:43,136 middleware 17152 13296 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:23:42,327 middleware 17152 10432 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:25:19,563 middleware 17152 18512 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:25:41,287 middleware 17152 18512 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:25:59,536 middleware 17152 18512 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:27:28,874 middleware 17152 18512 High query count: GET /dealer/reports/ executed 11 queries in 0.15s
+WARNING 2025-12-16 18:27:31,935 middleware 17152 18512 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.12s
+WARNING 2025-12-16 18:27:40,008 middleware 17152 18512 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:30:19,757 middleware 17152 11964 Slow request: POST /register/ took 2.01s with 11 queries
+WARNING 2025-12-16 18:30:19,757 middleware 17152 11964 High query count: POST /register/ executed 11 queries in 2.01s
+WARNING 2025-12-16 18:36:41,400 middleware 17152 17400 Slow request: POST /login/ took 1.86s with 7 queries
+WARNING 2025-12-16 18:37:19,400 middleware 17152 20184 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-16 18:37:28,048 middleware 17152 20184 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:37:52,389 middleware 17152 20184 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-16 18:38:44,644 middleware 17152 20184 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:38:50,205 middleware 17152 20184 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-16 18:41:30,668 middleware 17152 20416 High query count: GET /dealer/reports/ executed 11 queries in 0.03s
+WARNING 2025-12-16 18:41:33,128 middleware 17152 20416 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.08s
+WARNING 2025-12-16 18:47:13,721 middleware 17152 3316 High query count: GET /cashier/reports/daily/ executed 18 queries in 0.04s
+WARNING 2025-12-16 18:47:55,615 middleware 17152 3316 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.09s
+WARNING 2025-12-16 18:47:57,163 middleware 17152 3316 High query count: GET /cashier/reports/daily/ executed 18 queries in 0.05s
+WARNING 2025-12-16 18:48:01,730 middleware 17152 3316 High query count: GET /cashier/reports/daily/ executed 18 queries in 0.04s
+WARNING 2025-12-16 18:49:36,344 middleware 17152 3316 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.08s
+WARNING 2025-12-16 19:07:38,497 middleware 14996 5160 Slow request: POST /login/ took 1.95s with 7 queries
+WARNING 2025-12-17 15:37:49,539 middleware 3636 4600 Slow request: POST /login/ took 1.88s with 7 queries
+WARNING 2025-12-17 15:39:59,335 middleware 3636 16844 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-17 15:40:17,268 middleware 3636 16844 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.03s
+WARNING 2025-12-17 15:43:58,285 middleware 3636 14320 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.07s
+WARNING 2025-12-17 15:46:34,531 middleware 3636 19396 Slow request: POST /login/ took 1.94s with 7 queries
+WARNING 2025-12-17 15:47:20,610 middleware 3636 9176 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.07s
+WARNING 2025-12-17 16:05:25,103 middleware 3636 5200 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.13s
+WARNING 2025-12-17 16:05:32,359 middleware 3636 5200 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.06s
+WARNING 2025-12-17 16:05:37,714 middleware 3636 5200 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.06s
+WARNING 2025-12-17 16:05:41,057 middleware 3636 5200 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.06s
+WARNING 2025-12-17 16:08:36,390 middleware 3636 5200 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.07s
+WARNING 2025-12-17 16:14:20,729 middleware 3636 18636 Slow request: POST /login/ took 1.85s with 7 queries
+WARNING 2025-12-17 21:50:52,737 middleware 5896 21528 Slow request: POST /login/ took 2.18s with 7 queries
+WARNING 2025-12-17 21:58:26,228 middleware 11220 11480 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.12s
+WARNING 2025-12-17 22:02:18,815 middleware 22160 16632 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.06s
+WARNING 2025-12-17 22:11:16,823 middleware 16596 20048 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2025-12-17 22:21:47,531 middleware 14052 5968 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.19s
+WARNING 2025-12-18 03:46:42,939 middleware 18324 21384 Slow request: POST /login/ took 2.26s with 7 queries
+WARNING 2025-12-18 03:55:35,780 middleware 18324 14548 Slow request: GET /register/ took 1.14s with 0 queries
+WARNING 2025-12-18 03:55:43,400 middleware 5988 4436 Slow request: GET /register/ took 1.03s with 0 queries
+WARNING 2025-12-18 03:55:52,404 middleware 21276 20236 Slow request: POST /register/ took 1.08s with 4 queries
+WARNING 2025-12-18 03:56:00,188 middleware 22424 19352 Slow request: POST /register/ took 1.34s with 5 queries
+WARNING 2025-12-18 11:13:56,271 middleware 15612 23308 Slow request: POST /register/ took 3.95s with 5 queries
+WARNING 2025-12-18 11:14:18,433 middleware 15612 8252 Slow request: POST /login/ took 2.10s with 7 queries
+WARNING 2025-12-18 11:17:35,836 middleware 2088 368 Slow request: GET /dealer/pending-registrations/ took 1.05s with 6 queries
+WARNING 2025-12-18 11:22:35,475 middleware 2576 23892 Slow request: POST /dealer/pending-registrations/2/approve/ took 1.03s with 5 queries
+WARNING 2025-12-18 11:22:39,758 middleware 2576 23892 Slow request: POST /dealer/pending-registrations/1/approve/ took 1.08s with 5 queries
+WARNING 2025-12-18 11:40:12,496 middleware 23580 23144 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.15s
+WARNING 2025-12-18 11:40:58,193 middleware 23580 7456 Slow request: POST /login/ took 1.10s with 1 queries
+WARNING 2025-12-18 11:44:55,976 middleware 13700 22028 Slow request: POST /login/ took 1.02s with 1 queries
+WARNING 2025-12-18 11:47:47,298 middleware 13700 22028 Slow request: POST /register/ took 2.03s with 5 queries
+WARNING 2025-12-18 11:48:22,715 middleware 13700 22028 Slow request: POST /login/ took 2.02s with 7 queries
+WARNING 2025-12-18 11:50:09,667 middleware 13700 5016 Slow request: POST /login/ took 1.96s with 7 queries
+WARNING 2025-12-18 11:51:21,164 middleware 13700 5692 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.17s
+WARNING 2025-12-18 11:51:46,893 middleware 13700 5692 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.10s
+WARNING 2025-12-18 11:53:18,472 middleware 13700 15984 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-18 11:53:33,155 middleware 13700 8344 High query count: GET /dealer/reports/stock/ executed 31 queries in 0.15s
+WARNING 2025-12-18 11:54:11,865 middleware 13700 25632 Slow request: POST /login/ took 1.98s with 7 queries
+WARNING 2025-12-18 11:54:17,586 middleware 13700 25632 High query count: GET /cashier/reports/daily/ executed 14 queries in 0.04s
+WARNING 2025-12-18 11:54:20,662 middleware 13700 25632 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.13s
+WARNING 2025-12-18 11:54:28,681 middleware 13700 25632 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.10s
+WARNING 2025-12-18 11:54:51,597 middleware 13700 19164 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.07s
+WARNING 2025-12-18 11:54:58,849 middleware 13700 19164 High query count: GET /dealer/cashiers/reports/ executed 16 queries in 0.06s
+WARNING 2025-12-18 11:55:03,877 middleware 13700 19164 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.05s
+WARNING 2025-12-18 11:55:31,786 middleware 13700 19164 High query count: GET /dealer/reports/sales/ executed 11 queries in 0.04s
+WARNING 2025-12-18 11:57:05,814 middleware 13700 8344 Slow request: POST /login/ took 2.05s with 7 queries
+WARNING 2025-12-18 11:58:20,155 middleware 13700 19164 Slow request: POST /login/ took 2.02s with 7 queries
+WARNING 2025-12-18 14:18:43,609 middleware 26252 19292 High query count: POST /cashier/walkin-order/ executed 12 queries in 0.06s
+WARNING 2025-12-18 14:20:13,760 middleware 26252 19292 High query count: GET /cashier/orders/ executed 11 queries in 0.33s
+WARNING 2025-12-18 14:20:52,695 middleware 26252 19292 High query count: GET /cashier/orders/ executed 11 queries in 0.77s
+WARNING 2025-12-18 14:21:22,459 middleware 26252 19292 High query count: GET /cashier/orders/ executed 11 queries in 0.18s
+WARNING 2025-12-18 14:22:20,095 middleware 26252 19292 High query count: GET /cashier/orders/ executed 11 queries in 0.21s
+WARNING 2025-12-18 14:33:28,064 middleware 11328 26396 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.11s
+WARNING 2025-12-18 14:33:32,342 middleware 11328 5292 High query count: GET /cashier/reports/daily/ executed 14 queries in 0.05s
+WARNING 2025-12-18 14:41:47,812 middleware 7140 2432 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.33s
+WARNING 2025-12-18 14:41:52,348 middleware 7140 25164 High query count: GET /cashier/reports/daily/export-pdf/ executed 14 queries in 0.04s
+WARNING 2025-12-18 14:43:14,212 middleware 7140 12880 High query count: GET /cashier/reports/monthly/ executed 51 queries in 0.13s
+WARNING 2025-12-18 14:43:18,647 middleware 7140 11644 High query count: GET /cashier/reports/monthly/export-pdf/ executed 79 queries in 0.22s
+WARNING 2025-12-18 14:44:22,332 middleware 7256 26412 High query count: GET /cashier/reports/daily/ executed 17 queries in 0.43s
+WARNING 2025-12-18 14:45:34,467 middleware 7256 26412 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.04s
+WARNING 2025-12-18 14:45:39,484 middleware 7256 26412 High query count: GET /cashier/reports/daily/export-pdf/ executed 15 queries in 0.04s
+WARNING 2025-12-18 14:47:53,124 middleware 4680 18012 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.13s
+WARNING 2025-12-18 14:47:54,828 middleware 4680 18012 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.05s
+WARNING 2025-12-18 14:47:56,721 middleware 4680 18012 High query count: GET /cashier/reports/daily/export-pdf/ executed 15 queries in 0.05s
+WARNING 2025-12-18 14:49:27,460 middleware 22840 23080 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.12s
+WARNING 2025-12-18 14:49:29,821 middleware 22840 23080 High query count: GET /cashier/reports/daily/export-pdf/ executed 15 queries in 0.05s
+WARNING 2025-12-18 14:49:43,641 middleware 22840 23080 High query count: GET /cashier/reports/monthly/ executed 55 queries in 0.21s
+WARNING 2025-12-18 14:50:31,159 middleware 22840 23080 High query count: GET /cashier/reports/monthly/ executed 53 queries in 0.15s
+WARNING 2025-12-18 14:50:34,290 middleware 22840 23080 High query count: GET /cashier/reports/monthly/export-pdf/ executed 79 queries in 0.18s
+WARNING 2025-12-18 14:59:18,334 middleware 17048 23248 High query count: GET /cashier/orders/ executed 16 queries in 0.94s
+WARNING 2025-12-18 15:05:31,455 middleware 17048 20216 High query count: GET /customer/dashboard/ executed 171 queries in 0.92s
+WARNING 2025-12-18 15:12:05,282 middleware 25436 23488 High query count: GET /cashier/orders/ executed 12 queries in 0.51s
+WARNING 2025-12-18 15:13:14,126 middleware 25436 7756 High query count: GET /cashier/orders/ executed 11 queries in 0.19s
+WARNING 2025-12-18 15:13:15,582 middleware 25436 7756 High query count: GET /cashier/orders/ executed 11 queries in 0.18s
+WARNING 2025-12-18 15:13:25,005 middleware 25436 11636 High query count: GET /cashier/orders/ executed 11 queries in 0.17s
+WARNING 2025-12-18 15:16:47,405 middleware 25436 19700 High query count: GET /cashier/orders/ executed 11 queries in 0.20s
+WARNING 2025-12-18 15:17:47,306 middleware 25436 23724 High query count: GET /cashier/orders/ executed 11 queries in 0.22s
+WARNING 2025-12-18 15:19:58,426 middleware 25436 23724 High query count: GET /cashier/orders/ executed 11 queries in 0.21s
+WARNING 2025-12-18 15:25:54,962 middleware 25436 18912 Slow request: POST /login/ took 2.09s with 7 queries
+WARNING 2025-12-18 15:26:05,973 middleware 25436 25132 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.20s
+WARNING 2025-12-18 15:26:25,011 middleware 25436 25132 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.17s
+WARNING 2025-12-18 15:26:29,202 middleware 25436 25132 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.11s
+WARNING 2025-12-18 15:26:56,418 middleware 25436 25132 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.08s
+WARNING 2025-12-18 15:27:23,021 middleware 25436 25132 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.07s
+WARNING 2025-12-18 15:29:51,812 middleware 25436 25132 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.25s
+WARNING 2025-12-18 15:30:24,413 middleware 25436 25132 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.12s
+WARNING 2025-12-18 15:30:31,680 middleware 25436 25132 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.10s
+WARNING 2025-12-18 15:31:34,800 middleware 25436 9648 Slow request: POST /login/ took 2.03s with 7 queries
+WARNING 2025-12-18 15:32:26,900 middleware 25436 25132 Slow request: POST /login/ took 2.05s with 7 queries
+WARNING 2025-12-18 15:33:29,684 middleware 25436 9648 High query count: GET /cashier/reports/daily/ executed 17 queries in 0.10s
+WARNING 2025-12-18 15:33:30,368 middleware 25436 9648 High query count: GET /cashier/reports/daily/ executed 17 queries in 0.06s
+WARNING 2025-12-18 15:33:35,021 middleware 25436 9648 High query count: GET /cashier/reports/daily/export-pdf/ executed 16 queries in 0.07s
+WARNING 2025-12-18 15:34:22,424 middleware 25436 9648 High query count: GET /cashier/reports/daily/ executed 17 queries in 0.07s
+WARNING 2025-12-18 15:34:24,386 middleware 25436 9648 High query count: GET /cashier/reports/daily/export-pdf/ executed 16 queries in 0.07s
+WARNING 2025-12-18 15:35:06,522 middleware 25436 17856 High query count: GET /cashier/reports/monthly/ executed 54 queries in 0.23s
+WARNING 2025-12-18 15:56:44,126 middleware 3860 8844 Slow request: POST /login/ took 1.02s with 1 queries
+WARNING 2025-12-18 15:56:52,798 middleware 3860 8844 Slow request: POST /login/ took 2.07s with 7 queries
+WARNING 2025-12-18 15:57:00,015 middleware 3860 8844 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.17s
+WARNING 2025-12-18 16:00:26,701 middleware 3860 8844 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.12s
+WARNING 2025-12-18 16:01:02,662 middleware 3860 8844 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.09s
+WARNING 2025-12-18 16:01:14,954 middleware 3860 8844 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.07s
+WARNING 2025-12-18 16:01:19,471 middleware 3860 8844 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.04s
+WARNING 2025-12-18 16:01:32,789 middleware 3860 8844 High query count: GET /dealer/cashiers/reports/ executed 22 queries in 0.05s
+WARNING 2025-12-18 16:01:38,255 middleware 3860 8844 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.08s
+WARNING 2025-12-18 16:03:04,950 middleware 3860 8844 Slow request: POST /login/ took 1.85s with 7 queries
+WARNING 2025-12-18 16:03:52,545 middleware 3860 8844 High query count: GET /cashier/reports/daily/ executed 18 queries in 0.08s
+WARNING 2025-12-18 16:03:54,777 middleware 3860 8844 High query count: GET /cashier/reports/daily/export-pdf/ executed 17 queries in 0.05s
+WARNING 2025-12-18 16:26:58,543 middleware 13800 6056 High query count: GET /cashier/reports/monthly/ executed 54 queries in 0.14s
+WARNING 2025-12-18 16:27:08,529 middleware 13800 6056 High query count: GET /cashier/reports/daily/ executed 18 queries in 0.06s
+WARNING 2026-01-07 12:04:49,715 middleware 3864 12576 Slow request: POST /login/ took 2.04s with 7 queries
+WARNING 2026-01-07 12:05:34,664 middleware 3864 13464 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.11s
+WARNING 2026-01-07 12:06:20,208 middleware 3864 13464 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.03s
+WARNING 2026-01-07 12:06:32,417 middleware 3864 13464 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.03s
+WARNING 2026-01-10 12:35:46,623 middleware 14664 5140 Slow request: POST /login/ took 1.92s with 7 queries
+WARNING 2026-01-10 12:35:55,878 middleware 14664 5140 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.15s
+WARNING 2026-01-10 12:38:44,797 middleware 14664 12872 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.09s
+WARNING 2026-01-10 12:38:46,600 middleware 14664 17088 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.12s
+WARNING 2026-01-10 12:38:48,769 middleware 14664 17088 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.10s
+WARNING 2026-01-10 12:38:59,317 middleware 14664 14460 High query count: GET /cashier/reports/monthly/ executed 54 queries in 0.12s
+WARNING 2026-01-10 12:39:06,752 middleware 14664 7708 High query count: GET /cashier/reports/monthly/export-pdf/ executed 79 queries in 0.16s
+WARNING 2026-01-10 12:41:28,265 middleware 14664 5140 Slow request: POST /login/ took 1.11s with 1 queries
+WARNING 2026-01-10 12:41:36,971 middleware 14664 5140 Slow request: POST /login/ took 1.85s with 7 queries
+WARNING 2026-01-10 12:41:49,728 middleware 14664 5140 Slow request: POST /login/ took 2.47s with 7 queries
+WARNING 2026-01-10 12:47:00,395 middleware 14664 5140 Slow request: POST /login/ took 2.04s with 7 queries
+WARNING 2026-01-10 13:18:36,698 middleware 11092 18772 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2026-01-10 13:20:18,942 middleware 11092 18928 Slow request: POST /login/ took 1.84s with 7 queries
+WARNING 2026-01-10 13:21:47,701 middleware 11092 5332 Slow request: POST /login/ took 2.04s with 7 queries
+WARNING 2026-01-10 13:37:49,951 middleware 11092 20980 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.26s
+WARNING 2026-01-10 13:38:22,346 middleware 11092 20980 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.08s
+WARNING 2026-01-10 13:39:16,392 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.07s
+WARNING 2026-01-10 13:39:38,853 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-10 13:39:42,387 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-10 13:40:47,407 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-10 13:41:20,792 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-10 13:42:06,521 middleware 11092 20980 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-10 13:42:22,376 middleware 11092 20980 High query count: GET /dealer/reports/ executed 12 queries in 0.12s
+WARNING 2026-01-10 13:42:28,883 middleware 11092 20980 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.09s
+WARNING 2026-01-10 13:42:46,316 middleware 11092 20980 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-10 13:44:10,991 middleware 11092 11976 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.04s
+WARNING 2026-01-10 13:44:13,261 middleware 11092 11976 High query count: GET /cashier/reports/monthly/ executed 46 queries in 0.07s
+WARNING 2026-01-10 13:45:33,414 middleware 11092 20444 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-10 14:32:41,132 middleware 11092 21280 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.02s
+WARNING 2026-01-10 14:39:06,922 middleware 11092 21280 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-01-10 14:39:30,063 middleware 11092 21280 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-01-10 14:41:53,143 middleware 11092 20784 High query count: GET /dealer/reports/ executed 12 queries in 0.01s
+WARNING 2026-01-10 14:45:45,272 middleware 11092 12820 High query count: GET /customer/notifications/ executed 11 queries in 0.04s
+WARNING 2026-01-10 14:45:50,278 middleware 11092 12820 High query count: GET /customer/notifications/ executed 11 queries in 0.02s
+WARNING 2026-01-10 14:47:06,719 middleware 11092 15404 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-01-12 14:02:00,709 middleware 13540 10204 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.08s
+WARNING 2026-01-12 14:02:08,013 middleware 13540 10204 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.03s
+WARNING 2026-01-12 14:02:13,935 middleware 13540 10204 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.03s
+WARNING 2026-01-12 14:02:16,041 middleware 13540 10204 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.04s
+WARNING 2026-01-12 14:02:28,975 middleware 13540 10204 High query count: GET /cashier/reports/daily/ executed 19 queries in 0.03s
+WARNING 2026-01-12 14:02:33,846 middleware 13540 10204 High query count: GET /cashier/reports/daily/export-pdf/ executed 18 queries in 0.05s
+WARNING 2026-01-12 14:04:12,605 middleware 13540 19580 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.12s
+WARNING 2026-01-12 14:04:26,540 middleware 13540 19580 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.05s
+WARNING 2026-01-12 14:04:56,473 middleware 13540 19580 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.05s
+WARNING 2026-01-12 15:29:29,927 middleware 22604 9944 High query count: GET /cashier/reports/daily/ executed 20 queries in 0.03s
+WARNING 2026-01-12 15:32:42,933 middleware 22604 19484 High query count: GET /dealer/reports/sales/ executed 13 queries in 0.02s
+WARNING 2026-01-12 15:33:07,869 middleware 22604 19484 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.01s
+WARNING 2026-01-12 15:34:55,639 middleware 15964 18804 High query count: GET /dealer/reports/sales/ executed 13 queries in 0.05s
+WARNING 2026-01-12 15:41:15,589 middleware 21956 15248 High query count: GET /customer/notifications/ executed 13 queries in 0.01s
+WARNING 2026-01-12 15:42:15,249 middleware 21956 10964 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-01-12 15:42:18,745 middleware 21956 10964 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.01s
+WARNING 2026-01-12 15:42:27,085 middleware 21956 10964 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.00s
+WARNING 2026-01-12 15:42:39,656 middleware 21956 10964 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-01-12 15:42:54,380 middleware 21956 23584 High query count: GET /cashier/reports/daily/ executed 15 queries in 0.02s
+WARNING 2026-01-12 15:43:03,763 middleware 21956 23584 High query count: GET /cashier/reports/daily/ executed 19 queries in 0.02s
+WARNING 2026-01-12 15:43:06,595 middleware 21956 23584 High query count: GET /cashier/reports/daily/export-pdf/ executed 18 queries in 0.01s
+WARNING 2026-01-15 14:25:07,270 middleware 21956 7500 High query count: GET /cashier/reports/monthly/ executed 49 queries in 0.13s
+WARNING 2026-01-21 17:23:42,277 middleware 15152 17012 High query count: GET /customer/notifications/ executed 15 queries in 0.06s
+WARNING 2026-01-21 17:23:46,194 middleware 15152 17012 High query count: GET /customer/notifications/ executed 15 queries in 0.02s
+WARNING 2026-01-21 17:23:51,767 middleware 15152 17012 High query count: GET /customer/notifications/ executed 15 queries in 0.04s
+WARNING 2026-01-21 17:23:54,764 middleware 15152 17012 High query count: GET /customer/notifications/ executed 15 queries in 0.07s
+WARNING 2026-01-21 17:23:59,390 middleware 15152 17012 High query count: GET /customer/notifications/ executed 15 queries in 0.05s
+WARNING 2026-01-21 17:24:17,058 middleware 15152 17012 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2026-01-21 17:25:54,198 middleware 15152 17012 Slow request: POST /login/ took 1.81s with 7 queries
+WARNING 2026-01-26 14:17:01,432 middleware 11688 17068 High query count: GET /dealer/reports/ executed 12 queries in 0.07s
+WARNING 2026-01-26 14:17:48,640 middleware 11688 17068 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 14:17:51,960 middleware 11688 17068 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.04s
+WARNING 2026-01-26 14:17:54,733 middleware 11688 17068 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.02s
+WARNING 2026-01-26 14:17:57,870 middleware 11688 17068 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.02s
+WARNING 2026-01-26 14:18:03,259 middleware 11688 17068 High query count: GET /dealer/reports/ executed 12 queries in 0.01s
+WARNING 2026-01-26 14:18:11,069 middleware 11688 17068 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.03s
+WARNING 2026-01-26 14:18:18,387 middleware 11688 17068 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 14:18:52,584 middleware 11688 17068 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.01s
+WARNING 2026-01-26 14:19:34,593 middleware 11688 17068 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.01s
+WARNING 2026-01-26 14:20:06,038 middleware 11688 17068 High query count: GET /dealer/reports/ executed 12 queries in 0.04s
+WARNING 2026-01-26 14:20:07,134 middleware 11688 17068 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 14:22:19,905 middleware 11688 17068 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2026-01-26 14:22:26,748 middleware 11688 17068 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 14:22:39,820 middleware 11688 17068 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.03s
+WARNING 2026-01-26 14:23:20,099 middleware 11688 17068 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 14:24:59,325 middleware 11688 20144 High query count: GET /customer/notifications/ executed 15 queries in 0.10s
+WARNING 2026-01-26 14:29:02,759 middleware 11688 20600 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.10s
+WARNING 2026-01-26 14:29:15,289 middleware 11688 20600 High query count: GET /cashier/reports/monthly/ executed 52 queries in 0.14s
+WARNING 2026-01-26 14:29:29,156 middleware 11688 20600 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.04s
+WARNING 2026-01-26 14:29:34,755 middleware 11688 20600 High query count: GET /cashier/reports/daily/export-pdf/ executed 15 queries in 0.07s
+WARNING 2026-01-26 14:32:28,944 middleware 11688 18480 Slow request: POST /login/ took 1.97s with 7 queries
+WARNING 2026-01-26 14:36:42,858 middleware 11688 15340 Slow request: POST /login/ took 1.94s with 7 queries
+WARNING 2026-01-26 14:40:13,527 middleware 11688 18480 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.04s
+WARNING 2026-01-26 14:40:22,348 middleware 11688 18480 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 15:23:41,475 middleware 11688 11552 High query count: GET /customer/notifications/ executed 21 queries in 0.07s
+WARNING 2026-01-26 15:46:43,196 middleware 11688 22332 Slow request: POST /login/ took 1.96s with 7 queries
+WARNING 2026-01-26 16:18:47,644 middleware 11688 9200 Slow request: POST /login/ took 1.93s with 7 queries
+WARNING 2026-01-26 16:41:19,457 middleware 11688 20064 High query count: GET /customer/notifications/ executed 21 queries in 0.04s
+WARNING 2026-01-26 16:41:23,942 middleware 11688 20064 High query count: GET /customer/notifications/ executed 21 queries in 0.04s
+WARNING 2026-01-26 16:42:11,625 middleware 11688 22052 Slow request: POST /login/ took 2.00s with 7 queries
+WARNING 2026-01-26 16:43:03,203 middleware 11688 15132 Slow request: POST /login/ took 1.85s with 7 queries
+WARNING 2026-01-26 16:43:12,346 middleware 11688 18800 High query count: GET /customer/notifications/ executed 21 queries in 0.04s
+WARNING 2026-01-26 16:46:57,366 middleware 11688 19496 Slow request: POST /login/ took 1.02s with 1 queries
+WARNING 2026-01-26 16:47:25,349 middleware 11688 19496 Slow request: POST /login/ took 1.87s with 7 queries
+WARNING 2026-01-26 16:48:02,368 middleware 11688 19952 Slow request: POST /login/ took 1.92s with 7 queries
+WARNING 2026-01-26 16:48:30,935 middleware 11688 19952 Slow request: POST /login/ took 1.90s with 7 queries
+WARNING 2026-01-26 16:55:00,503 middleware 11688 20288 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.23s
+WARNING 2026-01-26 17:29:11,126 middleware 11688 9100 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 17:29:42,393 middleware 11688 9100 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 17:30:03,559 middleware 11688 9100 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 17:30:32,298 middleware 11688 9100 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 17:36:25,129 middleware 11688 16632 High query count: GET /customer/notifications/ executed 21 queries in 0.04s
+WARNING 2026-01-26 17:42:44,490 middleware 11688 16452 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 17:42:58,078 middleware 11688 21120 High query count: GET /customer/notifications/ executed 21 queries in 0.04s
+WARNING 2026-01-26 17:45:54,372 middleware 11688 11440 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 17:52:04,510 middleware 11688 11440 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 17:52:20,347 middleware 11688 11440 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 17:53:31,301 middleware 11688 5016 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.04s
+WARNING 2026-01-26 17:54:55,743 middleware 11688 19784 High query count: POST /dealer/inventory/adjustment/ executed 11 queries in 0.06s
+WARNING 2026-01-26 17:55:26,367 middleware 11688 7436 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.02s
+WARNING 2026-01-26 17:56:44,934 middleware 11688 16672 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.08s
+WARNING 2026-01-26 17:57:29,135 middleware 11688 19316 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 17:58:09,152 middleware 11688 19316 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.04s
+WARNING 2026-01-26 17:58:38,811 middleware 11688 19316 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.07s
+WARNING 2026-01-26 18:00:21,471 middleware 11688 14476 High query count: GET /dealer/reports/ executed 12 queries in 0.04s
+WARNING 2026-01-26 18:00:31,422 middleware 11688 14476 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.06s
+WARNING 2026-01-26 18:01:00,614 middleware 11688 14476 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.07s
+WARNING 2026-01-26 18:01:03,136 middleware 11688 14476 High query count: GET /dealer/reports/stock/export-pdf/ executed 20 queries in 0.07s
+WARNING 2026-01-26 18:01:55,321 middleware 11688 14476 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 18:02:26,774 middleware 11688 14476 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 18:07:10,651 middleware 11688 14476 High query count: GET /dealer/reports/ executed 12 queries in 0.04s
+WARNING 2026-01-26 18:14:24,087 middleware 11688 14324 High query count: GET /customer/notifications/ executed 23 queries in 0.06s
+WARNING 2026-01-26 18:14:47,589 middleware 11688 14324 High query count: POST /customer/order/49/received/ executed 11 queries in 0.11s
+WARNING 2026-01-26 18:15:27,995 middleware 11688 8700 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.03s
+WARNING 2026-01-26 18:17:03,391 middleware 11688 8700 High query count: GET /cashier/reports/daily/ executed 16 queries in 0.03s
+WARNING 2026-01-26 18:18:28,433 middleware 11688 8700 High query count: GET /cashier/reports/daily/ executed 17 queries in 0.04s
+WARNING 2026-01-26 18:19:32,584 middleware 11688 8700 High query count: GET /cashier/reports/daily/export-pdf/ executed 16 queries in 0.04s
+WARNING 2026-01-26 18:20:19,556 middleware 11688 1248 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.05s
+WARNING 2026-01-26 18:21:54,649 middleware 11688 1248 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-01-26 18:22:04,620 middleware 11688 1248 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.04s
+WARNING 2026-02-16 15:21:55,001 middleware 13292 14780 Slow request: POST /login/ took 1.09s with 7 queries
+WARNING 2026-02-16 15:26:02,162 middleware 13292 18540 High query count: GET /customer/notifications/ executed 23 queries in 0.03s
+WARNING 2026-02-16 15:30:05,564 middleware 13292 18540 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.06s
+WARNING 2026-02-16 15:31:54,532 middleware 13292 18540 High query count: GET /dealer/reports/ executed 12 queries in 0.04s
+WARNING 2026-02-16 15:31:56,621 middleware 13292 18540 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.01s
+WARNING 2026-02-16 15:32:00,357 middleware 13292 18540 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.01s
+WARNING 2026-02-16 15:32:26,379 middleware 13292 18540 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.03s
+WARNING 2026-02-16 15:32:53,367 middleware 13292 18540 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.05s
+WARNING 2026-02-16 15:33:26,599 middleware 13292 18540 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.03s
+WARNING 2026-02-16 15:33:30,494 middleware 13292 18540 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.02s
+WARNING 2026-02-16 15:33:32,699 middleware 13292 18540 High query count: GET /dealer/cashiers/reports/ executed 55 queries in 0.03s
+WARNING 2026-02-16 15:33:35,938 middleware 13292 18540 High query count: GET /dealer/cashiers/reports/ executed 17 queries in 0.01s
+WARNING 2026-02-16 15:33:38,484 middleware 13292 18540 High query count: GET /dealer/cashiers/reports/ executed 55 queries in 0.03s
+WARNING 2026-02-16 15:34:41,086 middleware 13292 18540 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.02s
+WARNING 2026-02-23 13:24:11,831 middleware 10000 18104 Slow request: POST /login/ took 1.55s with 7 queries
+WARNING 2026-02-23 13:24:27,960 middleware 10000 20220 High query count: GET /dealer/reports/stock/ executed 32 queries in 0.14s
+WARNING 2026-02-23 13:39:12,304 middleware 5692 5208 High query count: GET /dealer/products/ executed 11 queries in 0.09s
+WARNING 2026-02-23 13:39:14,656 middleware 5692 5208 High query count: GET /dealer/inventory/stock-in/ executed 11 queries in 0.04s
+WARNING 2026-02-23 13:39:21,113 middleware 5692 5208 High query count: GET /dealer/inventory/stock-out/ executed 20 queries in 0.26s
+WARNING 2026-02-23 13:44:53,850 middleware 13236 1724 High query count: GET /dealer/inventory/stock-out/ executed 11 queries in 0.07s
+WARNING 2026-02-23 13:48:02,249 middleware 7092 864 High query count: GET /dealer/products/ executed 11 queries in 0.09s
+WARNING 2026-02-23 13:49:05,803 middleware 5516 11084 High query count: GET /dealer/reports/sales/ executed 12 queries in 0.10s
+WARNING 2026-02-23 13:58:58,644 middleware 25812 24984 High query count: GET /dealer/inventory/stock-in/ executed 13 queries in 0.09s
+WARNING 2026-02-23 14:00:57,763 middleware 25812 24984 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:01:36,260 middleware 25812 24984 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:01:42,271 middleware 25812 24984 High query count: GET /dealer/reports/ executed 12 queries in 0.14s
+WARNING 2026-02-23 14:01:47,245 middleware 25812 24984 High query count: GET /dealer/inventory/stock-in/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:01:51,334 middleware 25812 24984 High query count: GET /dealer/inventory/stock-out/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:02:10,396 middleware 25812 24984 High query count: GET /dealer/inventory/stock-in/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:03:29,734 middleware 25812 24984 High query count: GET /dealer/delivery-log/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:15:52,172 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 13 queries in 0.11s
+WARNING 2026-02-23 14:17:16,265 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:17:50,588 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:18:48,553 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:19:33,231 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:19:40,640 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:19:41,818 middleware 10080 5724 High query count: GET /dealer/inventory/stock-in/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:19:58,136 middleware 10080 5724 High query count: GET /dealer/inventory/stock-out/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:20:18,160 middleware 10080 5724 High query count: GET /dealer/inventory/stock-out/ executed 11 queries in 0.03s
+WARNING 2026-02-23 14:20:38,195 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:21:38,477 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:22:58,265 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:23:38,250 middleware 10080 5724 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:25:51,707 middleware 10080 16044 High query count: GET /dealer/delivery-log/ executed 12 queries in 0.03s
+WARNING 2026-02-23 14:29:49,009 middleware 10080 16044 Slow request: POST /login/ took 1.20s with 7 queries
+WARNING 2026-02-23 14:29:56,257 middleware 10080 16044 High query count: GET /customer/notifications/ executed 23 queries in 0.12s
+WARNING 2026-02-23 14:41:10,119 middleware 3812 5180 High query count: GET /refresh-orders/ executed 18 queries in 0.07s
+WARNING 2026-02-23 14:42:08,802 middleware 28760 28920 High query count: GET /refresh-orders/ executed 18 queries in 0.05s
+WARNING 2026-02-23 14:43:08,802 middleware 9276 4764 High query count: GET /refresh-orders/ executed 18 queries in 0.07s
+WARNING 2026-02-23 14:44:08,837 middleware 9052 28692 High query count: GET /refresh-orders/ executed 18 queries in 0.08s
+WARNING 2026-02-23 14:45:08,853 middleware 26544 27100 High query count: GET /refresh-orders/ executed 18 queries in 0.08s
+WARNING 2026-02-23 14:46:08,796 middleware 26544 27100 High query count: GET /refresh-orders/ executed 17 queries in 0.06s
+WARNING 2026-02-23 14:47:08,780 middleware 26544 27100 High query count: GET /refresh-orders/ executed 17 queries in 0.04s
+WARNING 2026-02-23 14:51:08,789 middleware 29604 30468 High query count: GET /refresh-orders/ executed 18 queries in 0.05s
+WARNING 2026-02-23 14:52:08,776 middleware 29604 30468 High query count: GET /refresh-orders/ executed 17 queries in 0.04s
+WARNING 2026-02-23 14:53:08,777 middleware 29604 30468 High query count: GET /refresh-orders/ executed 17 queries in 0.04s
+WARNING 2026-02-23 14:54:08,802 middleware 29604 29180 High query count: GET /refresh-orders/ executed 17 queries in 0.07s
+WARNING 2026-02-23 15:00:38,485 middleware 30284 30684 High query count: GET /customer/dashboard/ executed 132 queries in 0.16s
+WARNING 2026-02-23 15:01:07,796 middleware 30284 30684 High query count: GET /customer/dashboard/ executed 156 queries in 0.16s
+WARNING 2026-02-23 15:01:50,322 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 80 queries in 0.14s
+WARNING 2026-02-23 15:02:20,313 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 80 queries in 0.09s
+WARNING 2026-02-23 15:02:50,775 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 80 queries in 0.05s
+WARNING 2026-02-23 15:03:21,766 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 80 queries in 0.04s
+WARNING 2026-02-23 15:03:52,796 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 55 queries in 0.05s
+WARNING 2026-02-23 15:04:23,790 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 55 queries in 0.05s
+WARNING 2026-02-23 15:05:08,808 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 55 queries in 0.08s
+WARNING 2026-02-23 15:05:17,691 middleware 30284 30684 High query count: GET /customer/dashboard/ executed 106 queries in 0.15s
+WARNING 2026-02-23 15:05:49,000 middleware 30284 30684 High query count: GET /refresh-dashboard/ executed 55 queries in 0.07s
+WARNING 2026-02-23 15:08:30,760 middleware 31656 28524 High query count: GET /customer/order/55/ executed 14 queries in 0.02s
+WARNING 2026-02-23 15:09:01,754 middleware 31656 28524 High query count: GET /customer/order/55/ executed 15 queries in 0.02s
+WARNING 2026-02-23 15:10:08,750 middleware 31656 28524 High query count: GET /customer/order/55/ executed 17 queries in 0.02s
+WARNING 2026-02-23 15:11:08,771 middleware 31872 29648 High query count: GET /customer/order/55/ executed 18 queries in 0.04s
+WARNING 2026-02-23 15:11:39,749 middleware 30556 32012 High query count: GET /customer/order/55/ executed 18 queries in 0.12s
+WARNING 2026-02-23 15:11:41,515 middleware 30556 32012 High query count: GET /customer/order/55/ executed 17 queries in 0.03s
+WARNING 2026-02-23 15:11:58,876 middleware 30556 32012 High query count: GET /customer/order/55/ executed 17 queries in 0.03s
+WARNING 2026-02-23 15:17:01,745 middleware 2860 25320 High query count: GET /customer/order/55/ executed 17 queries in 0.14s
+WARNING 2026-02-23 15:19:46,642 middleware 2860 25320 Slow request: POST /login/ took 1.27s with 7 queries
+WARNING 2026-02-23 15:19:50,676 middleware 2860 25320 High query count: GET /cashier/orders/ executed 150 queries in 0.29s
+WARNING 2026-02-23 15:20:24,177 middleware 2860 25320 High query count: POST /dealer/orders/batch/17b2c47b-a50c-480e-99ec-519942073009/update/ executed 19 queries in 0.13s
+WARNING 2026-02-23 15:20:25,416 middleware 2860 25320 High query count: GET /cashier/orders/ executed 150 queries in 0.20s
+WARNING 2026-02-23 15:20:43,757 middleware 2860 25320 Slow request: POST /login/ took 1.24s with 7 queries
+WARNING 2026-02-23 15:36:33,055 middleware 7880 11616 Slow request: POST /login/ took 1.24s with 7 queries
+WARNING 2026-02-23 15:36:33,203 middleware 7880 11616 High query count: GET /customer/dashboard/ executed 106 queries in 0.13s
+WARNING 2026-02-23 15:48:19,287 middleware 15076 6216 High query count: GET /customer/dashboard/ executed 106 queries in 0.12s
+WARNING 2026-02-23 16:14:55,645 middleware 13636 14604 High query count: GET /customer/dashboard/ executed 107 queries in 0.13s

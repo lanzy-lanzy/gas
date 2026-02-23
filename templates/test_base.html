@@ -1,0 +1,863 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prycegas Station - Modern Gas Station Management</title>
+
+    <!-- TailwindCSS CDN with custom configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "prycegas-black": "#1a1a1a",
+              "prycegas-orange": "#ff6b35",
+              "prycegas-orange-light": "#ff8c5a",
+              "prycegas-orange-dark": "#e55a2b",
+              "prycegas-gray": "#2d2d2d",
+              "prycegas-gray-light": "#404040",
+            },
+            animation: {
+              "fade-in": "fadeIn 0.6s ease-in-out",
+              "slide-up": "slideUp 0.8s ease-out",
+              "bounce-slow": "bounce 2s infinite",
+              "pulse-slow": "pulse 3s infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              slideUp: {
+                "0%": { opacity: "0", transform: "translateY(50px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Alpine.js -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom styles for landing page -->
+    <style>
+      /* Gradient backgrounds */
+      .gradient-bg {
+        background: linear-gradient(135deg, rgba(26, 26, 26, 0.7), rgba(45, 45, 45, 0.7)),
+                    url('{% static "images/bg_prycegas.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #ff6b35, #ff8c5a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Glassmorphism effect */
+      .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Hover effects */
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Parallax effect */
+      .parallax {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #ff6b35;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #e55a2b;
+      }
+
+      /* Floating animation */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .float {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* 3D Canvas Background */
+      #lpg-tank-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .hero-content-wrapper {
+        position: relative;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body class="h-full bg-gray-50 overflow-x-hidden" x-data="landingPage()">
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-screen gradient-bg flex items-center justify-center overflow-hidden"
+    >
+      <!-- Three.js LPG Tank Canvas Background -->
+      <canvas id="lpg-tank-canvas"></canvas>
+      <!-- Animated background elements -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div
+          class="absolute -top-40 -right-40 w-80 h-80 bg-prycegas-orange opacity-20 rounded-full blur-3xl animate-pulse-slow"
+        ></div>
+        <div
+          class="absolute -bottom-40 -left-40 w-96 h-96 bg-prycegas-orange-light opacity-10 rounded-full blur-3xl animate-bounce-slow"
+        ></div>
+      </div>
+
+      <!-- Top Navigation -->
+      <nav class="absolute top-0 left-0 right-0 z-20 px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+          <div class="flex items-center">
+            <img
+              src="{% static 'images/prycegas_logo.jpg' %}"
+              alt="Prycegas Logo"
+              class="h-12 w-auto mr-3 rounded-lg"
+            />
+            <h1 class="text-2xl font-bold text-white">Prycegas Station</h1>
+          </div>
+          <div class="hidden md:flex items-center space-x-4">
+            <a
+              href="#features"
+              class="text-white hover:text-prycegas-orange-light transition-colors"
+              >Features</a
+            >
+            <a
+              href="/login/"
+              class="bg-white bg-opacity-20 text-white hover:bg-opacity-30 px-4 py-2 rounded-full transition-all duration-300"
+            >
+              <i class="fas fa-sign-in-alt mr-1"></i>Login
+            </a>
+            <a
+              href="/register/"
+              class="bg-prycegas-orange hover:bg-prycegas-orange-dark text-white px-4 py-2 rounded-full transition-all duration-300"
+            >
+              <i class="fas fa-user-plus mr-1"></i>Register
+            </a>
+          </div>
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              @click="mobileMenuOpen = !mobileMenuOpen"
+              class="text-white"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div
+          x-show="mobileMenuOpen"
+          x-transition
+          class="md:hidden mt-4 bg-black bg-opacity-50 rounded-lg p-4"
+        >
+          <div class="flex flex-col space-y-3">
+            <a
+              href="#features"
+              class="text-white hover:text-prycegas-orange-light transition-colors"
+              >Features</a
+            >
+            <a
+              href="/login/"
+              class="text-white hover:text-prycegas-orange-light transition-colors"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i>Login
+            </a>
+            <a
+              href="/register/"
+              class="bg-prycegas-orange hover:bg-prycegas-orange-dark text-white px-4 py-2 rounded-full transition-all duration-300 text-center"
+            >
+              <i class="fas fa-user-plus mr-2"></i>Register
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Content -->
+      <div
+        class="hero-content-wrapper grid grid-cols-1 lg:grid-cols-2 gap-8 items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full"
+      >
+        <!-- Left Content -->
+        <div class="animate-fade-in text-center lg:text-left">
+          <h1
+            class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+          >
+            Welcome to VIOS
+            <span class="gradient-text block">Prycegas Station</span>
+          </h1>
+          <p
+            class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl leading-relaxed"
+          >
+            The future of gas station management is here. Streamline operations,
+            boost efficiency, and maximize profits with our cutting-edge
+            platform.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+          >
+            <a
+              href="/register/"
+              class="bg-prycegas-orange hover:bg-prycegas-orange-dark text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              <i class="fas fa-user-plus mr-2"></i>
+              Register
+            </a>
+            <a
+              href="/login/"
+              class="glass text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              Sign In
+            </a>
+          </div>
+
+          <!-- Secondary Actions -->
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mt-4"
+          >
+            <button
+              @click="scrollToSection('features')"
+              class="text-white hover:text-prycegas-orange-light px-6 py-2 rounded-full text-base font-medium transition-all duration-300 border border-white border-opacity-30 hover:border-prycegas-orange-light"
+            >
+              <i class="fas fa-rocket mr-2"></i>
+              Explore Features
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Image -->
+      
+          <!--  -->
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+      >
+        <i class="fas fa-chevron-down text-white text-2xl opacity-70"></i>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-slide-up">
+          <h2 class="text-4xl md:text-5xl font-bold text-prycegas-black mb-4">
+            Powerful Features
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Everything you need to run a modern, efficient gas station operation
+          </p>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          x-data="{ activeFeature: null }"
+        >
+          <!-- Feature 1 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 1"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-chart-line text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              Real-time Analytics
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Monitor sales, inventory, and performance metrics in real-time
+              with our advanced dashboard system.
+            </p>
+            <div class="mt-6 text-center">
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-prycegas-orange bg-opacity-10 text-prycegas-orange"
+              >
+                <i class="fas fa-star mr-1"></i>
+                Most Popular
+              </span>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 2"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-mobile-alt text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              Mobile First
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Manage your station from anywhere with our responsive mobile
+              interface and native apps.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 3"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-shield-alt text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              Secure & Reliable
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Enterprise-grade security with 99.9% uptime guarantee and
+              automated backups.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 4"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-users text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              Team Management
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Efficiently manage staff schedules, permissions, and performance
+              tracking.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 5"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-cog text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              Automation
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Automate routine tasks like inventory ordering, price updates, and
+              reporting.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div
+            class="bg-white rounded-2xl p-8 shadow-lg hover-lift border border-gray-100"
+            @mouseenter="activeFeature = 6"
+            @mouseleave="activeFeature = null"
+          >
+            <div
+              class="w-16 h-16 bg-prycegas-orange rounded-2xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <i class="fas fa-headset text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-prycegas-black mb-4 text-center">
+              24/7 Support
+            </h3>
+            <p class="text-gray-600 text-center leading-relaxed">
+              Round-the-clock customer support with dedicated account managers
+              for enterprise clients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Stats Section -->
+    <section class="py-20 gradient-bg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+          <div
+            class="text-white"
+            x-data="{ count: 0 }"
+            x-intersect="$el.querySelector('.counter').textContent = '500+'"
+          >
+            <div class="text-4xl md:text-5xl font-bold mb-2 counter">0</div>
+            <div class="text-lg opacity-90">Active Stations</div>
+          </div>
+          <div
+            class="text-white"
+            x-data="{ count: 0 }"
+            x-intersect="$el.querySelector('.counter').textContent = '1M+'"
+          >
+            <div class="text-4xl md:text-5xl font-bold mb-2 counter">0</div>
+            <div class="text-lg opacity-90">Transactions Daily</div>
+          </div>
+          <div
+            class="text-white"
+            x-data="{ count: 0 }"
+            x-intersect="$el.querySelector('.counter').textContent = '99.9%'"
+          >
+            <div class="text-4xl md:text-5xl font-bold mb-2 counter">0</div>
+            <div class="text-lg opacity-90">Uptime</div>
+          </div>
+          <div
+            class="text-white"
+            x-data="{ count: 0 }"
+            x-intersect="$el.querySelector('.counter').textContent = '24/7'"
+          >
+            <div class="text-4xl md:text-5xl font-bold mb-2 counter">0</div>
+            <div class="text-lg opacity-90">Support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-prycegas-black mb-4">
+            What Our Customers Say
+          </h2>
+          <p class="text-xl text-gray-600">
+            Join thousands of satisfied gas station owners
+          </p>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-8"
+          x-data="{ activeTestimonial: 1 }"
+        >
+          <div class="bg-gray-50 rounded-2xl p-8 hover-lift">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-prycegas-orange rounded-full flex items-center justify-center text-white font-bold text-lg"
+              >
+                JD
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-prycegas-black">John Doe</h4>
+                <p class="text-gray-600 text-sm">Station Owner, Texas</p>
+              </div>
+            </div>
+            <div class="flex mb-4">
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+            </div>
+            <p class="text-gray-700 italic">
+              "Prycegas Station transformed our operations. Sales increased by
+              30% in just 3 months!"
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-8 hover-lift">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-prycegas-orange rounded-full flex items-center justify-center text-white font-bold text-lg"
+              >
+                SM
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-prycegas-black">Sarah Miller</h4>
+                <p class="text-gray-600 text-sm">Manager, California</p>
+              </div>
+            </div>
+            <div class="flex mb-4">
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+            </div>
+            <p class="text-gray-700 italic">
+              "The mobile app is incredible. I can manage everything from
+              anywhere. Game changer!"
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-8 hover-lift">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 bg-prycegas-orange rounded-full flex items-center justify-center text-white font-bold text-lg"
+              >
+                RJ
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-prycegas-black">
+                  Robert Johnson
+                </h4>
+                <p class="text-gray-600 text-sm">Owner, Florida</p>
+              </div>
+            </div>
+            <div class="flex mb-4">
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+            </div>
+            <p class="text-gray-700 italic">
+              "Best investment we've made. The analytics help us make better
+              decisions daily."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg relative overflow-hidden">
+      <div class="absolute inset-0">
+        <div
+          class="absolute top-0 right-0 w-96 h-96 bg-prycegas-orange opacity-10 rounded-full blur-3xl float"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-80 h-80 bg-prycegas-orange-light opacity-10 rounded-full blur-3xl float"
+          style="animation-delay: -3s"
+        ></div>
+      </div>
+
+      <div
+        class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10"
+      >
+        <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">
+          Ready to Transform Your Station?
+        </h2>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          Join the revolution in gas station management. Register today and
+          transform your operations.
+        </p>
+
+        <div
+          class="flex flex-wrap justify-center items-center gap-8 text-white opacity-80"
+        >
+          <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2 text-green-400"></i>
+            <span>Easy Setup</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2 text-green-400"></i>
+            <span>Comprehensive Platform</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2 text-green-400"></i>
+            <span>24/7 Support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-prycegas-black text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <!-- Company Info -->
+          <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center mb-4">
+                <div
+                class="w-10 h-10 bg-prycegas-orange rounded-lg flex items-center justify-center mr-3"
+              >
+                <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="w-full h-full object-contain">
+              </div>
+              <h3 class="text-2xl font-bold">Prycegas Station</h3>
+            </div>
+            <p class="text-gray-400 mb-6 max-w-md">
+              Revolutionizing gas station management with cutting-edge
+              technology, real-time analytics, and unparalleled customer
+              support.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 bg-prycegas-gray rounded-full flex items-center justify-center hover:bg-prycegas-orange transition-colors"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-prycegas-gray rounded-full flex items-center justify-center hover:bg-prycegas-orange transition-colors"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-prycegas-gray rounded-full flex items-center justify-center hover:bg-prycegas-orange transition-colors"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 bg-prycegas-gray rounded-full flex items-center justify-center hover:bg-prycegas-orange transition-colors"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#features"
+                  class="text-gray-400 hover:text-prycegas-orange transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/login/"
+                  class="text-gray-400 hover:text-prycegas-orange transition-colors"
+                  >Sign In</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/register/"
+                  class="text-gray-400 hover:text-prycegas-orange transition-colors"
+                  >Register</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-prycegas-orange transition-colors"
+                  >Support</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Contact</h4>
+            <ul class="space-y-2">
+              <li class="flex items-center text-gray-400">
+                <i class="fas fa-envelope mr-2 text-prycegas-orange"></i>
+                support@prycegas.com
+              </li>
+              <li class="flex items-center text-gray-400">
+                <i class="fas fa-phone mr-2 text-prycegas-orange"></i>
+                1-800-PRYCEGAS
+              </li>
+              <li class="flex items-center text-gray-400">
+                <i class="fas fa-map-marker-alt mr-2 text-prycegas-orange"></i>
+                Tambulig, Zamboanga del Sur
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div
+          class="border-t border-prycegas-gray pt-8 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2024 Prycegas Station. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-prycegas-orange text-sm transition-colors"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-prycegas-orange text-sm transition-colors"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-prycegas-orange text-sm transition-colors"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button
+      x-show="showBackToTop"
+      @click="scrollToTop()"
+      x-transition
+      class="fixed bottom-8 right-8 w-12 h-12 bg-prycegas-orange hover:bg-prycegas-orange-dark text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
+    >
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Toast notifications container -->
+    <div
+      id="toast-container"
+      class="fixed top-4 right-4 z-50 space-y-2"
+      x-data="{ toasts: [] }"
+      @toast.window="toasts.push($event.detail); setTimeout(() => toasts.shift(), 5000)"
+    >
+      <template x-for="toast in toasts" :key="toast.id">
+        <div
+          x-show="true"
+          x-transition:enter="transform ease-out duration-300 transition"
+          x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+          x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+          x-transition:leave="transition ease-in duration-100"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg
+                  x-show="toast.type === 'success'"
+                  class="h-6 w-6 text-green-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <svg
+                  x-show="toast.type === 'error'"
+                  class="h-6 w-6 text-red-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <svg
+                  x-show="toast.type === 'info'"
+                  class="h-6 w-6 text-blue-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                <p
+                  class="text-sm font-medium text-gray-900"
+                  x-text="toast.title"
+                ></p>
+                <p
+                  class="mt-1 text-sm text-gray-500"
+                  x-text="toast.message"
+                ></p>
+              </div>
+              <div class="ml-4 flex-shrink-0 flex">
+                <button
+                  @click="toasts.splice(toasts.indexOf(toast), 1)"
+                  class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange"
+                >
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- JavaScript -->
+   
+  </body>
+</html>

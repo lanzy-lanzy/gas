@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">{% if form.instance.pk %}Edit Staff{% else %}Add Staff{% endif %}</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <form method="post">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% if form.username %}
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">Username</label>
+                    {{ form.username }}
+                </div>
+                {% endif %}
+                {% if form.email %}
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
+                    {{ form.email }}
+                </div>
+                {% endif %}
+                {% if form.password %}
+                <div>
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700">Password</label>
+                    {{ form.password }}
+                </div>
+                {% endif %}
+                {% if form.user %}
+                <div>
+                    <label for="{{ form.user.id_for_label }}" class="block text-sm font-medium text-gray-700">User</label>
+                    {{ form.user }}
+                </div>
+                {% endif %}
+                <div>
+                    <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700">Position</label>
+                    {{ form.position }}
+                </div>
+                <div>
+                    <label for="{{ form.salary.id_for_label }}" class="block text-sm font-medium text-gray-700">Salary</label>
+                    {{ form.salary }}
+                </div>
+                <div>
+                    <label for="{{ form.hire_date.id_for_label }}" class="block text-sm font-medium text-gray-700">Hire Date</label>
+                    {{ form.hire_date }}
+                </div>
+            </div>
+            <div class="mt-6">
+                <button type="submit" class="bg-prycegas-orange text-white px-4 py-2 rounded-lg shadow hover:bg-prycegas-dark-orange">Save</button>
+                <a href="{% url 'core:staff_list' %}" class="text-gray-600 ml-4">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    flatpickr("#{{ form.hire_date.id_for_label }}", {
+        dateFormat: "Y-m-d",
+    });
+</script>
+{% endblock %}

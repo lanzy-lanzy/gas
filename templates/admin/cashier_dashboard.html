@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">
+            <i class="fas fa-chart-line text-prycegas-orange mr-3"></i>Cashier Dashboard
+        </h1>
+        <p class="text-gray-600">Monitor cashier activity and transactions in real-time</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mb-8 flex gap-4">
+        <a href="{% url 'core:cashier_list' %}" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2">
+            <i class="fas fa-list"></i>Manage Cashiers
+        </a>
+        <a href="{% url 'core:cashier_transactions' %}" class="bg-prycegas-blue hover:bg-prycegas-dark-blue text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2">
+            <i class="fas fa-exchange-alt"></i>View Transactions
+        </a>
+        <a href="{% url 'core:cashier_performance' %}" class="bg-prycegas-green hover:bg-prycegas-dark-green text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2">
+            <i class="fas fa-chart-bar"></i>Performance
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Today's Total -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-orange">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Today's Total</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ today_total|floatformat:2 }}</p>
+                </div>
+                <div class="bg-prycegas-orange bg-opacity-10 p-4 rounded-lg">
+                    <i class="fas fa-dollar-sign text-prycegas-orange text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Transactions -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-blue">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Today's Transactions</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ today_transaction_count }}</p>
+                </div>
+                <div class="bg-prycegas-blue bg-opacity-10 p-4 rounded-lg">
+                    <i class="fas fa-receipt text-prycegas-blue text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Cashiers -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-green">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Active Cashiers</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ active_cashiers }}</p>
+                </div>
+                <div class="bg-prycegas-green bg-opacity-10 p-4 rounded-lg">
+                    <i class="fas fa-users text-prycegas-green text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Transactions -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Total Transactions</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ total_transactions }}</p>
+                </div>
+                <div class="bg-purple-100 p-4 rounded-lg">
+                    <i class="fas fa-history text-purple-500 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Breakdown -->
+    {% if transaction_breakdown %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Transaction Types -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">
+                <i class="fas fa-chart-pie text-prycegas-orange mr-2"></i>Transaction Breakdown
+            </h3>
+            <div class="space-y-4">
+                {% for item in transaction_breakdown %}
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span class="font-semibold text-gray-700">{{ item.transaction_type|title }}</span>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-gray-600">{{ item.count }} transactions</span>
+                        <span class="font-bold text-prycegas-orange">{{ item.total|floatformat:2 }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">
+                <i class="fas fa-clock text-prycegas-blue mr-2"></i>Recent Transactions
+            </h3>
+            <div class="space-y-3 max-h-96 overflow-y-auto">
+                {% if recent_transactions %}
+                    {% for transaction in recent_transactions %}
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <p class="font-semibold text-gray-900">{{ transaction.get_transaction_type_display }}</p>
+                            <p class="text-xs text-gray-600">{{ transaction.cashier.user.username }} - {{ transaction.created_at|date:"M d, H:i" }}</p>
+                        </div>
+                        <span class="font-bold text-gray-900">{{ transaction.amount|floatformat:2 }}</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center text-gray-500 py-8">No transactions yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="bg-gradient-to-r from-prycegas-orange to-prycegas-dark-orange rounded-xl shadow-lg p-8 text-white">
+        <h3 class="text-2xl font-bold mb-4">
+            <i class="fas fa-rocket mr-2"></i>Quick Actions
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="{% url 'core:manage_customer_order' %}" class="block bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-4 rounded-lg transition-all duration-200">
+                <p class="text-lg font-semibold">Create Order</p>
+                <p class="text-sm opacity-90">Create a new customer order</p>
+            </a>
+            <a href="{% url 'core:record_payment' %}" class="block bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-4 rounded-lg transition-all duration-200">
+                <p class="text-lg font-semibold">Record Payment</p>
+                <p class="text-sm opacity-90">Record a customer payment</p>
+            </a>
+            <a href="{% url 'core:cashier_performance' %}" class="block bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-4 rounded-lg transition-all duration-200">
+                <p class="text-lg font-semibold">View Metrics</p>
+                <p class="text-sm opacity-90">View cashier metrics</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

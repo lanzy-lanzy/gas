@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">
+            <i class="fas fa-chart-line text-prycegas-orange mr-3"></i>My Daily Revenue Report
+        </h1>
+        <p class="text-gray-600">Track your daily income and product distribution</p>
+    </div>
+
+    <!-- Date Selector -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <form method="get" class="flex gap-4 items-end">
+            <div class="flex-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Select Date</label>
+                <input type="date" name="date" value="{{ report_date|date:'Y-m-d' }}"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-prycegas-orange">
+            </div>
+            <button type="submit" class="bg-prycegas-orange hover:bg-prycegas-dark-orange text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                <i class="fas fa-filter mr-2"></i>View Report
+            </button>
+            <a href="{% url 'core:export_daily_report_pdf' %}?date={{ report_date|date:'Y-m-d' }}" 
+                class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                <i class="fas fa-file-pdf mr-2"></i>Export PDF
+            </a>
+        </form>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-orange">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Total Revenue</p>
+                    <p class="text-3xl font-bold text-prycegas-orange mt-2">₱{{ total_income|floatformat:2 }}</p>
+                </div>
+                <div class="text-prycegas-orange/20">
+                    <i class="fas fa-money-bill-wave text-5xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-blue">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Orders Completed</p>
+                    <p class="text-3xl font-bold text-prycegas-blue mt-2">{{ total_orders }}</p>
+                </div>
+                <div class="text-prycegas-blue/20">
+                    <i class="fas fa-shopping-cart text-5xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-prycegas-green">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm font-medium">Average Order Value</p>
+                    <p class="text-3xl font-bold text-prycegas-green mt-2">₱{{ avg_order|floatformat:2 }}</p>
+                </div>
+                <div class="text-prycegas-green/20">
+                    <i class="fas fa-chart-bar text-5xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders List -->
+    {% if orders %}
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-prycegas-orange to-prycegas-dark-orange p-6 text-white">
+            <h3 class="text-xl font-bold"><i class="fas fa-list mr-2"></i>Orders Delivered Today</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700">Order ID</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700">Customer</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700">Product</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Qty</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for order in orders %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">#{{ order.id }}</td>
+                        <td class="px-6 py-4 text-sm">
+                            {% if order.customer %}
+                                <p class="font-medium text-gray-900">{{ order.customer.get_full_name|default:order.customer.username }}</p>
+                                <p class="text-xs text-gray-600">{{ order.customer.email }}</p>
+                            {% else %}
+                                <p class="font-medium text-gray-900">Unknown Customer</p>
+                                <p class="text-xs text-gray-600">N/A</p>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-700">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                {{ order.product.name }} ({{ order.product.size }})
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-right font-semibold text-gray-900">{{ order.quantity }}</td>
+                        <td class="px-6 py-4 text-sm text-right font-bold text-prycegas-orange">₱{{ order.total_amount|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Product Breakdown -->
+    {% if product_data %}
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-prycegas-blue to-prycegas-blue/70 p-6 text-white">
+            <h3 class="text-xl font-bold"><i class="fas fa-boxes mr-2"></i>Product Distribution</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700">Product</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Quantity</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Revenue</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Avg Price</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700">Orders</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for item in product_data %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 text-sm">
+                            <p class="font-semibold text-gray-900">{{ item.product.name }}</p>
+                            <p class="text-xs text-gray-600">{{ item.product.size }}</p>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-right font-semibold text-gray-900">{{ item.quantity }}</td>
+                        <td class="px-6 py-4 text-sm text-right font-bold text-prycegas-orange">₱{{ item.revenue|floatformat:2 }}</td>
+                        <td class="px-6 py-4 text-sm text-right text-gray-600">₱{{ item.avg_price|floatformat:2 }}</td>
+                        <td class="px-6 py-4 text-sm text-right text-gray-700">{{ item.orders }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+        <div class="flex justify-center mb-4">
+            <div class="bg-gray-100 p-8 rounded-full">
+                <i class="fas fa-inbox text-gray-400 text-4xl"></i>
+            </div>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No Orders Today</h3>
+        <p class="text-gray-600">No delivered orders found for {{ report_date|date:'F j, Y' }}.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

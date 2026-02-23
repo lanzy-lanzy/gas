@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">
+                    <i class="fas fa-chart-line text-prycegas-orange mr-3"></i>Cashier Dashboard
+                </h1>
+                <p class="text-gray-600">Monitor cashier activity and transactions in real-time</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{% url 'core:cashier_list' %}" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2">
+                    <i class="fas fa-list"></i>Manage Cashiers
+                </a>
+                <a href="{% url 'core:cashier_transactions' %}" class="bg-prycegas-blue hover:bg-prycegas-dark-blue text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2">
+                    <i class="fas fa-history"></i>View All Transactions
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Today's Total -->
+        <div class="bg-gradient-to-br from-prycegas-orange to-prycegas-orange-light rounded-xl shadow-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-orange-100 text-sm font-medium">Today's Total</p>
+                    <p class="text-3xl font-bold">₱{{ today_total|floatformat:2|currency_format|intcomma }}</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                    <i class="fas fa-dollar-sign text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Transactions -->
+        <div class="bg-gradient-to-br from-prycegas-blue to-blue-600 rounded-xl shadow-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-blue-100 text-sm font-medium">Today's Transactions</p>
+                    <p class="text-3xl font-bold">{{ today_transaction_count }}</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                    <i class="fas fa-exchange-alt text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Transactions -->
+        <div class="bg-gradient-to-br from-prycegas-green to-green-600 rounded-xl shadow-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-green-100 text-sm font-medium">Total Transactions</p>
+                    <p class="text-3xl font-bold">{{ total_transactions }}</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                    <i class="fas fa-receipt text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Cashiers -->
+        <div class="bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-purple-100 text-sm font-medium">Active Cashiers</p>
+                    <p class="text-3xl font-bold">{{ active_cashiers }}</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                    <i class="fas fa-users text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Transaction Breakdown -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fas fa-pie-chart text-prycegas-orange"></i>Transaction Breakdown
+                </h3>
+            </div>
+
+            {% if transaction_breakdown %}
+            <div class="space-y-4">
+                {% for trans in transaction_breakdown %}
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200 last:border-b-0">
+                    <div class="flex items-center gap-3">
+                        {% if trans.transaction_type == 'order' %}
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <i class="fas fa-shopping-cart text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Customer Orders</p>
+                            <p class="text-sm text-gray-500">{{ trans.count }} transactions</p>
+                        </div>
+                        {% elif trans.transaction_type == 'payment' %}
+                        <div class="bg-prycegas-green bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-money-check-alt text-prycegas-green"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Payments Received</p>
+                            <p class="text-sm text-gray-500">{{ trans.count }} transactions</p>
+                        </div>
+                        {% elif trans.transaction_type == 'refund' %}
+                        <div class="bg-red-100 p-3 rounded-lg">
+                            <i class="fas fa-undo text-red-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Refunds</p>
+                            <p class="text-sm text-gray-500">{{ trans.count }} transactions</p>
+                        </div>
+                        {% elif trans.transaction_type == 'adjustment' %}
+                        <div class="bg-yellow-100 p-3 rounded-lg">
+                            <i class="fas fa-wrench text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Adjustments</p>
+                            <p class="text-sm text-gray-500">{{ trans.count }} transactions</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-gray-900">₱{{ trans.total|floatformat:2|currency_format|intcomma }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-inbox text-4xl mb-2"></i>
+                <p>No transactions recorded yet</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="fas fa-flash text-prycegas-orange"></i>Quick Actions
+            </h3>
+
+            <div class="space-y-3">
+                <a href="{% url 'core:manage_customer_order' %}" class="block bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light hover:shadow-lg text-white p-4 rounded-lg transition-all duration-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold">Create Order</p>
+                            <p class="text-sm opacity-90">Add new customer order</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="{% url 'core:record_payment' %}" class="block bg-gradient-to-r from-prycegas-green to-green-600 hover:shadow-lg text-white p-4 rounded-lg transition-all duration-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold">Record Payment</p>
+                            <p class="text-sm opacity-90">Log customer payment</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="{% url 'core:cashier_performance' %}" class="block bg-gradient-to-r from-prycegas-blue to-blue-600 hover:shadow-lg text-white p-4 rounded-lg transition-all duration-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold">Performance</p>
+                            <p class="text-sm opacity-90">View cashier metrics</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="{% url 'core:cashier_transactions' %}" class="block bg-gradient-to-r from-purple-600 to-purple-700 hover:shadow-lg text-white p-4 rounded-lg transition-all duration-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold">All Transactions</p>
+                            <p class="text-sm opacity-90">View transaction history</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Transactions Table -->
+    {% if recent_transactions %}
+    <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <i class="fas fa-history text-prycegas-orange"></i>Recent Transactions
+            </h3>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Cashier</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Customer</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Time</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for trans in recent_transactions %}
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-prycegas-orange bg-opacity-20 rounded-lg flex items-center justify-center">
+                                    <span class="text-xs font-bold text-prycegas-orange">{{ trans.cashier.user.first_name|first|default:trans.cashier.user.username|first|upper }}</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-900">{{ trans.cashier.user.get_full_name|default:trans.cashier.user.username }}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if trans.transaction_type == 'order' %}
+                            <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-shopping-cart text-xs"></i>Order
+                            </span>
+                            {% elif trans.transaction_type == 'payment' %}
+                            <span class="inline-flex items-center gap-1 bg-prycegas-green bg-opacity-20 text-prycegas-green px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-check text-xs"></i>Payment
+                            </span>
+                            {% elif trans.transaction_type == 'refund' %}
+                            <span class="inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-undo text-xs"></i>Refund
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-wrench text-xs"></i>Adjustment
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm font-semibold text-gray-900">₱{{ trans.amount|floatformat:2|currency_format|intcomma }}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm text-gray-600">{{ trans.customer.username|default:'N/A' }}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm text-gray-500">{{ trans.created_at|date:"M d, H:i" }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

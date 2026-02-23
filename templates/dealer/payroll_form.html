@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Add Payroll Entry</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mt-6">
+                <button type="submit" class="bg-prycegas-orange text-white px-4 py-2 rounded-lg shadow hover:bg-prycegas-dark-orange">Save</button>
+                <a href="{% url 'core:payroll_list' %}" class="text-gray-600 ml-4">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

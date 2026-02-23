@@ -1,0 +1,95 @@
+{% if is_paginated %}
+<nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" 
+     aria-label="Pagination">
+    <div class="hidden sm:block">
+        <p class="text-sm text-gray-700">
+            Showing
+            <span class="font-medium">{{ page_obj.start_index }}</span>
+            to
+            <span class="font-medium">{{ page_obj.end_index }}</span>
+            of
+            <span class="font-medium">{{ page_obj.paginator.count }}</span>
+            results
+        </p>
+    </div>
+    
+    <div class="flex-1 flex justify-between sm:justify-end">
+        {% if page_obj.has_previous %}
+            <button hx-get="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                    hx-target="#main-content"
+                    hx-push-url="true"
+                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-colors duration-150">
+                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Previous
+            </button>
+        {% endif %}
+        
+        {% if page_obj.has_next %}
+            <button hx-get="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                    hx-target="#main-content"
+                    hx-push-url="true"
+                    class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-colors duration-150">
+                Next
+                <svg class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- Page numbers for desktop -->
+<nav class="hidden lg:flex items-center justify-center space-x-1 mt-4" aria-label="Pagination">
+    {% if page_obj.has_previous %}
+        <button hx-get="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                hx-target="#main-content"
+                hx-push-url="true"
+                class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-prycegas-orange focus:border-prycegas-orange">
+            <span class="sr-only">First</span>
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+            </svg>
+        </button>
+    {% endif %}
+    
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <span class="relative inline-flex items-center px-4 py-2 border border-prycegas-orange bg-prycegas-orange text-sm font-medium text-white">
+                {{ num }}
+            </span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <button hx-get="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                    hx-target="#main-content"
+                    hx-push-url="true"
+                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-prycegas-orange focus:border-prycegas-orange">
+                {{ num }}
+            </button>
+        {% elif num == page_obj.number|add:'-4' or num == page_obj.number|add:'4' %}
+            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                ...
+            </span>
+        {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.has_next %}
+        <button hx-get="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                hx-target="#main-content"
+                hx-push-url="true"
+                class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-prycegas-orange focus:border-prycegas-orange">
+            <span class="sr-only">Last</span>
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+            </svg>
+        </button>
+    {% endif %}
+</nav>
+
+<!-- Mobile pagination info -->
+<div class="lg:hidden mt-4 text-center">
+    <p class="text-sm text-gray-700">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </p>
+</div>
+{% endif %}

@@ -1,0 +1,143 @@
+{% load currency_filters %}
+{% load humanize %}
+{% for order in orders %}
+<tr class="hover:bg-gray-50 transition-colors duration-150" 
+    x-data="{ selected: false }"
+    :class="{ 'bg-blue-50': selected }">
+    <td class="px-6 py-4 whitespace-nowrap">
+        <input type="checkbox" 
+               name="order_checkbox" 
+               value="{{ order.id }}"
+               @change="$parent.toggleOrderSelection({{ order.id }})"
+               class="h-4 w-4 text-prycegas-orange focus:ring-prycegas-orange border-gray-300 rounded">
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        #{{ order.id }}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        {{ order.customer.username }}
+        {% if order.customer.first_name %}
+            <br><span class="text-xs text-gray-500">{{ order.customer.first_name }} {{ order.customer.last_name }}</span>
+        {% endif %}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        {{ order.product.name }} - {{ order.product.size }}
+        <br><span class="text-xs text-gray-500">Qty: {{ order.quantity }}</span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+            {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800
+            {% elif order.status == 'out_for_delivery' %}bg-blue-100 text-blue-800
+            {% elif order.status == 'delivered' %}bg-green-100 text-green-800
+            {% elif order.status == 'cancelled' %}bg-red-100 text-red-800
+            {% endif %}">
+            {{ order.get_status_display }}
+        </span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+            {% if order.delivery_type == 'pickup' %}bg-gray-100 text-gray-800
+            {% else %}bg-prycegas-orange bg-opacity-10 text-prycegas-orange
+            {% endif %}">
+            {{ order.get_delivery_type_display }}
+        </span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        ₱{{ order.total_amount|floatformat:2|currency_format|intcomma }}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {{ order.order_date|date:"M d, Y" }}
+        <br><span class="text-xs">{{ order.order_date|time:"g:i A" }}</span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <div class="flex items-center space-x-2">
+            <!-- Status Update Dropdown -->
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" 
+                        class="inline-flex items-center px-3 py-1 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange">
+                    Update Status
+                    <svg class="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100"
+                     x-transition:enter-start="transform opacity-0 scale-95"
+                     x-transition:enter-end="transform opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75"
+                     x-transition:leave-start="transform opacity-100 scale-100"
+                     x-transition:leave-end="transform opacity-0 scale-95"
+                     class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                    <div class="py-1">
+                        {% if order.status == 'pending' %}
+                            <form hx-post="{% url 'core:update_order_status' order.id %}"
+                                  hx-target="closest tr"
+                                  hx-swap="outerHTML">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="out_for_delivery">
+                                <button type="submit" 
+                                        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Mark as Out for Delivery
+                                </button>
+                            </form>
+                            <form hx-post="{% url 'core:update_order_status' order.id %}"
+                                  hx-target="closest tr"
+                                  hx-swap="outerHTML">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="cancelled">
+                                <button type="submit" 
+                                        class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50">
+                                    Cancel Order
+                                </button>
+                            </form>
+                        {% elif order.status == 'out_for_delivery' %}
+                            <form hx-post="{% url 'core:update_order_status' order.id %}"
+                                  hx-target="closest tr"
+                                  hx-swap="outerHTML">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="delivered">
+                                <button type="submit" 
+                                        class="block w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-green-50">
+                                    Mark as Delivered
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View Details Button -->
+            <button @click="$parent.showOrderDetail({{ order.id }})"
+                    class="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-prycegas-orange bg-prycegas-orange bg-opacity-10 hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange">
+                View Details
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="9" class="px-6 py-12 text-center text-gray-500">
+        <div class="flex flex-col items-center">
+            <svg class="h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="text-lg font-medium">No orders found</p>
+            <p class="text-sm">Try adjusting your filters or search criteria.</p>
+        </div>
+    </td>
+</tr>
+{% endfor %}
+
+{% if has_next %}
+<tr id="load-more-trigger" 
+    data-lazy-load="{% url 'core:lazy_load_orders' %}?page={{ next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+    class="load-more-row">
+    <td colspan="9" class="px-6 py-4 text-center">
+        <div class="flex items-center justify-center">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-prycegas-orange"></div>
+            <span class="ml-3 text-gray-600">Loading more orders...</span>
+        </div>
+    </td>
+</tr>
+{% endif %}

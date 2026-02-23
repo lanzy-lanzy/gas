@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Select Fix Test</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom toggle switch styling */
+        .dot {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced hover effects */
+        .hover\:scale-105:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        .transition-all {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-8">Bulk Select Fix Test</h1>
+        
+        <!-- Test the order management component -->
+        <div class="order-management min-h-screen bg-gray-50" x-data="orderManagementTest()">
+            <!-- Bulk Operations Panel -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-8" x-show="selectedOrders.length > 0" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95">
+                <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-purple-50 to-white rounded-t-2xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3 animate-pulse">
+                                <i class="fas fa-tasks text-white text-sm"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">
+                                Bulk Operations (<span x-text="selectedOrders.length" class="text-purple-600 font-bold"></span> selected)
+                            </h3>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                                Press Ctrl+A to select all
+                            </span>
+                            <button @click="clearSelection()"
+                                    class="text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors duration-200 hover:bg-gray-100 px-3 py-1 rounded-lg">
+                                <i class="fas fa-times mr-1"></i>Clear Selection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-4">
+                        <button @click="bulkOperation('mark_out_for_delivery')"
+                                :disabled="!canMarkOutForDelivery() || isProcessingBulk"
+                                :class="(canMarkOutForDelivery() && !isProcessingBulk) ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:scale-105' : 'bg-gray-300 cursor-not-allowed'"
+                                class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200">
+                            <i :class="isProcessingBulk ? 'fas fa-spinner fa-spin' : 'fas fa-truck'" class="mr-2"></i>
+                            <span x-text="isProcessingBulk ? 'Processing...' : 'Mark as Out for Delivery'"></span>
+                        </button>
+                        <button @click="bulkOperation('mark_delivered')"
+                                :disabled="!canMarkDelivered() || isProcessingBulk"
+                                :class="(canMarkDelivered() && !isProcessingBulk) ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105' : 'bg-gray-300 cursor-not-allowed'"
+                                class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200">
+                            <i :class="isProcessingBulk ? 'fas fa-spinner fa-spin' : 'fas fa-check-circle'" class="mr-2"></i>
+                            <span x-text="isProcessingBulk ? 'Processing...' : 'Mark as Delivered'"></span>
+                        </button>
+                        <button @click="bulkOperation('cancel_orders')"
+                                :disabled="!canCancelOrders() || isProcessingBulk"
+                                :class="(canCancelOrders() && !isProcessingBulk) ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 hover:scale-105' : 'bg-gray-300 cursor-not-allowed'"
+                                class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                            <i :class="isProcessingBulk ? 'fas fa-spinner fa-spin' : 'fas fa-ban'" class="mr-2"></i>
+                            <span x-text="isProcessingBulk ? 'Processing...' : 'Cancel Orders'"></span>
+                        </button>
+                    </div>
+                    <div class="mt-4 text-xs text-gray-500 space-y-1">
+                        <p><i class="fas fa-info-circle mr-1"></i>Tip: Only orders with compatible statuses will be processed. Invalid orders will be skipped.</p>
+                        <p><i class="fas fa-keyboard mr-1"></i>Shortcuts: <kbd class="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+A</kbd> Select All, <kbd class="px-1 py-0.5 bg-gray-200 rounded text-xs">Esc</kbd> Clear Selection, <kbd class="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+R</kbd> Refresh</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Test Table -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100">
+                <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-table text-white text-sm"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">Test Orders</h3>
+                        </div>
+                        <button @click="simulateTableRefresh()"
+                                :disabled="isLoading"
+                                :class="isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-lg shadow text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                            <i :class="isLoading ? 'fas fa-spinner fa-spin' : 'fas fa-sync-alt'" class="mr-2"></i>
+                            <span x-text="isLoading ? 'Refreshing...' : 'Simulate Refresh'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div id="order-table-container">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <input type="checkbox" @change="$event.target.checked ? selectAllOrders() : clearSelection()"
+                                               class="focus:ring-blue-500 h-4 w-4 text-blue-500 border-gray-300 rounded">
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <template x-for="order in testOrders" :key="order.id">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <input type="checkbox" name="order_checkbox" :value="order.id"
+                                                   @change="toggleOrderSelection(order.id)"
+                                                   :checked="selectedOrders.includes(order.id)"
+                                                   class="focus:ring-blue-500 h-4 w-4 text-blue-500 border-gray-300 rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" x-text="'#' + order.id"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" x-text="order.customer"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                                  :class="order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                                         order.status === 'out_for_delivery' ? 'bg-orange-100 text-orange-800' : 
+                                                         order.status === 'delivered' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                                                  x-text="order.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Test Results -->
+            <div class="mt-8 bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4">Test Results</h3>
+                <div class="space-y-2 text-sm">
+                    <p><strong>Selected Orders:</strong> <span x-text="selectedOrders.join(', ') || 'None'"></span></p>
+                    <p><strong>Is Loading:</strong> <span x-text="isLoading ? 'Yes' : 'No'"></span></p>
+                    <p><strong>Is Processing Bulk:</strong> <span x-text="isProcessingBulk ? 'Yes' : 'No'"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function orderManagementTest() {
+            return {
+                selectedOrders: [],
+                isLoading: false,
+                isProcessingBulk: false,
+                testOrders: [
+                    { id: 1, customer: 'John Doe', status: 'pending' },
+                    { id: 2, customer: 'Jane Smith', status: 'out_for_delivery' },
+                    { id: 3, customer: 'Bob Johnson', status: 'pending' },
+                    { id: 4, customer: 'Alice Brown', status: 'delivered' },
+                    { id: 5, customer: 'Charlie Wilson', status: 'pending' }
+                ],
+
+                init() {
+                    console.log('Test order management initialized');
+                    this.setupKeyboardShortcuts();
+                },
+
+                setupKeyboardShortcuts() {
+                    document.addEventListener('keydown', (event) => {
+                        // Ctrl+A to select all orders
+                        if (event.ctrlKey && event.key === 'a' && !event.target.matches('input, textarea')) {
+                            event.preventDefault();
+                            this.selectAllOrders();
+                            this.showToast('All orders selected', 'info');
+                        }
+                        
+                        // Escape to clear selection
+                        if (event.key === 'Escape' && this.selectedOrders.length > 0) {
+                            this.clearSelection();
+                            this.showToast('Selection cleared', 'info');
+                        }
+                        
+                        // Ctrl+R to refresh table
+                        if (event.ctrlKey && event.key === 'r') {
+                            event.preventDefault();
+                            this.simulateTableRefresh();
+                            this.showToast('Table refreshed', 'info');
+                        }
+                    });
+                },
+
+                toggleOrderSelection(orderId) {
+                    const index = this.selectedOrders.indexOf(orderId);
+                    if (index > -1) {
+                        this.selectedOrders.splice(index, 1);
+                    } else {
+                        this.selectedOrders.push(orderId);
+                    }
+                    this.updateSelectAllCheckbox();
+                },
+
+                selectAllOrders() {
+                    this.selectedOrders = this.testOrders.map(order => order.id);
+                    this.updateSelectAllCheckbox();
+                },
+
+                clearSelection() {
+                    this.selectedOrders = [];
+                    this.updateSelectAllCheckbox();
+                },
+
+                updateSelectAllCheckbox() {
+                    const selectAllCheckbox = document.querySelector('thead input[type="checkbox"]');
+                    if (selectAllCheckbox) {
+                        const checkedCount = this.selectedOrders.length;
+                        const totalCount = this.testOrders.length;
+                        
+                        if (checkedCount === 0) {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = false;
+                        } else if (checkedCount === totalCount) {
+                            selectAllCheckbox.checked = true;
+                            selectAllCheckbox.indeterminate = false;
+                        } else {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = true;
+                        }
+                    }
+                },
+
+                simulateTableRefresh() {
+                    this.isLoading = true;
+                    // Simulate network delay
+                    setTimeout(() => {
+                        // Simulate table content refresh - selections should be preserved
+                        this.isLoading = false;
+                        this.showToast('Table refreshed - selections preserved!', 'success');
+                        // Restore checkbox states (this simulates what happens in the real implementation)
+                        setTimeout(() => {
+                            this.restoreCheckboxStates();
+                        }, 50);
+                    }, 1000);
+                },
+
+                restoreCheckboxStates() {
+                    const checkboxes = document.querySelectorAll('input[name="order_checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        const orderId = parseInt(checkbox.value);
+                        checkbox.checked = this.selectedOrders.includes(orderId);
+                    });
+                    this.updateSelectAllCheckbox();
+                },
+
+                bulkOperation(operation) {
+                    if (this.selectedOrders.length === 0) {
+                        this.showToast('No orders selected', 'error');
+                        return;
+                    }
+
+                    if (this.isProcessingBulk) {
+                        this.showToast('Another operation is in progress', 'warning');
+                        return;
+                    }
+
+                    this.isProcessingBulk = true;
+                    this.showToast('Processing bulk operation...', 'info');
+
+                    // Simulate bulk operation
+                    setTimeout(() => {
+                        this.showToast(`Successfully processed ${this.selectedOrders.length} orders with operation: ${operation}`, 'success');
+                        this.clearSelection();
+                        this.isProcessingBulk = false;
+                        // Simulate table refresh after bulk operation
+                        this.simulateTableRefresh();
+                    }, 2000);
+                },
+
+                canMarkOutForDelivery() {
+                    return this.selectedOrders.length > 0;
+                },
+
+                canMarkDelivered() {
+                    return this.selectedOrders.length > 0;
+                },
+
+                canCancelOrders() {
+                    return this.selectedOrders.length > 0;
+                },
+
+                showToast(message, type = 'success') {
+                    const toast = document.createElement('div');
+                    const bgColor = {
+                        'success': 'bg-green-500',
+                        'error': 'bg-red-500',
+                        'info': 'bg-blue-500',
+                        'warning': 'bg-yellow-500'
+                    }[type] || 'bg-gray-500';
+                    
+                    toast.className = `fixed top-4 right-4 px-6 py-3 rounded-md text-white z-50 ${bgColor} shadow-lg transform transition-all duration-300 ease-in-out`;
+                    
+                    const icon = {
+                        'success': '✓',
+                        'error': '✗',
+                        'info': 'ℹ',
+                        'warning': '⚠'
+                    }[type] || '';
+                    
+                    if (icon) {
+                        toast.innerHTML = `<span class="mr-2">${icon}</span>${message}`;
+                    } else {
+                        toast.textContent = message;
+                    }
+                    
+                    document.body.appendChild(toast);
+
+                    const delay = type === 'info' ? 2000 : 3000;
+                    setTimeout(() => {
+                        toast.style.opacity = '0';
+                        toast.style.transform = 'translateX(100%)';
+                        setTimeout(() => {
+                            if (toast.parentNode) {
+                                toast.remove();
+                            }
+                        }, 300);
+                    }, delay);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

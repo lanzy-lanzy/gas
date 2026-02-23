@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Delete Staff</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <p class="text-lg">Are you sure you want to delete the staff member "{{ staff.user.username }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mt-6">
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-800">Delete</button>
+                <a href="{% url 'core:staff_list' %}" class="text-gray-600 ml-4">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

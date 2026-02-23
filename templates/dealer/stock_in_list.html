@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load currency_filters %}
+
+{% block title %}Stock In List - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="px-6 lg:px-8 py-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-arrow-down text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900">Stock In List</h1>
+                    </div>
+                    <p class="text-gray-600 ml-13">Track all incoming stock from deliveries and suppliers</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'core:delivery_log' %}" 
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light hover:from-prycegas-orange-dark hover:to-prycegas-orange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-plus mr-2"></i>
+                        Log New Delivery
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-truck text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Deliveries</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ summary_stats.total_items }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-boxes text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Quantity</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ summary_stats.total_quantity }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-shopping-cart text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Buying Cost</p>
+                        <p class="text-xl font-bold text-red-600">₱{{ summary_stats.total_cost|floatformat:2|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-tag text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Selling Value</p>
+                        <p class="text-xl font-bold text-blue-600">₱{{ summary_stats.total_potential_revenue|floatformat:2|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-chart-line text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Profit Potential</p>
+                        <p class="text-xl font-bold text-emerald-600">₱{{ summary_stats.total_profit_potential|floatformat:2|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-building text-white text-lg"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-semibold text-gray-600">Suppliers</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ summary_stats.unique_suppliers }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-8">
+            <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-filter text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">Filters</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <form method="GET" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label for="date_from" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-green-500"></i>From Date
+                            </label>
+                            <input type="date" name="date_from" id="date_from" 
+                                   value="{{ current_filters.date_from }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                        </div>
+
+                        <div>
+                            <label for="date_to" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-green-500"></i>To Date
+                            </label>
+                            <input type="date" name="date_to" id="date_to" 
+                                   value="{{ current_filters.date_to }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                        </div>
+
+                        <div>
+                            <label for="product" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="inline-block w-4 h-4 mr-2 object-contain">Product
+                            </label>
+                            <select name="product" id="product" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                                <option value="">All Products</option>
+                                {% for product in products %}
+                                    <option value="{{ product.id }}" {% if current_filters.product == product.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ product.name }} - {{ product.size }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="supplier" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-building mr-2 text-green-500"></i>Supplier
+                            </label>
+                            <select name="supplier" id="supplier" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                                <option value="">All Suppliers</option>
+                                {% for supplier in suppliers %}
+                                    <option value="{{ supplier }}" {% if current_filters.supplier == supplier %}selected{% endif %}>
+                                        {{ supplier }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between space-y-4 lg:space-y-0 lg:space-x-6">
+                        <div class="flex-1 max-w-lg">
+                            <label for="search" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-search mr-2 text-green-500"></i>Search
+                            </label>
+                            <div class="relative">
+                                <input type="text" name="search" id="search" 
+                                       value="{{ current_filters.search }}"
+                                       placeholder="Search by supplier, product, or notes..."
+                                       class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="min-w-0 flex-shrink-0">
+                            <label for="sort" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-sort mr-2 text-green-500"></i>Sort By
+                            </label>
+                            <select name="sort" id="sort" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
+                                {% for value, label in sort_choices %}
+                                    <option value="{{ value }}" {% if current_filters.sort == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button type="submit" 
+                                    class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 hover:scale-105">
+                                <i class="fas fa-search mr-2"></i>
+                                Apply Filters
+                            </button>
+                            <a href="{% url 'core:stock_in_list' %}" 
+                               class="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 hover:scale-105">
+                                <i class="fas fa-times mr-2"></i>
+                                Clear Filters
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100">
+            <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-table text-white text-sm"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Stock In Records</h3>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} records
+                    </div>
+                </div>
+            </div>
+
+            {% if stock_in_items %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Delivery Date
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Product
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Supplier
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Qty
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-red-50">
+                                <span class="text-red-600">Buy Price/Unit</span>
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-red-50">
+                                <span class="text-red-600">Total Cost</span>
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-blue-50">
+                                <span class="text-blue-600">Sell Price/Unit</span>
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-blue-50">
+                                <span class="text-blue-600">Potential Revenue</span>
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-emerald-50">
+                                <span class="text-emerald-600">Profit</span>
+                            </th>
+                            <th scope="col" class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Logged By
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for item in stock_in_items %}
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ item.delivery_date|date:"M d, Y" }}
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    {{ item.delivery_date|time:"g:i A" }}
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                                        <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="w-4 h-4 object-contain">
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{ item.product.name }}</div>
+                                        <div class="text-xs text-gray-500">{{ item.product.size }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{ item.supplier_name }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-bold bg-green-100 text-green-800">
+                                    <i class="fas fa-plus mr-1"></i>{{ item.quantity_received }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap bg-red-50">
+                                <div class="text-sm font-medium text-red-600">₱{{ item.cost_per_unit|floatformat:2|intcomma }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap bg-red-50">
+                                <div class="text-sm font-bold text-red-600">₱{{ item.total_cost|floatformat:2|intcomma }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap bg-blue-50">
+                                <div class="text-sm font-medium text-blue-600">₱{{ item.product.price|floatformat:2|intcomma }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap bg-blue-50">
+                                <div class="text-sm font-bold text-blue-600">₱{{ item.quantity_received|multiply:item.product.price|floatformat:2|intcomma }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap bg-emerald-50">
+                                <div class="text-sm font-bold text-emerald-600">₱{{ item.quantity_received|multiply:item.product.price|subtract:item.total_cost|floatformat:2|intcomma }}</div>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center mr-2">
+                                        <span class="text-xs font-medium text-gray-700">{{ item.logged_by.username|first|upper }}</span>
+                                    </div>
+                                    <div class="text-sm text-gray-900">{{ item.logged_by.username }}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if page_obj.has_other_pages %}
+            <div class="bg-white px-6 py-4 border-t border-gray-200 rounded-b-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        {% if page_obj.has_previous %}
+                            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}"
+                               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Previous
+                            </a>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}"
+                               class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Showing <span class="font-medium">{{ page_obj.start_index }}</span> to <span class="font-medium">{{ page_obj.end_index }}</span> of <span class="font-medium">{{ page_obj.paginator.count }}</span> results
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                {% if page_obj.has_previous %}
+                                    <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}"
+                                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-green-500 bg-green-500 text-sm font-medium text-white">
+                                            {{ num }}
+                                        </span>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}"
+                                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            {{ num }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}"
+                                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                {% endif %}
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="text-center py-12">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-arrow-down text-green-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No stock in records found</h3>
+                <p class="text-gray-500 mb-6">No deliveries match your current filters.</p>
+                <a href="{% url 'core:delivery_log' %}"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 hover:scale-105">
+                    <i class="fas fa-plus mr-2"></i>
+                    Log Your First Delivery
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

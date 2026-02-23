@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Notifications - Prycegas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Notifications</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            {% if unread_notification_count > 0 %}
+            <form method="post" action="{% url 'core:mark_all_notifications_as_read' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-primary">
+                    Mark all as read
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if notifications.object_list %}
+    <div class="notifications-list">
+        {% for notification in notifications %}
+        <div class="notification-card {% if not notification.is_read %}notification-unread{% endif %} notification-{{ notification.notification_type }}">
+            <div class="notification-card-header">
+                <div class="notification-card-title">
+                    <div class="notification-icon-large">
+                        {% if notification.notification_type == 'order_cancelled' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        {% elif notification.notification_type == 'order_delivered' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        {% elif notification.notification_type == 'order_out_for_delivery' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                        {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <path d="M12 1v6m0 6v6"></path>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="notification-text">
+                        <h5 class="notification-card-title-text">{{ notification.title }}</h5>
+                        <p class="notification-card-description">{{ notification.message }}</p>
+                        
+                        {% if notification.reason %}
+                        <div class="notification-reason-box">
+                            <strong>Reason for cancellation:</strong>
+                            <p>{{ notification.reason }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if notification.order %}
+                        <div class="notification-order-info">
+                            <small><strong>Order #{{ notification.order.id }}</strong></small>
+                            <small>{{ notification.order.product.name }} - Qty: {{ notification.order.quantity }}</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="notification-card-actions">
+                    {% if not notification.is_read %}
+                    <form method="post" action="{% url 'core:mark_notification_as_read' notification.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                            Mark as read
+                        </button>
+                    </form>
+                    {% else %}
+                    <span class="badge bg-success">Read</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="notification-card-footer">
+                <small class="text-muted">
+                    <i class="far fa-clock"></i>
+                    {% if notification.read_at %}
+                    Read {{ notification.read_at|timesince }} ago
+                    {% else %}
+                    {{ notification.created_at|timesince }} ago
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if notifications.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            {% if notifications.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ notifications.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for num in notifications.paginator.page_range %}
+            {% if notifications.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if notifications.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ notifications.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ notifications.paginator.num_pages }}">Last</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="alert alert-info text-center py-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;">
+            <circle cx="12" cy="12" r="1"></circle>
+            <path d="M12 1v6m0 6v6"></path>
+        </svg>
+        <p class="mt-3">No notifications yet</p>
+        <p class="text-muted small">When you receive updates about your orders, they'll appear here</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notification-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.notification-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification-card.notification-unread {
+    background-color: #f0f7ff;
+    border-color: #0066cc;
+    border-left: 4px solid #0066cc;
+}
+
+.notification-card.notification-order_cancelled {
+    background-color: #fff5f5;
+    border-color: #ff4444;
+}
+
+.notification-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.notification-card-title {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+}
+
+.notification-icon-large {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    color: #666;
+    margin-top: 4px;
+}
+
+.notification-card.notification-order_cancelled .notification-icon-large {
+    color: #ff4444;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-card-title-text {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.notification-card-description {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.notification-reason-box {
+    margin: 8px 0;
+    padding: 10px 12px;
+    background-color: rgba(255, 68, 68, 0.05);
+    border-left: 3px solid #ff4444;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #333;
+}
+
+.notification-reason-box strong {
+    display: block;
+    color: #ff4444;
+    margin-bottom: 4px;
+}
+
+.notification-reason-box p {
+    margin: 0;
+}
+
+.notification-order-info {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.notification-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.notification-card-footer {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
+    color: #999;
+    font-size: 12px;
+}
+
+.notification-card.notification-unread .notification-card-footer {
+    border-top-color: #0066cc33;
+}
+
+@media (max-width: 768px) {
+    .notification-card-header {
+        flex-direction: column;
+    }
+
+    .notification-card-actions {
+        width: 100%;
+    }
+
+    .notification-card-actions button {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}

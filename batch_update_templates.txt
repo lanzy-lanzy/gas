@@ -1,0 +1,45 @@
+Files to update with {% load currency_filters %} and |currency_format filter:
+
+CUSTOMER TEMPLATES:
+- templates/customer/order_detail.html ✓
+- templates/customer/order_list_partial.html ✓
+- templates/customer/order_rows_partial.html
+- templates/customer/stock_info.html
+- templates/customer/place_order.html ✓
+- templates/customer/dashboard_orders_partial.html ✓
+
+DEALER TEMPLATES:
+- templates/dealer/order_row_partial.html ✓
+- templates/dealer/order_rows_partial.html
+- templates/dealer/order_detail.html
+- templates/dealer/order_detail_modal.html
+- templates/dealer/cashier_dashboard.html
+- templates/dealer/cashier_order_list.html
+- templates/dealer/cashier_personal_dashboard.html
+- templates/dealer/dashboard_stats_partial.html
+- templates/dealer/delivery_log.html
+- templates/dealer/delivery_success_partial.html
+- templates/dealer/inventory.html
+- templates/dealer/inventory_dashboard_partial.html
+- templates/dealer/inventory_reports.html
+- templates/dealer/recent_activity_partial.html
+- templates/dealer/reports_dashboard.html
+- templates/dealer/sales_report.html
+- templates/dealer/stock_movements_partial.html
+- templates/dealer/stock_report.html
+
+CASHIER TEMPLATES:
+- templates/cashier/personal_reports_monthly.html
+- templates/cashier/personal_reports_daily.html
+
+ADMIN TEMPLATES:
+- templates/admin/cashier_daily_income.html
+- templates/admin/cashier_inventory_impact.html
+- templates/admin/cashier_performance.html
+- templates/admin/cashier_reports.html
+- templates/admin/cashier_transactions.html
+
+REGEX PATTERNS TO APPLY:
+1. Add {% load currency_filters %} to top of file (after extends if present)
+2. Replace: ₱{{ ... |floatformat:2 }} with ₱{{ ... |floatformat:2|currency_format }}
+3. Replace: floatformat:0 similarly for integer amounts

@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inventory Management - Prycegas Station{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50" x-data="inventoryManager()">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="px-6 lg:px-8">
+            <div class="flex justify-between items-center py-8">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 bg-prycegas-orange rounded-xl flex items-center justify-center mr-3">
+                            <i class="fas fa-warehouse text-white"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900">Inventory Management</h1>
+                    </div>
+                    <p class="text-gray-600 ml-13">Manage stock levels and track deliveries</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button
+                        @click="openDeliveryModal()"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-prycegas-orange to-prycegas-orange-light hover:from-prycegas-orange-dark hover:to-prycegas-orange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prycegas-orange transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-plus mr-2"></i>
+                        Log Delivery
+                    </button>
+                    <a href="{% url 'core:product_management' %}"
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-boxes mr-2"></i>
+                        Manage Products
+                    </a>
+                    <a href="{% url 'core:inventory_adjustment' %}"
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-adjust mr-2"></i>
+                        Adjust Stock
+                    </a>
+                    <a href="{% url 'core:inventory_reports' %}"
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-lg text-white bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:scale-105">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        Reports & Analytics
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Statistics -->
+    <div class="px-6 lg:px-8 py-8">
+        <div id="inventory-stats" up-target="inventory-stats" class="mb-8">
+            {% include 'dealer/inventory_dashboard_partial.html' %}
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Current Stock Levels -->
+            <div class="lg:col-span-2">
+                <div class="bg-white shadow-xl rounded-2xl border border-gray-100">
+                    <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-prycegas-orange rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-layer-group text-white text-sm"></i>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900">Current Stock Levels</h2>
+                            </div>
+                            <button
+                                up-target="#inventory-stats"
+                                up-href="{% url 'core:refresh_inventory_dashboard' %}"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-prycegas-orange hover:text-white hover:bg-prycegas-orange rounded-lg transition-all duration-200">
+                                <i class="fas fa-sync-alt mr-2"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            {% for product in products %}
+                            <div class="flex items-center justify-between p-5 border border-gray-200 rounded-xl hover:shadow-lg transition-all duration-200 {% if product.is_low_stock %}bg-gradient-to-r from-red-50 to-orange-50 border-red-200 hover:border-red-300{% else %}bg-white hover:border-prycegas-orange hover:border-opacity-50{% endif %}">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-12 h-12 {% if product.is_low_stock %}bg-red-100{% else %}bg-prycegas-orange bg-opacity-10{% endif %} rounded-xl flex items-center justify-center">
+                                            <img src="{% static 'images/gas.png' %}" alt="LPG Tank" class="w-6 h-6 object-contain {% if product.is_low_stock %}filter-red-500{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-base font-semibold text-gray-900">{{ product.name }} - {{ product.size }}</h3>
+                                        <p class="text-sm text-gray-600 font-medium">₱{{ product.price|floatformat:2|intcomma }} per unit</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center justify-end mb-1">
+                                        {% if product.is_low_stock %}
+                                        <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-2">
+                                            <i class="fas fa-exclamation text-white text-xs"></i>
+                                        </div>
+                                        {% endif %}
+                                        <span class="text-2xl font-bold {% if product.is_low_stock %}text-red-600{% else %}text-gray-900{% endif %}">
+                                            {{ product.current_stock }}
+                                        </span>
+                                        <span class="text-sm text-gray-500 ml-1 font-medium">units</span>
+                                    </div>
+                                    {% if product.is_low_stock %}
+                                    <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-1">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        Low Stock Alert
+                                    </div>
+                                    {% endif %}
+                                    <p class="text-xs text-gray-500">Minimum: {{ product.minimum_stock }} units</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="text-center py-8">
+                                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                </svg>
+                                <p class="text-gray-500">No products found</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Movement History -->
+            <div class="lg:col-span-1">
+                <div class="bg-white shadow-xl rounded-2xl border border-gray-100">
+                    <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white rounded-t-2xl">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-truck text-white text-sm"></i>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900">Recent Deliveries</h2>
+                            </div>
+                            <button
+                                hx-get="{% url 'core:refresh_stock_movements' %}"
+                                hx-target="#stock-movements"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 hover:text-white hover:bg-green-500 rounded-lg transition-all duration-200">
+                                <i class="fas fa-sync-alt mr-2"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div id="stock-movements" class="p-6">
+                        {% include 'dealer/stock_movements_partial.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Logging Modal -->
+    <div x-show="showDeliveryModal"
+         x-transition:enter="ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+         style="display: none;"
+         @keydown.escape="closeDeliveryModal()"
+         @click.self="closeDeliveryModal()">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white" @click.stop>
+            <div id="delivery-modal-content">
+                <!-- Modal content will be loaded here via HTMX -->
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-prycegas-orange mx-auto"></div>
+                    <p class="mt-2 text-gray-500">Loading delivery form...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function inventoryManager() {
+    return {
+        showDeliveryModal: false,
+        selectedProduct: '',
+        quantity: 1,
+        costPerUnit: 0,
+        totalCost: 0,
+
+        openDeliveryModal() {
+            this.showDeliveryModal = true;
+            // Load delivery form via HTMX
+            htmx.ajax('GET', '{% url "core:get_delivery_form" %}', {
+                target: '#delivery-modal-content',
+                swap: 'innerHTML'
+            });
+        },
+
+        closeDeliveryModal() {
+            this.showDeliveryModal = false;
+            this.resetForm();
+            // Clear modal content
+            document.getElementById('delivery-modal-content').innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-prycegas-orange mx-auto"></div>
+                    <p class="mt-2 text-gray-500">Loading delivery form...</p>
+                </div>
+            `;
+        },
+
+        calculateTotal() {
+            if (this.quantity && this.costPerUnit) {
+                this.totalCost = (this.quantity * this.costPerUnit).toFixed(2);
+            }
+        },
+
+        resetForm() {
+            this.selectedProduct = '';
+            this.quantity = 1;
+            this.costPerUnit = 0;
+            this.totalCost = 0;
+        },
+
+        submitDelivery(formData) {
+            // Handle form submission via HTMX
+            htmx.ajax('POST', '{% url "core:log_delivery" %}', {
+                values: formData,
+                target: '#delivery-modal-content'
+            }).then(() => {
+                // Refresh inventory after successful submission
+                htmx.ajax('GET', '{% url "core:refresh_inventory_dashboard" %}', {
+                    target: '#inventory-stats'
+                });
+                htmx.ajax('GET', '{% url "core:refresh_stock_movements" %}', {
+                    target: '#stock-movements'
+                });
+            });
+        }
+    }
+}
+
+// HTMX event listeners for modal handling
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle successful delivery submission
+    document.body.addEventListener('htmx:afterRequest', function(event) {
+        if (event.detail.xhr.status === 200 && event.detail.pathInfo.requestPath.includes('log-delivery')) {
+            // Check if response contains success message
+            const response = event.detail.xhr.responseText;
+            if (response.includes('Delivery Logged Successfully')) {
+                // Auto-close modal after 3 seconds
+                setTimeout(function() {
+                    const inventoryManager = Alpine.$data(document.querySelector('[x-data*="inventoryManager"]'));
+                    if (inventoryManager) {
+                        inventoryManager.closeDeliveryModal();
+                        inventoryManager.refreshInventory();
+                    }
+                }, 3000);
+            }
+        }
+    });
+
+    // Handle form validation errors
+    document.body.addEventListener('htmx:responseError', function(event) {
+        if (event.detail.pathInfo.requestPath.includes('log-delivery')) {
+            console.error('Delivery form submission error:', event.detail);
+        }
+    });
+
+    // Initialize form behaviors after HTMX swaps the delivery form into the modal
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        try {
+            const target = event.detail.target;
+            if (!target) return;
+            if (target.id !== 'delivery-modal-content') return;
+
+            // Wire up any close/cancel buttons inside modal
+            const closeCandidates = document.querySelectorAll('[id^="delivery-close"], #delivery-cancel-btn');
+            closeCandidates.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const inventoryElement = document.querySelector('[x-data*="inventoryManager"]');
+                    if (!inventoryElement) return;
+                    try {
+                        // Prefer Alpine helper if available
+                        if (window.Alpine) {
+                            const inv = Alpine.$data(inventoryElement);
+                            if (inv && typeof inv.closeDeliveryModal === 'function') {
+                                inv.closeDeliveryModal();
+                                return;
+                            }
+                        }
+
+                        // Fallback to internal _x_dataStack (older Alpine internals)
+                        if (inventoryElement._x_dataStack) {
+                            const inv = inventoryElement._x_dataStack[0];
+                            if (inv && typeof inv.closeDeliveryModal === 'function') inv.closeDeliveryModal();
+                        }
+                    } catch (e) {
+                        console.error('Failed to close delivery modal:', e);
+                    }
+                });
+            });
+
+            // Form fields
+            const form = document.getElementById('delivery-form');
+            const productSel = form ? form.querySelector('select[name="product"]') : null;
+            const qty = form ? form.querySelector('[name="quantity_received"]') : null;
+            const cost = form ? form.querySelector('[name="cost_per_unit"]') : null;
+            const total = form ? form.querySelector('[name="total_cost"]') : null;
+            const submitBtn = document.getElementById('delivery-submit-btn');
+            const submitText = document.getElementById('delivery-submit-text');
+            const loading = document.getElementById('loading-indicator');
+
+            function calculateAndToggle() {
+                const qv = parseFloat(qty && qty.value) || 0;
+                const cv = parseFloat(cost && cost.value);
+                const cvalid = !isNaN(cv) && cv >= 0;
+                if (!isNaN(qv) && cvalid) {
+                    total.value = (qv * cv).toFixed(2);
+                } else {
+                    total.value = 0;
+                }
+
+                const hasProduct = productSel && productSel.value;
+                const valid = hasProduct && qv > 0 && cvalid;
+                if (submitBtn) {
+                    submitBtn.disabled = !valid;
+                    if (valid) {
+                        submitBtn.classList.remove('bg-gray-300','cursor-not-allowed');
+                        submitBtn.classList.add('bg-prycegas-orange');
+                    } else {
+                        submitBtn.classList.add('bg-gray-300','cursor-not-allowed');
+                        submitBtn.classList.remove('bg-prycegas-orange');
+                    }
+                }
+            }
+
+            if (qty) qty.addEventListener('input', calculateAndToggle);
+            if (cost) cost.addEventListener('input', calculateAndToggle);
+            if (productSel) productSel.addEventListener('change', calculateAndToggle);
+
+            // Show loading state on submit
+            if (form) {
+                form.addEventListener('htmx:beforeRequest', function() {
+                    if (submitBtn) submitBtn.disabled = true;
+                    if (submitText) submitText.classList.add('hidden');
+                    if (loading) loading.classList.remove('hidden');
+                });
+                form.addEventListener('htmx:afterRequest', function() {
+                    if (submitText) submitText.classList.remove('hidden');
+                    if (loading) loading.classList.add('hidden');
+                });
+            }
+
+            // Initial calculation
+            calculateAndToggle();
+        } catch (e) {
+            console.error('Error initializing delivery form:', e);
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex items-center mb-6">
+        <a href="{% url 'core:pending_registrations' %}" class="text-prycegas-orange hover:text-prycegas-orange-dark mr-4">
+            <i class="fas fa-arrow-left mr-2"></i>Back to List
+        </a>
+        <h1 class="text-3xl font-bold text-gray-800">Registration Details</h1>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <!-- Personal Information -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-user text-prycegas-orange mr-2"></i>Personal Information
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">Username</label>
+                        <p class="text-gray-800">{{ registration.username }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">Email</label>
+                        <p class="text-gray-800">
+                            <a href="mailto:{{ registration.email }}" class="text-prycegas-orange hover:underline">
+                                {{ registration.email }}
+                            </a>
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">Phone Number</label>
+                        <p class="text-gray-800">{{ registration.phone_number }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-map-marker-alt text-prycegas-orange mr-2"></i>Address Information
+                </h2>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Delivery Address</label>
+                    <p class="text-gray-800">{{ registration.address }}</p>
+                </div>
+                {% if registration.delivery_instructions %}
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Delivery Instructions</label>
+                    <p class="text-gray-800">{{ registration.delivery_instructions }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- ID Verification -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-passport text-prycegas-orange mr-2"></i>ID Verification
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">ID Type</label>
+                        <p class="text-gray-800">{{ registration.get_id_type_display }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">ID Number</label>
+                        <p class="text-gray-800">{{ registration.id_number }}</p>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-2">ID Document</label>
+                    {% if registration.id_document %}
+                    <div class="border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 p-4">
+                        {% if registration.id_document.name|slice:"-4:" == ".pdf" %}
+                            <div class="flex items-center justify-center h-64 bg-gray-200">
+                                <div class="text-center">
+                                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-2"></i>
+                                    <p class="text-gray-600">PDF Document</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <img src="{{ registration.id_document.url }}" alt="ID Document" class="max-h-96 mx-auto">
+                        {% endif %}
+                        <div class="mt-4">
+                            <a href="{{ registration.id_document.url }}" target="_blank" class="inline-block px-4 py-2 bg-prycegas-orange text-white rounded hover:bg-prycegas-orange-dark">
+                                <i class="fas fa-download mr-2"></i>Download Document
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div>
+            <!-- Status Card -->
+            <div class="bg-white shadow-md rounded-lg p-6 mb-6 sticky top-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Status</h3>
+                <div class="mb-6">
+                    {% if registration.status == 'pending' %}
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-clock text-yellow-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-lg font-semibold text-yellow-700">Pending Review</p>
+                                <p class="text-sm text-gray-600">{{ registration.days_pending }} days pending</p>
+                            </div>
+                        </div>
+                    {% elif registration.status == 'approved' %}
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-lg font-semibold text-green-700">Approved</p>
+                                <p class="text-sm text-gray-600">{{ registration.reviewed_at|date:"M d, Y" }}</p>
+                            </div>
+                        </div>
+                        {% if registration.reviewed_by %}
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span class="font-semibold">Reviewed by:</span> {{ registration.reviewed_by.get_full_name|default:registration.reviewed_by.username }}
+                        </p>
+                        {% endif %}
+                    {% else %}
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-times-circle text-red-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-lg font-semibold text-red-700">Rejected</p>
+                                <p class="text-sm text-gray-600">{{ registration.reviewed_at|date:"M d, Y" }}</p>
+                            </div>
+                        </div>
+                        {% if registration.rejection_reason %}
+                        <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded">
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Reason:</p>
+                            <p class="text-sm text-gray-700">{{ registration.rejection_reason }}</p>
+                        </div>
+                        {% endif %}
+                        {% if registration.reviewed_by %}
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span class="font-semibold">Reviewed by:</span> {{ registration.reviewed_by.get_full_name|default:registration.reviewed_by.username }}
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <!-- Action Buttons -->
+                {% if registration.status == 'pending' %}
+                <div class="space-y-3">
+                    <form method="post" action="{% url 'core:approve_registration' registration.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition-colors flex items-center justify-center">
+                            <i class="fas fa-check-circle mr-2"></i>Approve Registration
+                        </button>
+                    </form>
+                    <button type="button" onclick="document.getElementById('rejectModal').classList.remove('hidden')" class="w-full px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition-colors flex items-center justify-center">
+                        <i class="fas fa-times-circle mr-2"></i>Reject Registration
+                    </button>
+                </div>
+
+                <!-- Reject Modal -->
+                <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white rounded-lg p-6 max-w-md mx-auto">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Reject Registration</h3>
+                        <form method="post" action="{% url 'core:reject_registration' registration.id %}">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Reason for Rejection</label>
+                                <textarea name="rejection_reason" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-prycegas-orange" rows="4" placeholder="Explain why this registration is being rejected..."></textarea>
+                            </div>
+                            <div class="flex gap-3">
+                                <button type="button" onclick="document.getElementById('rejectModal').classList.add('hidden')" class="flex-1 px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded hover:bg-gray-400">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="flex-1 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600">
+                                    Confirm Rejection
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Timeline -->
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Timeline</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex gap-3">
+                        <div class="flex flex-col items-center">
+                            <div class="w-4 h-4 bg-prycegas-orange rounded-full"></div>
+                            <div class="w-0.5 h-8 bg-gray-300"></div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Submitted</p>
+                            <p class="text-gray-600">{{ registration.created_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    {% if registration.reviewed_at %}
+                    <div class="flex gap-3">
+                        <div class="flex flex-col items-center">
+                            <div class="w-4 h-4 {% if registration.status == 'approved' %}bg-green-500{% else %}bg-red-500{% endif %} rounded-full"></div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">
+                                {% if registration.status == 'approved' %}Approved{% else %}Rejected{% endif %}
+                            </p>
+                            <p class="text-gray-600">{{ registration.reviewed_at|date:"M d, Y H:i" }}</p>
+                            {% if registration.reviewed_by %}
+                            <p class="text-gray-600 text-xs">by {{ registration.reviewed_by.get_full_name|default:registration.reviewed_by.username }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Close modal when clicking outside
+    document.getElementById('rejectModal').addEventListener('click', function(event) {
+        if (event.target === this) {
+            this.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+<!-- Stock Movement History -->
+<div class="space-y-4">
+    {% for movement in recent_stock_movements %}
+    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+        <div class="flex-shrink-0">
+            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium text-gray-900">
+                +{{ movement.quantity_received }} {{ movement.product.name }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+                {{ movement.product.size }} • {{ movement.supplier }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+                {{ movement.delivery_date|date:"M d, Y H:i" }}
+            </div>
+            <div class="text-xs text-gray-600 mt-1">
+                ₱{{ movement.cost_per_unit|floatformat:2|intcomma }}/unit • Total: ₱{{ movement.total_cost|floatformat:2|intcomma }}
+            </div>
+            {% if movement.notes %}
+            <div class="text-xs text-gray-500 mt-1 italic">
+                "{{ movement.notes|truncatechars:50 }}"
+            </div>
+            {% endif %}
+        </div>
+        <div class="flex-shrink-0 text-right">
+            <div class="text-xs text-gray-500">
+                by {{ movement.logged_by.username }}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-8">
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        <p class="text-gray-500 text-sm">No recent deliveries</p>
+        <p class="text-gray-400 text-xs mt-1">Stock movements will appear here</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% if recent_stock_movements %}
+<div class="mt-4 pt-4 border-t border-gray-200">
+    <p class="text-xs text-gray-500 text-center">
+        Showing deliveries from the last 30 days
+    </p>
+</div>
+{% endif %}
